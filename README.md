@@ -1,5 +1,4 @@
-# Phishing Awareness Training (English / हिंदी) — with Results Database
-
+# Phishing Awareness Training 
 
 LIVE CALL: https://phishing-quiz-3di2.onrender.com
 
