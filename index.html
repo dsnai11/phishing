@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phishing Awareness Training | फ़िशिंग जागरूकता प्रशिक्षण</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f2a4a;--navy2:#173a63;--teal:#0e8f86;--teal-l:#e3f4f2;
+  --red:#c8372d;--red-l:#fdecea;--amber:#b7791f;--amber-l:#fff6e0;
+  --green:#1f8a4c;--green-l:#e6f5ec;--ink:#1d2733;--muted:#5d6b7a;
+  --line:#dde3ea;--bg:#f4f6f9;--card:#fff;--r:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:Inter,"Noto Sans Devanagari",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+body.hi{font-family:"Noto Sans Devanagari",Inter,system-ui,sans-serif;font-size:16.5px;line-height:1.75}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+header.top{background:var(--navy);color:#fff;position:sticky;top:0;z-index:20}
+.top-in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:12px 20px}
+.logo{width:38px;height:38px;border-radius:10px;background:var(--teal);display:grid;place-items:center;flex:none}
+.top h1{font-size:17px;margin:0;font-weight:700;line-height:1.25}
+.top small{display:block;opacity:.75;font-weight:400;font-size:12.5px}
+.spacer{flex:1}
+.lang{display:flex;background:rgba(255,255,255,.12);border-radius:999px;padding:3px}
+.lang button{border:0;background:transparent;color:#fff;padding:6px 14px;border-radius:999px;font-weight:600;font-size:14px}
+.lang button.on{background:#fff;color:var(--navy)}
+.progress{height:5px;background:rgba(255,255,255,.15)}
+.progress i{display:block;height:100%;background:#4fd1c5;width:0;transition:width .4s}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:270px 1fr;gap:24px;padding:24px 20px 60px}
+nav.side{position:sticky;top:90px;align-self:start;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:10px}
+nav.side button{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;border:0;background:transparent;padding:10px;border-radius:10px;color:var(--ink);font-size:14.5px;line-height:1.35}
+nav.side button:hover{background:var(--bg)}
+nav.side button.cur{background:var(--teal-l);color:var(--navy);font-weight:600}
+nav.side .num{flex:none;width:24px;height:24px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--muted)}
+nav.side button.done .num{background:var(--teal);border-color:var(--teal);color:#fff}
+nav.side button.cur .num{border-color:var(--teal);color:var(--teal)}
+nav.side button.done.cur .num{color:#fff}
+main{min-width:0}main:focus{outline:none}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:28px 32px;margin-bottom:20px}
+.eyebrow{font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--teal)}
+body.hi .eyebrow{letter-spacing:0}
+h2{font-size:28px;line-height:1.25;margin:6px 0 10px;color:var(--navy)}
+h3{font-size:19px;margin:22px 0 8px;color:var(--navy)}
+p{margin:0 0 12px}
+.lead{font-size:17.5px;color:#34404d}
+.hero{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;border:0}
+.hero h2{color:#fff;font-size:32px}
+.hero .lead{color:#d7e3f0}
+.hero .eyebrow{color:#7ee0d6}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
+.chip{background:rgba(255,255,255,.12);border-radius:999px;padding:5px 12px;font-size:13.5px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}
+.tile{border:1px solid var(--line);border-radius:12px;padding:16px;background:#fff}
+.tile b{display:block;color:var(--navy);margin-bottom:4px}
+.tile .ic{font-size:26px;line-height:1;margin-bottom:8px}
+.callout{border-radius:12px;padding:14px 16px;margin:14px 0;display:flex;gap:12px;align-items:flex-start}
+.callout .ic{font-size:22px;line-height:1.2}
+.c-red{background:var(--red-l);border-left:4px solid var(--red)}
+.c-teal{background:var(--teal-l);border-left:4px solid var(--teal)}
+.c-amber{background:var(--amber-l);border-left:4px solid var(--amber)}
+.flip{perspective:900px;min-height:170px;cursor:pointer}
+.flip-in{position:relative;width:100%;height:100%;min-height:170px;transition:transform .5s;transform-style:preserve-3d}
+.flip.on .flip-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;padding:16px;display:flex;flex-direction:column;justify-content:center}
+.front{background:#fff;border:1px solid var(--line);text-align:center;align-items:center}
+.front .ic{font-size:34px}
+.front b{color:var(--navy);margin-top:6px}
+.front small{color:var(--muted);font-size:12.5px;margin-top:4px}
+.back{background:var(--navy);color:#fff;transform:rotateY(180deg);font-size:14.5px;line-height:1.5}
+.back b{color:#7ee0d6;display:block;margin-bottom:4px}
+/* email mock */
+.mail{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:16px 0;font-family:Inter,"Noto Sans Devanagari",sans-serif}
+.mail-bar{background:#eef1f5;padding:8px 14px;font-size:12.5px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.mail-bar i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.mail-h{padding:14px 18px;border-bottom:1px solid var(--line);font-size:14.5px}
+.mail-h div{margin:3px 0}
+.mail-h span.k{color:var(--muted);display:inline-block;min-width:68px}
+.mail-b{padding:18px;font-size:15px}
+.hs{background:transparent;border:0;padding:1px 3px;border-radius:4px;color:inherit;text-align:left;border-bottom:2px dashed transparent;transition:.15s}
+.hunt .hs{border-bottom-color:#c9d3de}
+.hunt .hs:hover{background:var(--amber-l);border-bottom-color:var(--amber)}
+.hs.found{background:var(--red-l);border-bottom:2px solid var(--red)!important;color:var(--red);font-weight:600}
+.fakebtn{display:inline-block;background:#1a73e8;color:#fff!important;padding:8px 18px;border-radius:6px;font-weight:600;margin:6px 0}
+.hs.fakebtn.found{background:var(--red);color:#fff!important}
+.attach{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:13.5px;margin-top:6px}
+.found-list{list-style:none;padding:0;margin:10px 0 0}
+.found-list li{background:var(--red-l);border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:14.5px;animation:pop .3s}
+.found-list li b{color:var(--red)}
+@keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.counter{display:inline-flex;align-items:center;gap:8px;background:var(--navy);color:#fff;border-radius:999px;padding:6px 14px;font-weight:700;font-size:14px}
+/* scenario */
+.scn{border:1px solid var(--line);border-radius:14px;padding:20px;background:#fff}
+.scn-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.badge{font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--bg);color:var(--muted)}
+.msg{border-radius:12px;padding:14px 16px;font-size:15px;margin-bottom:14px;white-space:pre-line}
+.msg.sms{background:#e9edf2;border-radius:16px 16px 16px 4px;max-width:520px}
+.msg.wa{background:#dcf8c6;border-radius:16px 16px 16px 4px;max-width:520px}
+.msg.email{background:#fff;border:1px solid var(--line)}
+.msg.call{background:var(--navy);color:#fff}
+.msg.poster{background:#fffbe6;border:2px dashed #e0b400;text-align:center}
+.msg .meta{display:block;font-size:12.5px;opacity:.7;margin-bottom:4px;white-space:normal}
+.choices{display:flex;gap:10px;flex-wrap:wrap}
+.btn{border:0;border-radius:10px;padding:11px 20px;font-weight:600;font-size:15px;transition:.15s}
+.btn-phish{background:var(--red);color:#fff}.btn-phish:hover{filter:brightness(1.08)}
+.btn-legit{background:var(--green);color:#fff}.btn-legit:hover{filter:brightness(1.08)}
+.btn-pri{background:var(--teal);color:#fff}.btn-pri:hover{filter:brightness(1.08)}
+.btn-sec{background:#fff;color:var(--navy);border:1.5px solid var(--line)}
+.btn-sec:hover{border-color:var(--navy)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.fb{border-radius:12px;padding:14px 16px;margin-top:14px;animation:pop .3s}
+.fb.ok{background:var(--green-l);border-left:4px solid var(--green)}
+.fb.no{background:var(--red-l);border-left:4px solid var(--red)}
+.fb b.t{display:block;margin-bottom:4px}
+.fb ul{margin:6px 0 0;padding-left:20px}
+.dots{display:flex;gap:6px}
+.dots i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.dots i.ok{background:var(--green)}.dots i.no{background:var(--red)}.dots i.cur{outline:2px solid var(--navy);outline-offset:1px}
+/* url */
+.url-anat{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:15px;background:#0f1b2b;color:#cfe0f5;padding:16px;border-radius:12px;overflow-x:auto;white-space:nowrap}
+.url-anat .p{color:#8aa0b8}.url-anat .s{color:#ffd479}.url-anat .d{color:#5ef0c0;font-weight:700;text-decoration:underline}.url-anat .x{color:#c49cff}
+.url-legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13.5px;margin:10px 0 4px}
+.url-legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:middle;background:var(--c)}
+.url-opt{display:block;width:100%;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:12px 14px;margin-bottom:8px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14.5px;word-break:break-all}
+.url-opt:hover{border-color:var(--navy)}
+.url-opt.ok{border-color:var(--green);background:var(--green-l)}
+.url-opt.no{border-color:var(--red);background:var(--red-l)}
+.url-opt small{display:block;font-family:Inter,"Noto Sans Devanagari",sans-serif;font-size:13.5px;margin-top:4px;color:var(--ink)}
+/* steps */
+.steps{counter-reset:s;display:grid;gap:12px;margin-top:10px}
+.step{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fff}
+.step .n{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-weight:800;color:#fff;font-size:15px}
+.step b{display:block;color:var(--navy)}
+.acc{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden;background:#fff}
+.acc>button{width:100%;text-align:left;border:0;background:#fff;padding:14px 16px;font-weight:600;color:var(--navy);display:flex;justify-content:space-between;align-items:center}
+.acc>button::after{content:"+";font-size:22px;color:var(--teal);line-height:1}
+.acc.open>button::after{content:"–"}
+.acc .ab{display:none;padding:0 16px 14px}
+.acc.open .ab{display:block}
+.acc ol,.acc ul{margin:0;padding-left:22px}
+.check{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:10px;border:1px solid var(--line);margin-bottom:8px;background:#fff;cursor:pointer}
+.check input{margin-top:5px;width:18px;height:18px;accent-color:var(--teal);flex:none}
+.check.on{background:var(--teal-l);border-color:var(--teal)}
+/* quiz */
+.q-opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:13px 16px;margin-bottom:10px;font-size:15.5px;color:var(--ink)}
+.q-opt:hover:not(:disabled){border-color:var(--navy)}
+.q-opt .l{flex:none;width:26px;height:26px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-weight:700;font-size:13px}
+.q-opt.ok{border-color:var(--green);background:var(--green-l)}
+.q-opt.ok .l{background:var(--green);color:#fff}
+.q-opt.no{border-color:var(--red);background:var(--red-l)}
+.q-opt.no .l{background:var(--red);color:#fff}
+.q-opt:disabled{cursor:default}
+.qbar{height:8px;background:var(--bg);border-radius:99px;overflow:hidden;margin:10px 0 20px}
+.qbar i{display:block;height:100%;background:var(--teal);transition:width .3s}
+.score-ring{width:150px;height:150px;margin:10px auto}
+.cert{border:3px double var(--navy);border-radius:16px;padding:34px;text-align:center;background:linear-gradient(#fff,#f7fbfb);margin-top:18px}
+.cert h3{font-size:24px;margin:6px 0}
+.cert .nm{font-size:26px;font-weight:800;color:var(--teal);border-bottom:2px solid var(--line);display:inline-block;padding:0 20px 4px;margin:10px 0}
+input[type=text]{font-family:inherit;font-size:16px;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;width:100%;max-width:360px}
+.navbtns{display:flex;justify-content:space-between;gap:12px;margin-top:6px}
+.muted{color:var(--muted)}
+.center{text-align:center}
+.mt{margin-top:16px}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;transition:.3s;pointer-events:none;z-index:50}
+.toast.on{opacity:1}
+.idform{display:grid;gap:14px;max-width:460px;margin-top:16px}
+.idform label{display:grid;gap:6px;font-weight:600;font-size:14.5px;color:var(--navy)}
+.idform input{max-width:none;font-weight:400}
+.idform input:focus,input[type=text]:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-l)}
+.idpill{display:inline-flex;flex-wrap:wrap;gap:6px;align-items:center;background:var(--bg);border-radius:999px;padding:6px 14px;font-size:13.5px;margin-top:8px;color:var(--muted)}
+.idpill b{color:var(--navy)}
+.linkbtn{border:0;background:none;color:var(--teal);font-weight:600;text-decoration:underline;padding:0 0 0 4px;font-size:13.5px}
+.savebar{display:inline-block;border-radius:12px;padding:10px 16px;margin:6px auto;font-size:14.5px;max-width:560px}
+.savebar.saving{background:var(--amber-l)}.savebar.ok{background:var(--green-l);color:var(--green)}.savebar.err{background:var(--red-l);color:var(--red)}
+@media (max-width:900px){
+  .wrap{grid-template-columns:1fr}
+  nav.side{position:static;display:flex;overflow-x:auto;gap:4px}
+  nav.side button{flex:none;width:auto;white-space:nowrap}
+  .g3{grid-template-columns:1fr 1fr}
+}
+@media (max-width:600px){
+  .g2,.g3{grid-template-columns:1fr}
+  .card{padding:20px 18px}
+  h2{font-size:23px}.hero h2{font-size:26px}
+  .top h1{font-size:15px}
+}
+@media print{
+  header.top,nav.side,.navbtns,.noprint{display:none!important}
+  .wrap{display:block;padding:0}
+  .card{border:0}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <div class="logo" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 9.5-8 11-4.5-1.5-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></svg>
+    </div>
+    <h1 id="tTitle">Phishing Awareness<small id="tSub">Cyber Security Training</small></h1>
+    <div class="spacer"></div>
+    <div class="lang" role="group" aria-label="Language">
+      <button id="bEn" class="on" onclick="setLang('en')">English</button>
+      <button id="bHi" onclick="setLang('hi')">हिंदी</button>
+    </div>
+  </div>
+  <div class="progress"><i id="prog"></i></div>
+</header>
+
+<div class="wrap">
+  <nav class="side" id="side" aria-label="Lessons"></nav>
+  <main id="main" tabindex="-1"></main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   EDIT HERE: organisation-specific settings
+   ========================================================= */
+const CONFIG = {
+  orgName: { en: "our organisation", hi: "हमारी संस्था" },
+  reportTo: {
+    en: "the IT / Information Security team (use the 'Report Phishing' button in Outlook, or email your IT helpdesk)",
+    hi: "IT / सूचना सुरक्षा टीम (Outlook में 'Report Phishing' बटन का उपयोग करें, या IT हेल्पडेस्क को ईमेल करें)"
+  },
+  passMark: 80,
+  // Where quiz results are sent. Leave "" when this page is served by the Render app itself.
+  // If you upload this page to an LMS instead, put your Render URL here, e.g. "https://phishing-quiz.onrender.com",
+  // and add the LMS website address to ALLOWED_ORIGINS on Render.
+  apiBase: "",
+  saveResults: true
+};
+
+/* =========================================================
+   CONTENT (English + Hindi)
+   ========================================================= */
+const UI = {
+  en:{title:"Phishing Awareness",sub:"Cyber Security Training · approx. 25 min",next:"Next",prev:"Back",
+      lessons:["Welcome","What is Phishing?","Spot the Red Flags","Phish or Legit?","Check the Link","Stop · Think · Report","Final Quiz"],
+      lessonWord:"Lesson",markDone:"Lesson completed",unlockQuiz:"Start the quiz",phish:"🎣 Phishing",legit:"✅ Legitimate",
+      correct:"Correct!",wrong:"Not quite.",scnOf:"Scenario",of:"of",nextScn:"Next scenario",seeResults:"See my results",
+      tapFlip:"Tap to flip",qOf:"Question",submit:"Check answer",nextQ:"Next question",finish:"Finish quiz",
+      passed:"Congratulations — you passed!",failed:"You did not reach the pass mark yet.",scoreTxt:"Your score",
+      passNeed:"Pass mark",retry:"Retake quiz",review:"Review lessons",nameLbl:"Enter your name for the certificate",
+      genCert:"Show certificate",certTitle:"Certificate of Completion",certBody:"has successfully completed the training",
+      course:"Phishing Awareness — Cyber Security Training",date:"Date",score:"Score",print:"Print / Save as PDF",
+      printFail:"Printing is not available in this preview. Use your browser's print option or open the module from your LMS.",
+      found:"Red flags found",revealAll:"Show all red flags",huntDone:"Excellent! You found all the red flags.",
+      clickHint:"👆 Click on anything in this email that looks suspicious.",
+      scnScore:"You identified correctly",urlQ:"Which link really belongs to SecureBank (securebank.in)?",
+      langToast:"हिंदी में बदल दिया गया",
+      idTitle:"Before you begin the quiz",idSub:"Please enter your details. Your score will be recorded against your Employee ID.",
+      fName:"Full name",fEmp:"Employee ID",fDept:"Department / Branch (optional)",fStart:"Start quiz",
+      eName:"Please enter your full name.",eEmp:"Please enter a valid Employee ID (letters, numbers, - _ / . only).",
+      takingAs:"Taking quiz as",change:"Change",
+      saving:"Saving your result…",saved:"Your result has been recorded.",attempt:"Attempt",
+      saveErr:"Your result could not be saved. Please check your internet connection and try again.",retrySave:"Retry saving",
+      empLbl:"Employee ID"},
+  hi:{title:"फ़िशिंग जागरूकता",sub:"साइबर सुरक्षा प्रशिक्षण · लगभग 25 मिनट",next:"आगे",prev:"पीछे",
+      lessons:["स्वागत","फ़िशिंग क्या है?","ख़तरे के संकेत पहचानें","फ़िशिंग या असली?","लिंक की जाँच करें","रुकें · सोचें · रिपोर्ट करें","अंतिम क्विज़"],
+      lessonWord:"पाठ",markDone:"पाठ पूरा हुआ",unlockQuiz:"क्विज़ शुरू करें",phish:"🎣 फ़िशिंग",legit:"✅ असली",
+      correct:"सही जवाब!",wrong:"सही नहीं।",scnOf:"स्थिति",of:"में से",nextScn:"अगली स्थिति",seeResults:"मेरा परिणाम देखें",
+      tapFlip:"पलटने के लिए टैप करें",qOf:"प्रश्न",submit:"उत्तर जाँचें",nextQ:"अगला प्रश्न",finish:"क्विज़ समाप्त करें",
+      passed:"बधाई हो — आप उत्तीर्ण हुए!",failed:"आप अभी उत्तीर्ण अंक तक नहीं पहुँचे।",scoreTxt:"आपका स्कोर",
+      passNeed:"उत्तीर्ण अंक",retry:"क्विज़ दोबारा दें",review:"पाठ दोबारा पढ़ें",nameLbl:"प्रमाणपत्र के लिए अपना नाम लिखें",
+      genCert:"प्रमाणपत्र देखें",certTitle:"पूर्णता प्रमाणपत्र",certBody:"ने यह प्रशिक्षण सफलतापूर्वक पूरा किया है",
+      course:"फ़िशिंग जागरूकता — साइबर सुरक्षा प्रशिक्षण",date:"दिनांक",score:"स्कोर",print:"प्रिंट / PDF के रूप में सेव करें",
+      printFail:"इस प्रीव्यू में प्रिंट उपलब्ध नहीं है। ब्राउज़र का प्रिंट विकल्प उपयोग करें या LMS से मॉड्यूल खोलें।",
+      found:"ख़तरे के संकेत मिले",revealAll:"सभी संकेत दिखाएँ",huntDone:"बहुत बढ़िया! आपने सभी ख़तरे के संकेत ढूँढ लिए।",
+      clickHint:"👆 इस ईमेल में जो भी चीज़ संदिग्ध लगे, उस पर क्लिक करें।",
+      scnScore:"आपने सही पहचाना",urlQ:"कौन-सा लिंक वास्तव में SecureBank (securebank.in) का है?",
+      langToast:"Switched to English",
+      idTitle:"क्विज़ शुरू करने से पहले",idSub:"कृपया अपना विवरण भरें। आपका स्कोर आपकी कर्मचारी ID के साथ दर्ज किया जाएगा।",
+      fName:"पूरा नाम",fEmp:"कर्मचारी ID (Employee ID)",fDept:"विभाग / शाखा (वैकल्पिक)",fStart:"क्विज़ शुरू करें",
+      eName:"कृपया अपना पूरा नाम लिखें।",eEmp:"कृपया सही कर्मचारी ID लिखें (केवल अक्षर, अंक, - _ / .)।",
+      takingAs:"क्विज़ दे रहे हैं",change:"बदलें",
+      saving:"आपका परिणाम सेव हो रहा है…",saved:"आपका परिणाम दर्ज कर लिया गया है।",attempt:"प्रयास",
+      saveErr:"आपका परिणाम सेव नहीं हो सका। कृपया इंटरनेट कनेक्शन जाँचें और दोबारा कोशिश करें।",retrySave:"दोबारा सेव करें",
+      empLbl:"कर्मचारी ID"}
+};
+
+/* ---------- Lesson 2: red-flag hotspots ---------- */
+const FLAGS = {
+  from:{en:["Look-alike sender address","The display name says “HR Department”, but the domain is <i>hr-payroll-update.co</i> — not your company's real domain. Always check the actual email address, not just the name."],
+        hi:["नक़ली भेजने वाले का पता","नाम “HR Department” दिख रहा है, लेकिन डोमेन <i>hr-payroll-update.co</i> है — जो आपकी कंपनी का असली डोमेन नहीं है। हमेशा नाम नहीं, बल्कि पूरा ईमेल पता जाँचें।"]},
+  subj:{en:["Urgency and fear","“Suspended” and “within 2 hours” are pressure tactics. Attackers want you to act before you think."],
+        hi:["जल्दबाज़ी और डर","“निलंबित” और “2 घंटे के अंदर” जैसे शब्द दबाव बनाने के लिए हैं। हमलावर चाहते हैं कि आप सोचने से पहले ही कदम उठा लें।"]},
+  greet:{en:["Generic greeting","“Dear Employee” — your real HR team knows your name. Generic greetings are typical of mass phishing."],
+         hi:["सामान्य संबोधन","“प्रिय कर्मचारी” — आपकी असली HR टीम आपका नाम जानती है। सामान्य संबोधन बड़े पैमाने पर भेजे गए फ़िशिंग ईमेल की पहचान है।"]},
+  typo:{en:["Spelling and grammar mistakes","“you're salary acount” — official communication is usually proof-read. Errors are a warning sign (though AI-written phishing may have none)."],
+        hi:["वर्तनी और व्याकरण की गलतियाँ","“you're salary acount” — आधिकारिक संदेश आमतौर पर जाँच कर भेजे जाते हैं। गलतियाँ चेतावनी का संकेत हैं (हालाँकि AI से लिखे फ़िशिंग ईमेल में गलतियाँ नहीं भी हो सकतीं)।"]},
+  creds:{en:["Asking for password / OTP","No genuine department will ever ask for your password, PIN or OTP by email. This alone confirms it is phishing."],
+         hi:["पासवर्ड / OTP की माँग","कोई भी असली विभाग ईमेल पर आपका पासवर्ड, PIN या OTP कभी नहीं माँगेगा। सिर्फ़ यही बात साबित करती है कि यह फ़िशिंग है।"]},
+  link:{en:["Suspicious link","Hovering over the button reveals <i>http://hr-portal.verify-login.xyz</i> — an unknown domain, no HTTPS. Never click; hover first."],
+        hi:["संदिग्ध लिंक","बटन पर माउस ले जाने पर <i>http://hr-portal.verify-login.xyz</i> दिखता है — अनजान डोमेन, HTTPS भी नहीं। कभी क्लिक न करें; पहले होवर करके देखें।"]},
+  att:{en:["Dangerous attachment","A “.zip” or “.html” file from an unknown sender can contain malware or a fake login page. Don't open unexpected attachments."],
+       hi:["ख़तरनाक अटैचमेंट","अनजान भेजने वाले की “.zip” या “.html” फ़ाइल में मैलवेयर या नक़ली लॉगिन पेज हो सकता है। अप्रत्याशित अटैचमेंट न खोलें।"]}
+};
+
+/* ---------- Lesson 3: scenarios ---------- */
+const SCN = [
+ {type:"sms",ans:"phish",
+  meta:{en:"SMS from: VK-KYCUPD",hi:"SMS: VK-KYCUPD"},
+  msg:{en:"Dear Customer, your bank KYC expires TODAY. Your account will be BLOCKED. Update now: bit.ly/kyc-upd8 ",
+       hi:"प्रिय ग्राहक, आपका बैंक KYC आज समाप्त हो रहा है। आपका खाता ब्लॉक हो जाएगा। अभी अपडेट करें: bit.ly/kyc-upd8 "},
+  why:{en:["Banks do not send KYC links by SMS with shortened URLs.","Threat (“BLOCKED”) and a same-day deadline create panic.","This is <b>smishing</b> (SMS phishing). Visit your bank branch or official app instead."],
+       hi:["बैंक छोटे (shortened) URL के साथ SMS पर KYC लिंक नहीं भेजते।","धमकी (“ब्लॉक”) और आज की समय-सीमा घबराहट पैदा करती है।","यह <b>स्मिशिंग</b> (SMS फ़िशिंग) है। इसके बजाय बैंक शाखा या आधिकारिक ऐप का उपयोग करें।"]}},
+ {type:"wa",ans:"phish",
+  meta:{en:"WhatsApp · +91 98xxx xxx41 (profile photo: your Managing Director)",hi:"WhatsApp · +91 98xxx xxx41 (प्रोफ़ाइल फ़ोटो: आपके प्रबंध निदेशक)"},
+  msg:{en:"Hi, this is my new number. I'm in a board meeting and can't talk. I need you to arrange a payment of ₹2,40,000 to a vendor urgently. Keep this confidential, I'll explain later. Reply quickly.",
+       hi:"नमस्ते, यह मेरा नया नंबर है। मैं बोर्ड मीटिंग में हूँ और बात नहीं कर सकता। एक वेंडर को तुरंत ₹2,40,000 का भुगतान करवा दीजिए। इसे गोपनीय रखें, बाद में बताऊँगा। जल्दी जवाब दें।"},
+  why:{en:["This is <b>CEO fraud / whaling</b>. Anyone can copy a profile photo.","“New number”, “can't talk”, “urgent” and “confidential” are classic signs.","Verify by calling the person on their <b>known</b> number. Never bypass the payment approval process."],
+       hi:["यह <b>CEO फ्रॉड / व्हेलिंग</b> है। कोई भी प्रोफ़ाइल फ़ोटो कॉपी कर सकता है।","“नया नंबर”, “बात नहीं कर सकता”, “तुरंत” और “गोपनीय” — ये आम संकेत हैं।","व्यक्ति के <b>पहले से ज्ञात</b> नंबर पर कॉल करके पुष्टि करें। भुगतान की अनुमोदन प्रक्रिया को कभी न छोड़ें।"]}},
+ {type:"email",ans:"legit",
+  meta:{en:"Email from: IT Helpdesk <itsupport@[your-company-domain]> · sent to all staff",hi:"ईमेल: IT Helpdesk <itsupport@[आपकी-कंपनी-डोमेन]> · सभी कर्मचारियों को"},
+  msg:{en:"Dear colleagues,\nThe email server will be under scheduled maintenance this Saturday from 10 PM to 2 AM. Email may be unavailable during this window. No action is required from you.\nRegards, IT Team",
+       hi:"प्रिय सहकर्मियों,\nइस शनिवार रात 10 बजे से 2 बजे तक ईमेल सर्वर का निर्धारित रखरखाव होगा। इस दौरान ईमेल उपलब्ध नहीं रह सकता। आपको कुछ करने की आवश्यकता नहीं है।\nसादर, IT टीम"},
+  why:{en:["Comes from the known internal address and matches normal IT communication.","No link, no attachment, no request for credentials and “no action required”.","Still unsure? Confirming with the IT helpdesk by phone is always OK."],
+       hi:["यह जाने-पहचाने आंतरिक पते से आया है और सामान्य IT सूचना जैसा है।","कोई लिंक नहीं, कोई अटैचमेंट नहीं, पासवर्ड की माँग नहीं और “कुछ करने की आवश्यकता नहीं”।","फिर भी संदेह हो तो IT हेल्पडेस्क को फ़ोन करके पुष्टि करना हमेशा ठीक है।"]}},
+ {type:"call",ans:"phish",
+  meta:{en:"📞 Incoming call · “Bank Fraud Department”",hi:"📞 इनकमिंग कॉल · “बैंक फ्रॉड विभाग”"},
+  msg:{en:"“Sir/Madam, we have detected a suspicious transaction of ₹49,999 on your account. To block it, please tell me the OTP you just received on your phone.”",
+       hi:"“सर/मैडम, आपके खाते पर ₹49,999 का एक संदिग्ध लेन-देन दिखा है। इसे रोकने के लिए अभी आपके फ़ोन पर आया OTP बता दीजिए।”"},
+  why:{en:["This is <b>vishing</b> (voice phishing). The OTP will actually <i>authorise</i> a fraudulent transaction.","No bank, RBI, police or IT team will ever ask for your OTP.","Hang up and call the number printed on your card or the bank's official website."],
+       hi:["यह <b>विशिंग</b> (वॉइस फ़िशिंग) है। OTP बताने से असल में धोखाधड़ी वाला लेन-देन <i>मंज़ूर</i> हो जाएगा।","कोई भी बैंक, RBI, पुलिस या IT टीम कभी आपका OTP नहीं माँगेगी।","फ़ोन काट दें और अपने कार्ड पर छपे नंबर या बैंक की आधिकारिक वेबसाइट वाले नंबर पर कॉल करें।"]}},
+ {type:"email",ans:"phish",
+  meta:{en:"Email from: Accounts <accounts@abc-supp1iers.com> (your regular vendor is abc-suppliers.com)",hi:"ईमेल: Accounts <accounts@abc-supp1iers.com> (आपका नियमित वेंडर abc-suppliers.com है)"},
+  msg:{en:"Dear Sir,\nPlease note that our bank account has changed due to an audit. Kindly release this month's payment of ₹6,85,000 to the new account below. Updated details attached.\nThanks, Accounts Team",
+       hi:"महोदय,\nकृपया ध्यान दें कि ऑडिट के कारण हमारा बैंक खाता बदल गया है। इस महीने का ₹6,85,000 का भुगतान नीचे दिए गए नए खाते में करें। नए विवरण संलग्न हैं।\nधन्यवाद, अकाउंट्स टीम"},
+  why:{en:["“supp<b>1</b>iers” uses the number 1 instead of the letter l — a look-alike domain.","This is <b>Business Email Compromise (BEC)</b>. Bank-detail changes are a top fraud trick.","Always verify bank changes by calling the vendor on a number from your records — never one from the email."],
+       hi:["“supp<b>1</b>iers” में अक्षर l की जगह अंक 1 है — यह नक़ली (look-alike) डोमेन है।","यह <b>बिज़नेस ईमेल कॉम्प्रोमाइज़ (BEC)</b> है। बैंक विवरण बदलना सबसे आम धोखाधड़ी तरीक़ा है।","बैंक विवरण में बदलाव की पुष्टि हमेशा अपने रिकॉर्ड वाले नंबर पर वेंडर को कॉल करके करें — ईमेल में दिए नंबर पर कभी नहीं।"]}},
+ {type:"poster",ans:"phish",
+  meta:{en:"Sticker pasted near the office parking",hi:"ऑफ़िस पार्किंग के पास चिपका स्टिकर"},
+  msg:{en:"🎁 DIWALI BONUS FOR ALL EMPLOYEES!\nScan this QR code and log in with your office ID to claim ₹5,000\n▣ [QR CODE]",
+       hi:"🎁 सभी कर्मचारियों के लिए दिवाली बोनस!\nयह QR कोड स्कैन करें और ₹5,000 पाने के लिए अपनी ऑफ़िस ID से लॉगिन करें\n▣ [QR कोड]"},
+  why:{en:["This is <b>quishing</b> (QR-code phishing). QR codes hide the real web address.","Bonuses are never claimed by scanning random stickers or entering your login.","Report suspicious posters to Admin/IT. Check the URL your phone shows before opening any QR link."],
+       hi:["यह <b>क्विशिंग</b> (QR कोड फ़िशिंग) है। QR कोड असली वेब पता छिपा देता है।","बोनस कभी भी किसी अनजान स्टिकर को स्कैन करके या लॉगिन डालकर नहीं मिलता।","संदिग्ध पोस्टर की जानकारी Admin/IT को दें। कोई भी QR लिंक खोलने से पहले फ़ोन पर दिखने वाला URL जाँचें।"]}},
+ {type:"email",ans:"legit",
+  meta:{en:"Meeting invite from your manager (internal address) · Subject: Q3 portfolio review",hi:"आपके मैनेजर (आंतरिक पता) का मीटिंग इनवाइट · विषय: Q3 पोर्टफ़ोलियो समीक्षा"},
+  msg:{en:"Hi, as discussed in yesterday's call, sending the invite for Thursday 3 PM. Please bring the branch-wise collection numbers.\n— sent via your company calendar",
+       hi:"नमस्ते, कल की कॉल में जैसा तय हुआ था, गुरुवार दोपहर 3 बजे का इनवाइट भेज रहा हूँ। कृपया शाखा-वार कलेक्शन के आँकड़े साथ लाएँ।\n— कंपनी कैलेंडर से भेजा गया"},
+  why:{en:["Expected: it follows up on a conversation you actually had.","Internal sender, no external link, no request for credentials or money.","Context is your best friend — unexpected requests deserve suspicion; expected ones less so."],
+       hi:["अपेक्षित: यह आपकी असल में हुई बातचीत से जुड़ा है।","आंतरिक भेजने वाला, कोई बाहरी लिंक नहीं, पासवर्ड या पैसे की माँग नहीं।","संदर्भ सबसे अच्छा साथी है — अनपेक्षित माँगों पर संदेह करें; अपेक्षित संदेश पर कम।"]}}
+];
+
+/* ---------- Lesson 4: URL options ---------- */
+const URLS = [
+ {u:"https://securebank.in.account-verify.com/login",ok:false,
+  e:{en:"The real domain is <b>account-verify.com</b>. “securebank.in” is just a sub-domain placed in front to fool you.",hi:"असली डोमेन <b>account-verify.com</b> है। “securebank.in” केवल सामने जोड़ा गया सब-डोमेन है ताकि आप धोखा खा जाएँ।"}},
+ {u:"https://secure-bank-in.support/kyc",ok:false,
+  e:{en:"Domain is <b>secure-bank-in.support</b> — extra hyphens and an unusual ending. Not the bank.",hi:"डोमेन <b>secure-bank-in.support</b> है — अतिरिक्त हाइफ़न और अजीब एक्सटेंशन। यह बैंक नहीं है।"}},
+ {u:"https://netbanking.securebank.in/login",ok:true,
+  e:{en:"Correct! Reading right-to-left from the first “/”, the domain is <b>securebank.in</b>. “netbanking.” is the bank's own sub-domain.",hi:"सही! पहले “/” से पहले दाएँ से बाएँ पढ़ें, डोमेन <b>securebank.in</b> है। “netbanking.” बैंक का अपना सब-डोमेन है।"}},
+ {u:"https://securebаnk.in/login",ok:false,
+  e:{en:"Tricky! The “а” here is a Cyrillic letter that looks identical to “a” (a <b>homograph attack</b>). Type known addresses yourself or use bookmarks.",hi:"मुश्किल! यहाँ “а” एक सिरिलिक अक्षर है जो “a” जैसा ही दिखता है (<b>होमोग्राफ़ हमला</b>)। जाने-पहचाने पते ख़ुद टाइप करें या बुकमार्क का उपयोग करें।"}}
+];
+
+/* ---------- Final quiz ---------- */
+const QUIZ = [
+ {q:{en:"What is phishing?",hi:"फ़िशिंग क्या है?"},
+  o:{en:["A software update from IT","A fraud where attackers pretend to be a trusted source to steal information or money","A type of antivirus","A secure way to share files"],
+     hi:["IT की ओर से एक सॉफ़्टवेयर अपडेट","एक धोखाधड़ी जिसमें हमलावर भरोसेमंद स्रोत बनकर जानकारी या पैसा चुराते हैं","एक तरह का एंटीवायरस","फ़ाइलें साझा करने का एक सुरक्षित तरीक़ा"]},a:1,
+  e:{en:"Phishing uses deception — pretending to be a bank, colleague, boss or IT — to trick you into revealing data, clicking links or sending money.",hi:"फ़िशिंग में धोखा दिया जाता है — बैंक, सहकर्मी, बॉस या IT बनकर — ताकि आप जानकारी दें, लिंक पर क्लिक करें या पैसे भेजें।"}},
+ {q:{en:"You get an email from “IT Support” asking you to confirm your password via a link. What should you do?",hi:"आपको “IT Support” से एक ईमेल मिलता है जिसमें लिंक के ज़रिए पासवर्ड की पुष्टि करने को कहा गया है। आपको क्या करना चाहिए?"},
+  o:{en:["Click the link and enter the password quickly","Reply with your password","Do not click; report it to the IT / Information Security team","Forward it to colleagues to check"],
+     hi:["लिंक पर क्लिक करके जल्दी से पासवर्ड डालें","ईमेल के जवाब में पासवर्ड भेज दें","क्लिक न करें; IT / सूचना सुरक्षा टीम को रिपोर्ट करें","जाँच के लिए सहकर्मियों को फ़ॉरवर्ड करें"]},a:2,
+  e:{en:"IT will never ask for your password. Report it using the official method. Forwarding spreads the risk to others.",hi:"IT कभी आपका पासवर्ड नहीं माँगेगा। आधिकारिक तरीक़े से रिपोर्ट करें। फ़ॉरवर्ड करने से ख़तरा दूसरों तक फैलता है।"}},
+ {q:{en:"Which of these is the strongest sign of a phishing message?",hi:"इनमें से कौन-सा फ़िशिंग संदेश का सबसे मज़बूत संकेत है?"},
+  o:{en:["It is sent during office hours","It creates urgency and asks for OTP, password or payment","It has the company logo","It is addressed to you by name"],
+     hi:["यह ऑफ़िस समय में भेजा गया है","यह जल्दबाज़ी पैदा करता है और OTP, पासवर्ड या भुगतान माँगता है","इसमें कंपनी का लोगो है","इसमें आपका नाम लिखा है"]},a:1,
+  e:{en:"Urgency + a request for credentials or money is the classic phishing combination. Logos and names can easily be faked.",hi:"जल्दबाज़ी + पासवर्ड या पैसे की माँग — यही फ़िशिंग का आम मेल है। लोगो और नाम आसानी से नक़ली बनाए जा सकते हैं।"}},
+ {q:{en:"In the link https://login.paytrust.com.secure-check.net/home, what is the real domain?",hi:"लिंक https://login.paytrust.com.secure-check.net/home में असली डोमेन क्या है?"},
+  o:{en:["paytrust.com","login.paytrust.com","secure-check.net","home"],hi:["paytrust.com","login.paytrust.com","secure-check.net","home"]},a:2,
+  e:{en:"The real domain is the last two parts just before the first single “/” — secure-check.net. Everything before it is a sub-domain.",hi:"असली डोमेन पहले “/” से ठीक पहले के आख़िरी दो हिस्से होते हैं — secure-check.net। इससे पहले का सब कुछ सब-डोमेन है।"}},
+ {q:{en:"A WhatsApp message from an unknown number with your MD's photo asks you to make an urgent, confidential payment. What is the right action?",hi:"किसी अनजान नंबर से आपके MD की फ़ोटो वाला WhatsApp संदेश तुरंत और गोपनीय भुगतान करने को कहता है। सही कदम क्या है?"},
+  o:{en:["Make the payment — the MD asked","Ask for the bank details on WhatsApp","Verify by calling the MD on their known number and follow the approval process","Ignore it and tell no one"],
+     hi:["भुगतान कर दें — MD ने कहा है","WhatsApp पर ही बैंक विवरण माँगें","MD के पहले से ज्ञात नंबर पर कॉल करके पुष्टि करें और अनुमोदन प्रक्रिया का पालन करें","अनदेखा करें और किसी को न बताएँ"]},a:2,
+  e:{en:"This is CEO fraud. Verify through a separate, trusted channel and report it so others are warned too.",hi:"यह CEO फ्रॉड है। किसी अलग, भरोसेमंद माध्यम से पुष्टि करें और रिपोर्ट करें ताकि दूसरों को भी सतर्क किया जा सके।"}},
+ {q:{en:"What is “vishing”?",hi:"“विशिंग” क्या है?"},
+  o:{en:["Phishing through phone / voice calls","Phishing through video games","A virus in PDF files","A secure VPN"],hi:["फ़ोन / वॉइस कॉल के ज़रिए फ़िशिंग","वीडियो गेम के ज़रिए फ़िशिंग","PDF फ़ाइल में वायरस","एक सुरक्षित VPN"]},a:0,
+  e:{en:"Vishing = voice phishing. Smishing = SMS phishing. Quishing = QR-code phishing.",hi:"विशिंग = वॉइस फ़िशिंग। स्मिशिंग = SMS फ़िशिंग। क्विशिंग = QR कोड फ़िशिंग।"}},
+ {q:{en:"You clicked a suspicious link and entered your password. What should you do FIRST?",hi:"आपने एक संदिग्ध लिंक पर क्लिक करके पासवर्ड डाल दिया। सबसे पहले क्या करना चाहिए?"},
+  o:{en:["Wait and see if anything happens","Delete the email and forget about it","Change your password immediately and report to IT / Information Security","Restart your computer only"],
+     hi:["रुककर देखें कि कुछ होता है या नहीं","ईमेल डिलीट करें और भूल जाएँ","तुरंत पासवर्ड बदलें और IT / सूचना सुरक्षा टीम को रिपोर्ट करें","केवल कंप्यूटर रीस्टार्ट करें"]},a:2,
+  e:{en:"Speed matters. Change the password (from a safe device), report immediately, and don't feel embarrassed — quick reporting limits damage.",hi:"समय बहुत महत्वपूर्ण है। (किसी सुरक्षित डिवाइस से) पासवर्ड बदलें, तुरंत रिपोर्ट करें, और शर्मिंदा न हों — जल्दी रिपोर्ट करने से नुक़सान कम होता है।"}},
+ {q:{en:"A vendor emails saying their bank account has changed and asks you to pay the new account. What should you do?",hi:"एक वेंडर ईमेल करके बताता है कि उसका बैंक खाता बदल गया है और नए खाते में भुगतान करने को कहता है। आपको क्या करना चाहिए?"},
+  o:{en:["Update the details and pay","Call the vendor on the number already in your records to verify","Reply to the same email asking if it is genuine","Call the phone number given in that email"],
+     hi:["विवरण अपडेट करें और भुगतान कर दें","अपने रिकॉर्ड में पहले से मौजूद नंबर पर वेंडर को कॉल करके पुष्टि करें","उसी ईमेल का जवाब देकर पूछें कि क्या यह असली है","उसी ईमेल में दिए गए फ़ोन नंबर पर कॉल करें"]},a:1,
+  e:{en:"If the email is fake, replying or calling the number in it reaches the attacker. Always use contact details you already trust.",hi:"अगर ईमेल नक़ली है, तो उसका जवाब देने या उसमें दिए नंबर पर कॉल करने से आप हमलावर से ही बात करेंगे। हमेशा पहले से भरोसेमंद संपर्क विवरण का उपयोग करें।"}},
+ {q:{en:"Which statement is TRUE?",hi:"कौन-सा कथन सही है?"},
+  o:{en:["Emails with a padlock / HTTPS link are always safe","Phishing only happens through email","Attackers can make messages look perfect using AI, so verify requests, not just spelling","Only senior staff are targeted"],
+     hi:["पैडलॉक / HTTPS वाले लिंक हमेशा सुरक्षित होते हैं","फ़िशिंग सिर्फ़ ईमेल से होती है","हमलावर AI से बिल्कुल सही दिखने वाले संदेश बना सकते हैं, इसलिए सिर्फ़ वर्तनी नहीं, माँग की भी पुष्टि करें","सिर्फ़ वरिष्ठ कर्मचारियों को निशाना बनाया जाता है"]},a:2,
+  e:{en:"Fake sites can have HTTPS too, phishing comes via SMS, calls, WhatsApp and QR codes, and every employee is a target.",hi:"नक़ली साइटों पर भी HTTPS हो सकता है, फ़िशिंग SMS, कॉल, WhatsApp और QR कोड से भी आती है, और हर कर्मचारी निशाने पर है।"}},
+ {q:{en:"What is the national cyber crime helpline number in India for reporting financial fraud?",hi:"भारत में वित्तीय धोखाधड़ी की रिपोर्ट करने के लिए राष्ट्रीय साइबर अपराध हेल्पलाइन नंबर क्या है?"},
+  o:{en:["100","1930","112","1800"],hi:["100","1930","112","1800"]},a:1,
+  e:{en:"Dial 1930 or report at cybercrime.gov.in — the sooner you report, the better the chance of stopping the money.",hi:"1930 डायल करें या cybercrime.gov.in पर रिपोर्ट करें — जितनी जल्दी रिपोर्ट करेंगे, पैसा रोकने की संभावना उतनी ज़्यादा होगी।"}}
+];
+
+/* =========================================================
+   STATE
+   ========================================================= */
+let lang = "en", cur = 0;
+const done = new Set();
+const st = {flags:new Set(), scn:{i:0,res:[]}, url:null, quiz:{i:0,ans:[],picked:null,finished:false,startedAt:0}, name:"", checks:new Set(),
+  emp:{name:"",empId:"",dept:"",ok:false,err:""}, save:{status:"idle",data:null}};
+const esc = s => String(s??"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+try{ const s = localStorage.getItem("phishLang"); if(s==="hi"||s==="en") lang=s; }catch(e){}
+
+const T = k => UI[lang][k];
+const L = o => o[lang];
+const $ = s => document.querySelector(s);
+
+/* =========================================================
+   SCORM 1.2 (works automatically when launched from an LMS)
+   ========================================================= */
+const SCORM = {api:null,
+  find(w){let n=0;while(w&&!w.API&&w.parent&&w.parent!==w&&n<10){w=w.parent;n++;}return w&&w.API?w.API:null;},
+  init(){try{this.api=this.find(window)||(window.opener&&this.find(window.opener));if(this.api){this.api.LMSInitialize("");
+    const s=this.api.LMSGetValue("cmi.core.lesson_status");if(!s||s==="not attempted"){this.set("cmi.core.lesson_status","incomplete");}
+    const nm=this.api.LMSGetValue("cmi.core.student_name");if(nm){const p=nm.split(",");st.emp.name=(p.length>1?p[1].trim()+" "+p[0].trim():nm).trim();}
+    const sid=this.api.LMSGetValue("cmi.core.student_id");if(sid&&!st.emp.empId)st.emp.empId=String(sid).trim().slice(0,30);
+    this.api.LMSCommit("");}}catch(e){this.api=null;}},
+  set(k,v){try{this.api&&this.api.LMSSetValue(k,String(v));}catch(e){}},
+  commit(){try{this.api&&this.api.LMSCommit("");}catch(e){}},
+  finish(){try{this.api&&this.api.LMSFinish("");}catch(e){}}
+};
+
+/* =========================================================
+   RENDER
+   ========================================================= */
+function setLang(l){
+  lang=l; try{localStorage.setItem("phishLang",l);}catch(e){}
+  document.documentElement.lang = l;
+  document.body.classList.toggle("hi", l==="hi");
+  $("#bEn").classList.toggle("on", l==="en"); $("#bHi").classList.toggle("on", l==="hi");
+  render();
+}
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("on"),2200);}
+function go(i){cur=i;render();window.scrollTo({top:0,behavior:"smooth"});$("#main").focus({preventScroll:true});}
+function complete(i){ if(!done.has(i)){done.add(i);} }
+
+function renderSide(){
+  $("#tTitle").firstChild.nodeValue = T("title");
+  $("#tSub").textContent = T("sub");
+  $("#side").innerHTML = T("lessons").map((n,i)=>
+    `<button class="${i===cur?'cur':''} ${done.has(i)?'done':''}" onclick="go(${i})"><span class="num">${done.has(i)?'✓':i}</span><span>${n}</span></button>`).join("");
+  $("#prog").style.width = (done.size/T("lessons").length*100)+"%";
+}
+function navBtns(nextLabel){
+  const last = T("lessons").length-1;
+  return `<div class="navbtns noprint">
+    ${cur>0?`<button class="btn btn-sec" onclick="go(${cur-1})">← ${T("prev")}</button>`:'<span></span>'}
+    ${cur<last?`<button class="btn btn-pri" onclick="complete(${cur});go(${cur+1})">${nextLabel||T("next")} →</button>`:''}
+  </div>`;
+}
+function head(i){return `<div class="eyebrow">${T("lessonWord")} ${i} / 5</div><h2>${T("lessons")[i]}</h2>`;}
+
+const V = {};
+
+/* ---- 0 Welcome ---- */
+V[0] = () => {
+  const en = lang==="en";
+  return `<section class="card hero">
+    <div class="eyebrow">${en?"Mandatory cyber security training":"अनिवार्य साइबर सुरक्षा प्रशिक्षण"}</div>
+    <h2>${en?"Don't take the bait! 🎣":"झांसे में न आएँ! 🎣"}</h2>
+    <p class="lead">${en
+      ?"Most cyber attacks don't begin with hacking a system — they begin with tricking a person. One click on the wrong link can expose customer data, company funds and your own accounts. This short course will make you the strongest line of defence."
+      :"ज़्यादातर साइबर हमले किसी सिस्टम को हैक करने से नहीं, बल्कि किसी इंसान को धोखा देने से शुरू होते हैं। गलत लिंक पर एक क्लिक से ग्राहकों का डेटा, कंपनी का पैसा और आपके अपने खाते ख़तरे में पड़ सकते हैं। यह छोटा-सा कोर्स आपको सुरक्षा की सबसे मज़बूत दीवार बनाएगा।"}</p>
+    <div class="chips">
+      <span class="chip">⏱ ${en?"~25 minutes":"~25 मिनट"}</span>
+      <span class="chip">🧩 ${en?"5 interactive lessons":"5 इंटरैक्टिव पाठ"}</span>
+      <span class="chip">📝 ${en?"10-question quiz":"10 प्रश्नों की क्विज़"}</span>
+      <span class="chip">🏅 ${en?"Pass mark":"उत्तीर्ण अंक"}: ${CONFIG.passMark}%</span>
+    </div>
+  </section>
+  <section class="card">
+    <h3 style="margin-top:0">${en?"By the end of this course you will be able to:":"इस कोर्स के अंत तक आप:"}</h3>
+    <div class="grid g2">
+      ${(en?[["🔎","Explain what phishing is and the different forms it takes"],["🚩","Spot the red flags in emails, SMS, calls and WhatsApp messages"],["🔗","Check a link and identify the real website domain"],["📣","Know exactly what to do — and whom to report to — if you are targeted or you click"]]
+           :[["🔎","समझा पाएँगे कि फ़िशिंग क्या है और इसके कौन-कौन से रूप हैं"],["🚩","ईमेल, SMS, कॉल और WhatsApp संदेशों में ख़तरे के संकेत पहचान पाएँगे"],["🔗","किसी लिंक की जाँच करके असली वेबसाइट डोमेन पहचान पाएँगे"],["📣","जान पाएँगे कि निशाना बनने या गलती से क्लिक होने पर क्या करें और किसे रिपोर्ट करें"]])
+        .map(x=>`<div class="tile"><div class="ic">${x[0]}</div>${x[1]}</div>`).join("")}
+    </div>
+    <div class="callout c-teal"><span class="ic">💡</span><div>${en
+      ?"<b>How to use this module:</b> Use the English / हिंदी switch at the top anytime. Click, flip and answer as you go — each lesson has an activity. Your score is recorded when you finish the quiz."
+      :"<b>इस मॉड्यूल का उपयोग कैसे करें:</b> ऊपर English / हिंदी बटन से कभी भी भाषा बदलें। हर पाठ में एक गतिविधि है — क्लिक करें, कार्ड पलटें और जवाब दें। क्विज़ पूरी करने पर आपका स्कोर दर्ज हो जाएगा।"}</div></div>
+  </section>${navBtns(en?"Let's begin":"शुरू करें")}`;
+};
+
+/* ---- 1 What is phishing ---- */
+V[1] = () => {
+  const en = lang==="en";
+  const types = en ? [
+    ["📧","Email Phishing","Mass emails pretending to be banks, HR, IT or delivery companies.","Example: “Your mailbox is full — click to keep receiving emails.”"],
+    ["🎯","Spear Phishing","Targeted at a specific person using details from LinkedIn or social media.","Example: An email mentioning your real manager's name and a current project."],
+    ["🐋","Whaling / CEO Fraud","Attacker poses as a senior leader to get urgent payments or data.","Example: “I'm travelling — transfer ₹3 lakh to this vendor today, keep it confidential.”"],
+    ["📱","Smishing (SMS)","Fake SMS about KYC, electricity bills, parcels or rewards.","Example: “Your power will be cut tonight. Call this number now.”"],
+    ["📞","Vishing (Voice)","Phone calls from fake bank officials, police, courier or ‘IT support’.","Example: “Share your OTP to stop a fraud transaction.”"],
+    ["🔳","Quishing (QR code)","QR codes on posters, emails or parcels leading to fake sites.","Example: “Scan to receive payment” — scanning to RECEIVE money is always a scam."]
+  ] : [
+    ["📧","ईमेल फ़िशिंग","बैंक, HR, IT या कूरियर कंपनी बनकर बड़ी संख्या में भेजे गए ईमेल।","उदाहरण: “आपका मेलबॉक्स भर गया है — ईमेल पाते रहने के लिए क्लिक करें।”"],
+    ["🎯","स्पीयर फ़िशिंग","LinkedIn या सोशल मीडिया की जानकारी से किसी ख़ास व्यक्ति को निशाना बनाना।","उदाहरण: ऐसा ईमेल जिसमें आपके असली मैनेजर का नाम और मौजूदा प्रोजेक्ट लिखा हो।"],
+    ["🐋","व्हेलिंग / CEO फ्रॉड","हमलावर वरिष्ठ अधिकारी बनकर तुरंत भुगतान या डेटा माँगता है।","उदाहरण: “मैं यात्रा पर हूँ — आज ही इस वेंडर को ₹3 लाख भेजें, गोपनीय रखें।”"],
+    ["📱","स्मिशिंग (SMS)","KYC, बिजली बिल, पार्सल या इनाम के बारे में नक़ली SMS।","उदाहरण: “आज रात आपकी बिजली कट जाएगी। अभी इस नंबर पर कॉल करें।”"],
+    ["📞","विशिंग (कॉल)","नक़ली बैंक अधिकारी, पुलिस, कूरियर या ‘IT सपोर्ट’ बनकर फ़ोन कॉल।","उदाहरण: “धोखाधड़ी वाला लेन-देन रोकने के लिए OTP बताइए।”"],
+    ["🔳","क्विशिंग (QR कोड)","पोस्टर, ईमेल या पार्सल पर QR कोड जो नक़ली साइट पर ले जाते हैं।","उदाहरण: “पेमेंट पाने के लिए स्कैन करें” — पैसा पाने के लिए स्कैन करना हमेशा धोखा है।"]
+  ];
+  return `<section class="card">${head(1)}
+    <p class="lead">${en
+      ?"<b>Phishing</b> is a cyber-fraud in which a criminal pretends to be someone you trust — a bank, a colleague, your boss, a government body or the IT team — to trick you into <b>clicking a link, opening a file, sharing information or sending money</b>."
+      :"<b>फ़िशिंग</b> एक साइबर धोखाधड़ी है जिसमें अपराधी कोई भरोसेमंद व्यक्ति या संस्था बनकर — जैसे बैंक, सहकर्मी, आपका बॉस, कोई सरकारी विभाग या IT टीम — आपको <b>लिंक पर क्लिक करने, फ़ाइल खोलने, जानकारी देने या पैसे भेजने</b> के लिए धोखा देता है।"}</p>
+    <div class="callout c-amber"><span class="ic">🎣</span><div>${en
+      ?"The name comes from <b>“fishing”</b>: the attacker throws out bait and waits for someone to bite. You are not the fish — you are the person who spots the hook."
+      :"यह नाम <b>“फ़िशिंग” (मछली पकड़ना)</b> से आया है: हमलावर चारा डालता है और किसी के फँसने का इंतज़ार करता है। आप मछली नहीं हैं — आप वो हैं जो काँटा पहचान लेता है।"}</div></div>
+    <h3>${en?"Why attackers target employees like you":"हमलावर आप जैसे कर्मचारियों को क्यों निशाना बनाते हैं"}</h3>
+    <div class="grid g3">
+      ${(en?[["🏦","Access to money","Payments, loan disbursements and vendor accounts are attractive targets."],["🗂️","Access to data","Customer KYC, Aadhaar/PAN details and loan records are valuable on the black market."],["🔑","Access to systems","One stolen password can open the door to the whole network."]]
+           :[["🏦","पैसे तक पहुँच","भुगतान, लोन वितरण और वेंडर खाते आकर्षक निशाने हैं।"],["🗂️","डेटा तक पहुँच","ग्राहकों के KYC, आधार/PAN विवरण और लोन रिकॉर्ड ब्लैक मार्केट में क़ीमती होते हैं।"],["🔑","सिस्टम तक पहुँच","एक चोरी हुआ पासवर्ड पूरे नेटवर्क का दरवाज़ा खोल सकता है।"]])
+        .map(x=>`<div class="tile"><div class="ic">${x[0]}</div><b>${x[1]}</b>${x[2]}</div>`).join("")}
+    </div>
+    <h3>${en?"The many faces of phishing":"फ़िशिंग के कई रूप"} <span class="muted" style="font-size:14px;font-weight:400">— ${T("tapFlip")}</span></h3>
+    <div class="grid g3">
+      ${types.map(t=>`<div class="flip" onclick="this.classList.toggle('on')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('on')}">
+        <div class="flip-in"><div class="face front"><div class="ic">${t[0]}</div><b>${t[1]}</b><small>${T("tapFlip")} ↻</small></div>
+        <div class="face back"><b>${t[1]}</b>${t[2]}<br><br><i>${t[3]}</i></div></div></div>`).join("")}
+    </div>
+    <div class="callout c-red"><span class="ic">🤖</span><div>${en
+      ?"<b>New in 2026: AI-powered phishing.</b> Criminals now use AI to write flawless emails in any language and even clone voices of senior leaders in phone or video calls. Perfect grammar is no longer proof that a message is genuine — <b>always verify the request itself.</b>"
+      :"<b>2026 का नया ख़तरा: AI से फ़िशिंग।</b> अपराधी अब AI से किसी भी भाषा में बिना गलती के ईमेल लिखते हैं और फ़ोन या वीडियो कॉल पर वरिष्ठ अधिकारियों की आवाज़ तक नक़ल कर लेते हैं। सही व्याकरण अब असली होने का सबूत नहीं है — <b>हमेशा माँग की पुष्टि करें।</b>"}</div></div>
+  </section>${navBtns()}`;
+};
+
+/* ---- 2 Red flags hunt ---- */
+V[2] = () => {
+  const en = lang==="en", n = Object.keys(FLAGS).length, f = st.flags.size, all = f===n;
+  const hs = (k,html,cls="") => `<button class="hs ${cls} ${st.flags.has(k)?'found':''}" onclick="flag('${k}')">${html}</button>`;
+  return `<section class="card">${head(2)}
+    <p class="lead">${en
+      ?"Phishing messages almost always leave clues. Let's practise. Below is a realistic phishing email. <b>Find all 7 red flags.</b>"
+      :"फ़िशिंग संदेश लगभग हमेशा कुछ सुराग छोड़ते हैं। आइए अभ्यास करें। नीचे एक असली जैसा फ़िशिंग ईमेल है। <b>सभी 7 ख़तरे के संकेत ढूँढें।</b>"}</p>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+      <span class="muted">${T("clickHint")}</span>
+      <span class="counter">🚩 ${T("found")}: ${f} / ${n}</span>
+    </div>
+    <div class="mail ${all?'':'hunt'}">
+      <div class="mail-bar"><i style="background:#ff6058"></i><i style="background:#ffbd2e"></i><i style="background:#28c940"></i>&nbsp; Inbox</div>
+      <div class="mail-h">
+        <div><span class="k">From:</span> ${hs("from","HR Department &lt;hr-team@hr-payroll-update.co&gt;")}</div>
+        <div><span class="k">To:</span> you</div>
+        <div><span class="k">Subject:</span> <b>${hs("subj","URGENT: Salary account SUSPENDED – action required within 2 hours")}</b></div>
+      </div>
+      <div class="mail-b">
+        <p>${hs("greet","Dear Employee,")}</p>
+        <p>Due to a security update in our payroll system, ${hs("typo","you're salary acount")} has been temporarily suspended. To avoid delay in this month's salary credit, ${hs("creds","verify your login ID, password and the OTP")} sent to your mobile.</p>
+        <p>${hs("link","Verify Now","fakebtn")}</p>
+        <p>Failure to verify will result in your salary being put on hold.</p>
+        <p>Regards,<br>HR &amp; Payroll Team</p>
+        ${hs("att",'<span class="attach">📎 Salary_Revision_Nov.zip · 182 KB</span>')}
+      </div>
+    </div>
+    ${all?`<div class="fb ok"><b class="t">🎉 ${T("huntDone")}</b></div>`:`<button class="btn btn-sec noprint" onclick="revealFlags()">${T("revealAll")}</button>`}
+    <ul class="found-list">
+      ${Object.keys(FLAGS).filter(k=>st.flags.has(k)).map(k=>`<li><b>🚩 ${L(FLAGS[k])[0]}</b><br>${L(FLAGS[k])[1]}</li>`).join("")}
+    </ul>
+    <h3>${en?"Quick checklist: the 6 questions to ask before you click":"क्लिक करने से पहले ख़ुद से पूछें ये 6 सवाल"}</h3>
+    <div class="grid g2">
+      ${(en?[["👤","Who sent it?","Check the full email address / number, not the display name."],["⏰","Is it urgent or threatening?","Pressure is the attacker's favourite tool."],["🔐","Does it ask for passwords, OTP, PIN or bank details?","Genuine teams never ask for these."],["🔗","Where does the link really go?","Hover (desktop) or long-press (mobile) to preview."],["📎","Was I expecting this attachment?","Be careful with .zip, .html, .exe and macro-enabled files."],["💰","Does it involve money or gift cards?","Always verify through a second, trusted channel."]]
+           :[["👤","किसने भेजा?","नाम नहीं, पूरा ईमेल पता / नंबर जाँचें।"],["⏰","क्या इसमें जल्दबाज़ी या धमकी है?","दबाव बनाना हमलावर का पसंदीदा हथियार है।"],["🔐","क्या पासवर्ड, OTP, PIN या बैंक विवरण माँगा गया है?","असली टीमें ये कभी नहीं माँगतीं।"],["🔗","लिंक असल में कहाँ जाता है?","डेस्कटॉप पर होवर करें या मोबाइल पर देर तक दबाकर देखें।"],["📎","क्या मुझे इस अटैचमेंट की उम्मीद थी?",".zip, .html, .exe और मैक्रो वाली फ़ाइलों से सावधान रहें।"],["💰","क्या इसमें पैसे या गिफ़्ट कार्ड की बात है?","हमेशा किसी दूसरे, भरोसेमंद माध्यम से पुष्टि करें।"]])
+        .map(x=>`<div class="tile"><b>${x[0]} ${x[1]}</b>${x[2]}</div>`).join("")}
+    </div>
+  </section>${navBtns()}`;
+};
+function flag(k){ if(st.flags.has(k)) return; st.flags.add(k); if(st.flags.size===Object.keys(FLAGS).length) complete(2); render(); }
+function revealFlags(){ Object.keys(FLAGS).forEach(k=>st.flags.add(k)); complete(2); render(); }
+
+/* ---- 3 Phish or Legit ---- */
+V[3] = () => {
+  const en = lang==="en", s = st.scn, n = SCN.length;
+  if (s.i >= n) {
+    const ok = s.res.filter(Boolean).length;
+    return `<section class="card">${head(3)}
+      <div class="center"><div style="font-size:54px">${ok>=6?'🏆':ok>=4?'👍':'📚'}</div>
+      <h3>${T("scnScore")}: ${ok} / ${n}</h3>
+      <div class="dots" style="justify-content:center;margin:10px 0">${s.res.map(r=>`<i class="${r?'ok':'no'}"></i>`).join("")}</div>
+      <p class="muted">${en?(ok>=6?"Excellent instincts! You'd make attackers' lives very difficult.":"Good effort. Review the explanations — real attacks look just like these."):(ok>=6?"शानदार समझ! आप हमलावरों का काम बहुत मुश्किल कर देंगे।":"अच्छी कोशिश। स्पष्टीकरण दोबारा पढ़ें — असली हमले बिल्कुल ऐसे ही दिखते हैं।")}</p>
+      <button class="btn btn-sec noprint" onclick="st.scn={i:0,res:[]};render()">↻ ${en?"Try again":"दोबारा करें"}</button></div>
+      <div class="callout c-teal mt"><span class="ic">🧠</span><div>${en
+        ?"<b>Key takeaway:</b> It's not about the channel — email, SMS, WhatsApp, a call or a QR sticker. It's about the <b>request</b>. Unexpected + urgent + asks for credentials or money = STOP and verify."
+        :"<b>मुख्य सीख:</b> बात माध्यम की नहीं है — ईमेल, SMS, WhatsApp, कॉल या QR स्टिकर। बात <b>माँग</b> की है। अनपेक्षित + जल्दबाज़ी + पासवर्ड या पैसे की माँग = रुकें और पुष्टि करें।"}</div></div>
+    </section>${navBtns()}`;
+  }
+  const c = SCN[s.i], answered = s.res.length > s.i, right = s.res[s.i];
+  return `<section class="card">${head(3)}
+    <p class="lead">${en?"Read each message and decide: <b>is it phishing or legitimate?</b>":"हर संदेश पढ़ें और तय करें: <b>यह फ़िशिंग है या असली?</b>"}</p>
+    <div class="scn">
+      <div class="scn-top"><span class="badge">${T("scnOf")} ${s.i+1} ${en?"of":"/"} ${n}</span>
+        <div class="dots">${SCN.map((_,j)=>`<i class="${j<s.res.length?(s.res[j]?'ok':'no'):''} ${j===s.i?'cur':''}"></i>`).join("")}</div></div>
+      <div class="msg ${c.type}"><span class="meta">${L(c.meta)}</span>${L(c.msg)}</div>
+      <div class="choices noprint">
+        <button class="btn btn-phish" ${answered?'disabled':''} onclick="answerScn('phish')">${T("phish")}</button>
+        <button class="btn btn-legit" ${answered?'disabled':''} onclick="answerScn('legit')">${T("legit")}</button>
+      </div>
+      ${answered?`<div class="fb ${right?'ok':'no'}"><b class="t">${right?'✔ '+T("correct"):'✘ '+T("wrong")} ${en?"This is":"यह है:"} ${c.ans==='phish'?T("phish"):T("legit")}</b>
+        <ul>${L(c.why).map(w=>`<li>${w}</li>`).join("")}</ul></div>
+        <div class="mt"><button class="btn btn-pri" onclick="st.scn.i++;if(st.scn.i>=SCN.length)complete(3);render()">${s.i===n-1?T("seeResults"):T("nextScn")} →</button></div>`:''}
+    </div>
+  </section>${navBtns()}`;
+};
+function answerScn(a){ const s=st.scn; if(s.res.length>s.i) return; s.res.push(SCN[s.i].ans===a); render(); }
+
+/* ---- 4 Check the link ---- */
+V[4] = () => {
+  const en = lang==="en";
+  return `<section class="card">${head(4)}
+    <p class="lead">${en
+      ?"A link's text can say anything. What matters is the <b>real domain</b> it leads to. Learn to read a web address in 10 seconds."
+      :"लिंक पर कुछ भी लिखा हो सकता है। असली बात यह है कि वह किस <b>असली डोमेन</b> पर ले जाता है। 10 सेकंड में वेब पता पढ़ना सीखें।"}</p>
+    <h3>${en?"Anatomy of a web address":"वेब पते की बनावट"}</h3>
+    <div class="url-anat"><span class="p">https://</span><span class="s">netbanking.</span><span class="d">securebank.in</span><span class="x">/login?id=123</span></div>
+    <div class="url-legend">
+      <span style="--c:#8aa0b8">${en?"Protocol":"प्रोटोकॉल"}</span>
+      <span style="--c:#ffd479">${en?"Sub-domain (can be anything)":"सब-डोमेन (कुछ भी हो सकता है)"}</span>
+      <span style="--c:#5ef0c0">${en?"REAL domain — this is what matters":"असली डोमेन — यही मायने रखता है"}</span>
+      <span style="--c:#c49cff">${en?"Path":"पाथ"}</span>
+    </div>
+    <div class="callout c-teal"><span class="ic">📏</span><div>${en
+      ?"<b>The golden rule:</b> find the first single “/” after “https://”. The real domain is the part <b>just before it</b> (e.g. <i>securebank.in</i>). Anything to the left of that is decoration that attackers can control."
+      :"<b>सुनहरा नियम:</b> “https://” के बाद पहला अकेला “/” ढूँढें। असली डोमेन <b>ठीक उससे पहले</b> वाला हिस्सा है (जैसे <i>securebank.in</i>)। उसके बाईं ओर का सब कुछ सजावट है जिसे हमलावर बदल सकते हैं।"}</div></div>
+    <h3>🧪 ${T("urlQ")}</h3>
+    ${URLS.map((x,i)=>{const sel=st.url!==null, cls = sel?(x.ok?'ok':(st.url===i?'no':'')):'';
+      return `<button class="url-opt ${cls}" ${sel?'disabled':''} onclick="pickUrl(${i})">${x.u}${sel&&(x.ok||st.url===i)?`<small>${x.ok?'✔':'✘'} ${L(x.e)}</small>`:''}</button>`;}).join("")}
+    ${st.url!==null?`<div class="noprint"><button class="btn btn-sec" onclick="st.url=null;render()">↻ ${en?"Try again":"दोबारा करें"}</button></div>`:''}
+    <h3>${en?"More link tricks to watch for":"लिंक की और चालें जिनसे सावधान रहें"}</h3>
+    <div class="grid g2">
+      ${(en?[["🔒","HTTPS ≠ safe","The padlock only means the connection is encrypted — criminals can get HTTPS for fake sites too."],["✂️","Short links","bit.ly, tinyurl etc. hide the destination. Be extra careful with them in SMS."],["🔤","Look-alike letters","rn vs m, 1 vs l, 0 vs o: micr0soft.com, paypa1.com."],["🖱️","Hover before you click","On desktop, hover to see the real link at the bottom of the screen. On mobile, long-press."]]
+           :[["🔒","HTTPS ≠ सुरक्षित","पैडलॉक का मतलब सिर्फ़ इतना है कि कनेक्शन एन्क्रिप्टेड है — अपराधी नक़ली साइट के लिए भी HTTPS ले सकते हैं।"],["✂️","छोटे लिंक","bit.ly, tinyurl आदि असली पता छिपा देते हैं। SMS में इनसे ख़ास सावधानी बरतें।"],["🔤","मिलते-जुलते अक्षर","rn और m, 1 और l, 0 और o: micr0soft.com, paypa1.com।"],["🖱️","क्लिक से पहले होवर करें","डेस्कटॉप पर माउस ले जाकर स्क्रीन के नीचे असली लिंक देखें। मोबाइल पर देर तक दबाएँ।"]])
+        .map(x=>`<div class="tile"><b>${x[0]} ${x[1]}</b>${x[2]}</div>`).join("")}
+    </div>
+  </section>${navBtns()}`;
+};
+function pickUrl(i){ st.url=i; complete(4); render(); }
+
+/* ---- 5 Stop Think Report ---- */
+V[5] = () => {
+  const en = lang==="en";
+  const steps = en ? [["STOP","#c8372d","Pause. Don't click, reply, download or call back in a hurry. Urgency is a trap."],
+                      ["THINK","#b7791f","Was I expecting this? Does the sender, link and request make sense? Use the 6-question checklist."],
+                      ["VERIFY","#0e8f86","Contact the person or organisation through a channel you already trust — known phone number, official website, or in person."],
+                      ["REPORT","#0f2a4a",`Report it to ${L(CONFIG.reportTo)}. Then delete it. Reporting protects your colleagues too.`]]
+                   : [["रुकें","#c8372d","ठहरें। जल्दबाज़ी में क्लिक, जवाब, डाउनलोड या कॉल-बैक न करें। जल्दबाज़ी एक जाल है।"],
+                      ["सोचें","#b7791f","क्या मुझे इसकी उम्मीद थी? क्या भेजने वाला, लिंक और माँग समझ में आते हैं? 6 सवालों की चेकलिस्ट अपनाएँ।"],
+                      ["पुष्टि करें","#0e8f86","उस व्यक्ति या संस्था से ऐसे माध्यम से संपर्क करें जिस पर आपको पहले से भरोसा है — ज्ञात फ़ोन नंबर, आधिकारिक वेबसाइट या आमने-सामने।"],
+                      ["रिपोर्ट करें","#0f2a4a",`इसे ${L(CONFIG.reportTo)} को रिपोर्ट करें। फिर डिलीट करें। रिपोर्ट करने से आपके सहकर्मी भी सुरक्षित रहते हैं।`]];
+  const clicked = en ? ["Disconnect from the network (unplug the cable / turn off Wi-Fi) if you downloaded a file or your device behaves strangely.","Change your password immediately from a different, safe device — and anywhere else you use the same password.","Report to IT / Information Security right away. Tell them what you clicked, what you entered and when.","If money or banking details are involved: inform your bank and call the National Cyber Crime Helpline <b>1930</b> or report at <b>cybercrime.gov.in</b>.","Don't hide it out of embarrassment. Fast reporting is what stops the damage — you will not be blamed for reporting honestly."]
+                     : ["अगर आपने कोई फ़ाइल डाउनलोड की है या डिवाइस अजीब व्यवहार कर रहा है, तो नेटवर्क से डिस्कनेक्ट करें (केबल निकालें / Wi-Fi बंद करें)।","किसी दूसरे, सुरक्षित डिवाइस से तुरंत पासवर्ड बदलें — और जहाँ भी वही पासवर्ड उपयोग करते हैं, वहाँ भी।","तुरंत IT / सूचना सुरक्षा टीम को रिपोर्ट करें। बताएँ कि आपने क्या क्लिक किया, क्या जानकारी डाली और कब।","अगर पैसा या बैंक विवरण शामिल है: अपने बैंक को सूचित करें और राष्ट्रीय साइबर अपराध हेल्पलाइन <b>1930</b> पर कॉल करें या <b>cybercrime.gov.in</b> पर रिपोर्ट करें।","शर्मिंदगी के कारण इसे न छिपाएँ। जल्दी रिपोर्ट करने से ही नुक़सान रुकता है — ईमानदारी से रिपोर्ट करने पर आपको दोषी नहीं ठहराया जाएगा।"];
+  const habits = en ? ["I will never share my password, PIN or OTP with anyone — including IT.","I will turn on Multi-Factor Authentication (MFA) wherever it is available.","I will verify any request for payment or bank-detail changes by phone.","I will hover over links before clicking and check the real domain.","I will report suspicious messages instead of just deleting them.","I will think before posting work details on social media."]
+                    : ["मैं अपना पासवर्ड, PIN या OTP किसी के साथ साझा नहीं करूँगा/करूँगी — IT के साथ भी नहीं।","जहाँ भी उपलब्ध हो, मैं मल्टी-फ़ैक्टर ऑथेंटिकेशन (MFA) चालू करूँगा/करूँगी।","भुगतान या बैंक विवरण बदलने की किसी भी माँग की पुष्टि मैं फ़ोन पर करूँगा/करूँगी।","क्लिक करने से पहले मैं लिंक पर होवर करके असली डोमेन जाँचूँगा/जाँचूँगी।","संदिग्ध संदेशों को सिर्फ़ डिलीट करने के बजाय मैं उन्हें रिपोर्ट करूँगा/करूँगी।","सोशल मीडिया पर काम से जुड़ी जानकारी डालने से पहले मैं सोचूँगा/सोचूँगी।"];
+  return `<section class="card">${head(5)}
+    <p class="lead">${en?"When something feels off, follow four simple steps:":"जब भी कुछ गड़बड़ लगे, ये चार आसान कदम अपनाएँ:"}</p>
+    <div class="steps">${steps.map(s=>`<div class="step"><div class="n" style="background:${s[1]};width:auto;min-width:44px;padding:0 10px">${s[0]}</div><div>${s[2]}</div></div>`).join("")}</div>
+    <h3>${en?"Oops — I already clicked! What now?":"ओह — मैंने तो क्लिक कर दिया! अब क्या करूँ?"}</h3>
+    <div class="acc open"><button onclick="this.parentNode.classList.toggle('open')">🚨 ${en?"Do these 5 things immediately":"तुरंत ये 5 काम करें"}</button>
+      <div class="ab"><ol>${clicked.map(c=>`<li style="margin-bottom:6px">${c}</li>`).join("")}</ol></div></div>
+    <div class="acc"><button onclick="this.parentNode.classList.toggle('open')">🇮🇳 ${en?"Official places to report fraud in India":"भारत में धोखाधड़ी रिपोर्ट करने के आधिकारिक स्थान"}</button>
+      <div class="ab"><ul>
+        <li><b>1930</b> — ${en?"National Cyber Crime Helpline (financial fraud)":"राष्ट्रीय साइबर अपराध हेल्पलाइन (वित्तीय धोखाधड़ी)"}</li>
+        <li><b>cybercrime.gov.in</b> — ${en?"National Cyber Crime Reporting Portal":"राष्ट्रीय साइबर अपराध रिपोर्टिंग पोर्टल"}</li>
+        <li><b>sancharsaathi.gov.in (Chakshu)</b> — ${en?"Report suspected fraud calls, SMS and WhatsApp messages":"संदिग्ध धोखाधड़ी कॉल, SMS और WhatsApp संदेश रिपोर्ट करें"}</li>
+        <li>${en?"Inside the company":"कंपनी के अंदर"}: ${L(CONFIG.reportTo)}</li>
+      </ul></div></div>
+    <h3>✍️ ${en?"My personal security pledge":"मेरी व्यक्तिगत सुरक्षा प्रतिज्ञा"} <span class="muted" style="font-size:14px;font-weight:400">— ${en?"tick each one":"हर एक पर टिक करें"}</span></h3>
+    ${habits.map((h,i)=>`<label class="check ${st.checks.has(i)?'on':''}"><input type="checkbox" ${st.checks.has(i)?'checked':''} onchange="tick(${i},this.checked)"><span>${h}</span></label>`).join("")}
+    ${st.checks.size===habits.length?`<div class="fb ok"><b class="t">🛡️ ${en?"Pledge complete — you're ready for the quiz!":"प्रतिज्ञा पूरी — अब आप क्विज़ के लिए तैयार हैं!"}</b></div>`:''}
+  </section>${navBtns(T("unlockQuiz"))}`;
+};
+function tick(i,on){ on?st.checks.add(i):st.checks.delete(i); if(st.checks.size===6) complete(5); render(); }
+
+/* ---- 6 Quiz ---- */
+V[6] = () => {
+  const en = lang==="en", q = st.quiz, n = QUIZ.length;
+  if (q.finished) return resultView();
+  if (!st.emp.ok) return idForm();
+  if (!q.startedAt) q.startedAt = Date.now();
+  const item = QUIZ[q.i], answered = q.ans.length > q.i;
+  return `<section class="card">
+    <div class="eyebrow">${T("lessons")[6]}</div>
+    <div class="idpill">👤 ${T("takingAs")}: <b>${esc(st.emp.name)}</b> · ${esc(st.emp.empId)}
+      ${q.i===0&&!answered?`<button class="linkbtn" onclick="st.emp.ok=false;render()">${T("change")}</button>`:''}</div>
+    <h2>${T("qOf")} ${q.i+1} ${en?"of":"/"} ${n}</h2>
+    <div class="qbar"><i style="width:${(q.i+(answered?1:0))/n*100}%"></i></div>
+    <p class="lead" style="font-weight:600;color:var(--navy)">${L(item.q)}</p>
+    ${L(item.o).map((o,j)=>{let cls="";if(answered){if(j===item.a)cls="ok";else if(j===q.ans[q.i])cls="no";}else if(q.picked===j)cls="";
+      return `<button class="q-opt ${cls}" ${answered?'disabled':''} onclick="pickQ(${j})" style="${!answered&&q.picked===j?'border-color:var(--navy);background:#f1f5fa':''}"><span class="l">${"ABCD"[j]}</span><span>${o}</span></button>`;}).join("")}
+    ${answered?`<div class="fb ${q.ans[q.i]===item.a?'ok':'no'}"><b class="t">${q.ans[q.i]===item.a?'✔ '+T("correct"):'✘ '+T("wrong")}</b>${L(item.e)}</div>
+      <div class="mt"><button class="btn btn-pri" onclick="nextQ()">${q.i===n-1?T("finish"):T("nextQ")} →</button></div>`
+     :`<div class="mt"><button class="btn btn-pri" ${q.picked===null?'disabled':''} onclick="submitQ()">${T("submit")}</button></div>`}
+  </section>`;
+};
+function idForm(){
+  const e = st.emp;
+  return `<section class="card">
+    <div class="eyebrow">${T("lessons")[6]}</div>
+    <h2>📝 ${T("idTitle")}</h2>
+    <p class="muted">${T("idSub")}</p>
+    <form class="idform" onsubmit="event.preventDefault();startQuiz()" novalidate>
+      <label>${T("fName")} *<input type="text" id="fName" maxlength="120" autocomplete="name" value="${esc(e.name)}" required></label>
+      <label>${T("fEmp")} *<input type="text" id="fEmp" maxlength="30" autocomplete="off" value="${esc(e.empId)}" style="text-transform:uppercase" required></label>
+      <label>${T("fDept")}<input type="text" id="fDept" maxlength="80" value="${esc(e.dept)}"></label>
+      ${e.err?`<div class="fb no" role="alert" style="margin:0">${e.err}</div>`:''}
+      <div><button type="submit" class="btn btn-pri">${T("fStart")} →</button></div>
+    </form>
+  </section>`;
+}
+function startQuiz(){
+  const name = $("#fName").value.replace(/\s+/g," ").trim();
+  const empId = $("#fEmp").value.trim().toUpperCase();
+  const dept = $("#fDept").value.replace(/\s+/g," ").trim();
+  st.emp.name=name; st.emp.empId=empId; st.emp.dept=dept;
+  if(name.length<2){ st.emp.err=T("eName"); return render(); }
+  if(!/^[A-Z0-9][A-Z0-9\-_/.]{0,29}$/.test(empId)){ st.emp.err=T("eEmp"); return render(); }
+  st.emp.err=""; st.emp.ok=true; st.quiz.startedAt=Date.now();
+  try{ sessionStorage.setItem("phishEmp", JSON.stringify({name,empId,dept})); }catch(e){}
+  render();
+}
+async function saveResult(){
+  if(!CONFIG.saveResults) return;
+  const q = st.quiz;
+  st.save = {status:"saving", data:null}; render();
+  try{
+    const r = await fetch((CONFIG.apiBase||"") + "/api/results", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ name:st.emp.name, empId:st.emp.empId, department:st.emp.dept, language:lang,
+        answers:q.ans, durationSec: q.startedAt ? Math.round((Date.now()-q.startedAt)/1000) : null })
+    });
+    const data = await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(data.error||("HTTP "+r.status));
+    st.save = {status:"ok", data};
+  }catch(err){
+    st.save = {status:"err", data:{error:String(err.message||err)}};
+  }
+  if(cur===6) render();
+}
+function pickQ(j){ st.quiz.picked=j; render(); }
+function submitQ(){ const q=st.quiz; if(q.picked===null) return; q.ans[q.i]=q.picked; q.picked=null;
+  SCORM.set(`cmi.interactions.${q.i}.id`,`Q${q.i+1}`); SCORM.set(`cmi.interactions.${q.i}.type`,"choice");
+  SCORM.set(`cmi.interactions.${q.i}.student_response`,"abcd"[q.ans[q.i]]); SCORM.set(`cmi.interactions.${q.i}.correct_responses.0.pattern`,"abcd"[QUIZ[q.i].a]);
+  SCORM.set(`cmi.interactions.${q.i}.result`, q.ans[q.i]===QUIZ[q.i].a?"correct":"wrong");
+  render(); }
+function nextQ(){ const q=st.quiz; if(q.i<QUIZ.length-1){q.i++;render();} else finishQuiz(); }
+function finishQuiz(){
+  const q=st.quiz; q.finished=true;
+  const pct = Math.round(q.ans.filter((a,i)=>a===QUIZ[i].a).length/QUIZ.length*100);
+  const pass = pct>=CONFIG.passMark;
+  if(pass) complete(6);
+  SCORM.set("cmi.core.score.min",0); SCORM.set("cmi.core.score.max",100); SCORM.set("cmi.core.score.raw",pct);
+  SCORM.set("cmi.core.lesson_status", pass?"passed":"failed"); SCORM.commit();
+  render(); window.scrollTo({top:0,behavior:"smooth"});
+  saveResult();
+}
+function resultView(){
+  const en = lang==="en", q = st.quiz;
+  const right = q.ans.filter((a,i)=>a===QUIZ[i].a).length, pct = Math.round(right/QUIZ.length*100), pass = pct>=CONFIG.passMark;
+  const C = 2*Math.PI*62, col = pass?"var(--green)":"var(--red)";
+  const today = new Date().toLocaleDateString(en?"en-IN":"hi-IN",{day:"numeric",month:"long",year:"numeric"});
+  return `<section class="card center">
+    <div class="eyebrow">${T("lessons")[6]}</div>
+    <svg class="score-ring" viewBox="0 0 150 150"><circle cx="75" cy="75" r="62" fill="none" stroke="#e8edf2" stroke-width="14"/>
+      <circle cx="75" cy="75" r="62" fill="none" stroke="${pass?'#1f8a4c':'#c8372d'}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${C*pct/100} ${C}" transform="rotate(-90 75 75)"/>
+      <text x="75" y="82" text-anchor="middle" font-size="30" font-weight="800" fill="#0f2a4a" font-family="Inter">${pct}%</text></svg>
+    <h2 style="color:${col}">${pass?'🎉 '+T("passed"):T("failed")}</h2>
+    <p class="muted">${T("scoreTxt")}: ${right}/${QUIZ.length} · ${T("passNeed")}: ${CONFIG.passMark}%</p>
+    ${saveBanner()}
+    <div class="noprint" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px">
+      <button class="btn btn-sec" ${st.save.status==="saving"?"disabled":""} onclick="st.quiz={i:0,ans:[],picked:null,finished:false,startedAt:0};st.save={status:'idle',data:null};render()">↻ ${T("retry")}</button>
+      <button class="btn btn-sec" onclick="go(1)">📖 ${T("review")}</button>
+    </div>
+  </section>
+  ${pass?`<section class="card center">
+    <div class="cert">
+      <div style="font-size:40px">🛡️</div>
+      <div class="eyebrow">${en?"Cyber Security Awareness":"साइबर सुरक्षा जागरूकता"}</div>
+      <h3>${T("certTitle")}</h3>
+      <p class="muted" style="margin:6px 0 0">${en?"This is to certify that":"प्रमाणित किया जाता है कि"}</p>
+      <div class="nm" id="cn">${esc(st.emp.name)||'—'}</div>
+      <p class="muted" style="margin:0 0 8px">${T("empLbl")}: <b>${esc(st.emp.empId)}</b>${st.emp.dept?` · ${esc(st.emp.dept)}`:''}</p>
+      <p>${T("certBody")}<br><b>${T("course")}</b></p>
+      <p class="muted">${T("date")}: ${today} · ${T("score")}: ${pct}%</p>
+    </div>
+    <div class="mt noprint"><button class="btn btn-pri" onclick="doPrint()">🖨️ ${T("print")}</button></div>
+  </section>`:''}
+  <section class="card">
+    <h3 style="margin-top:0">${en?"Answer review":"उत्तरों की समीक्षा"}</h3>
+    ${QUIZ.map((it,i)=>`<div class="fb ${q.ans[i]===it.a?'ok':'no'}" style="margin-top:10px"><b class="t">${i+1}. ${L(it.q)}</b>
+      ${q.ans[i]===it.a?'✔':'✘'} ${en?"Correct answer":"सही उत्तर"}: <b>${L(it.o)[it.a]}</b><br><span class="muted">${L(it.e)}</span></div>`).join("")}
+  </section>`;
+}
+function saveBanner(){
+  if(!CONFIG.saveResults) return "";
+  const s = st.save;
+  if(s.status==="saving") return `<div class="savebar saving">⏳ ${T("saving")}</div>`;
+  if(s.status==="ok") return `<div class="savebar ok">✔ ${T("saved")} <span class="muted">(${T("empLbl")} ${esc(st.emp.empId)} · ${T("attempt")} #${s.data&&s.data.attemptNo||1})</span></div>`;
+  if(s.status==="err") return `<div class="savebar err" role="alert">⚠ ${T("saveErr")}<br><small class="muted">${esc(s.data&&s.data.error)}</small><br>
+    <button class="btn btn-pri" style="margin-top:8px" onclick="saveResult()">↻ ${T("retrySave")}</button></div>`;
+  return "";
+}
+function doPrint(){ try{ window.print(); }catch(e){ toast(T("printFail")); } }
+
+function render(){
+  renderSide();
+  $("#main").innerHTML = V[cur]();
+}
+
+/* boot */
+try{ const s=JSON.parse(sessionStorage.getItem("phishEmp")||"null"); if(s){ st.emp.name=s.name||""; st.emp.empId=s.empId||""; st.emp.dept=s.dept||""; } }catch(e){}
+SCORM.init();
+window.addEventListener("beforeunload", ()=>{ SCORM.commit(); SCORM.finish(); });
+setLang(lang);
+</script>
+</body>
+</html>
