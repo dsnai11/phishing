@@ -4,7 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const { query, migrate } = require("./db");
-const { ANSWER_KEY, PASS_MARK, scoreAnswers } = require("./quizKey");
+const { MODULES, scoreAnswers } = require("./quizKey");
 
 const PORT = process.env.PORT || 3000;
 const ADMIN_USER = process.env.ADMIN_USER || "admin";
@@ -82,31 +82,33 @@ app.post("/api/results", corsForSubmit, submitLimiter, async (req, res) => {
     const language = b.language === "hi" ? "hi" : "en";
     const durationSec = Number.isFinite(+b.durationSec) ? Math.max(0, Math.min(86400, Math.round(+b.durationSec))) : null;
     const answers = Array.isArray(b.answers) ? b.answers : [];
+    const moduleId = MODULES[b.module] ? b.module : "basic";
+    const expected = MODULES[moduleId].key.length;
 
     const errors = [];
     if (fullName.length < 2) errors.push("Name is required.");
     if (!/^[A-Z0-9][A-Z0-9\-_/.]{0,29}$/.test(empId)) errors.push("Employee ID must contain only letters, numbers, - _ / .");
-    if (answers.length !== ANSWER_KEY.length || !answers.every((a) => Number.isInteger(a) && a >= 0 && a <= 3)) {
-      errors.push(`Exactly ${ANSWER_KEY.length} answers are required.`);
+    if (answers.length !== expected || !answers.every((a) => Number.isInteger(a) && a >= 0 && a <= 3)) {
+      errors.push(`Exactly ${expected} answers are required.`);
     }
     if (errors.length) return res.status(400).json({ error: errors.join(" ") });
 
-    const result = scoreAnswers(answers);
+    const result = scoreAnswers(moduleId, answers);
 
-    const { rows: prev } = await query("SELECT COUNT(*)::int AS n FROM quiz_attempts WHERE emp_id = $1", [empId]);
+    const { rows: prev } = await query("SELECT COUNT(*)::int AS n FROM quiz_attempts WHERE emp_id = $1 AND module = $2", [empId, moduleId]);
     const attemptNo = prev[0].n + 1;
 
     const { rows } = await query(
       `INSERT INTO quiz_attempts
-        (emp_id, full_name, department, language, score, correct_count, total_questions, passed,
+        (module, emp_id, full_name, department, language, score, correct_count, total_questions, passed,
          answers, duration_sec, attempt_no, ip_address, user_agent)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
        RETURNING id, created_at`,
-      [empId, fullName, department, language, result.score, result.correct, result.total, result.passed,
+      [moduleId, empId, fullName, department, language, result.score, result.correct, result.total, result.passed,
        JSON.stringify(answers), durationSec, attemptNo, clean(req.ip, 64), clean(req.headers["user-agent"], 300)]
     );
 
-    res.status(201).json({ id: rows[0].id, savedAt: rows[0].created_at, attemptNo, passMark: PASS_MARK, ...result });
+    res.status(201).json({ id: rows[0].id, savedAt: rows[0].created_at, module: moduleId, attemptNo, ...result });
   } catch (err) {
     console.error("Save failed:", err);
     res.status(500).json({ error: "Could not save the result. Please try again." });
@@ -119,6 +121,7 @@ app.post("/api/results", corsForSubmit, submitLimiter, async (req, res) => {
 function buildFilter(q) {
   const where = [];
   const params = [];
+  if (q.module && MODULES[q.module]) { params.push(q.module); where.push(`module = $${params.length}`); }
   if (q.search) {
     params.push(`%${String(q.search).trim()}%`);
     where.push(`(emp_id ILIKE $${params.length} OR full_name ILIKE $${params.length} OR department ILIKE $${params.length})`);
@@ -133,13 +136,13 @@ function buildFilter(q) {
 // view = all (every attempt) | latest (latest attempt per employee) | best (best attempt per employee)
 function resultsQuery(q, { limit, offset } = {}) {
   const { where, params } = buildFilter(q);
-  const cols = `id, emp_id, full_name, department, language, score, correct_count, total_questions,
+  const cols = `id, module, emp_id, full_name, department, language, score, correct_count, total_questions,
                 passed, duration_sec, attempt_no, created_at`;
   let sql;
   if (q.view === "latest" || q.view === "best") {
     const order = q.view === "latest" ? "created_at DESC" : "score DESC, created_at DESC";
-    sql = `SELECT * FROM (SELECT DISTINCT ON (emp_id) ${cols} FROM quiz_attempts ${where}
-           ORDER BY emp_id, ${order}) t ORDER BY created_at DESC`;
+    sql = `SELECT * FROM (SELECT DISTINCT ON (module, emp_id) ${cols} FROM quiz_attempts ${where}
+           ORDER BY module, emp_id, ${order}) t ORDER BY created_at DESC`;
   } else {
     sql = `SELECT ${cols} FROM quiz_attempts ${where} ORDER BY created_at DESC`;
   }
@@ -152,6 +155,7 @@ app.use("/api/admin", adminLimiter, requireAdmin);
 
 app.get("/api/admin/stats", async (req, res) => {
   try {
+    const { where, params } = buildFilter({ module: req.query.module });
     const { rows } = await query(`
       SELECT
         COUNT(*)::int                                   AS total_attempts,
@@ -159,8 +163,10 @@ app.get("/api/admin/stats", async (req, res) => {
         COUNT(DISTINCT emp_id) FILTER (WHERE passed)::int AS employees_passed,
         COALESCE(ROUND(AVG(score))::int, 0)             AS avg_score,
         COUNT(*) FILTER (WHERE created_at >= now() - interval '7 days')::int AS last_7_days
-      FROM quiz_attempts`);
-    res.json({ ...rows[0], pass_mark: PASS_MARK });
+      FROM quiz_attempts ${where}`, params);
+    const m = MODULES[req.query.module];
+    res.json({ ...rows[0], pass_mark: m ? m.passMark : null,
+      modules: Object.fromEntries(Object.entries(MODULES).map(([k, v]) => [k, { name: v.name, questions: v.key.length, passMark: v.passMark }])) });
   } catch (err) {
     console.error(err); res.status(500).json({ error: "Could not load stats." });
   }
@@ -184,7 +190,7 @@ app.get("/api/admin/results.csv", async (req, res) => {
   try {
     const q = resultsQuery(req.query);
     const { rows } = await query(q.sql, q.params);
-    const headers = ["Attempt ID", "Employee ID", "Name", "Department", "Language", "Score (%)", "Correct",
+    const headers = ["Attempt ID", "Module", "Employee ID", "Name", "Department", "Language", "Score (%)", "Correct",
       "Total Questions", "Result", "Attempt No", "Time Taken (min)", "Submitted At (IST)"];
     const esc = (v) => {
       let s = v === null || v === undefined ? "" : String(v);
@@ -193,7 +199,7 @@ app.get("/api/admin/results.csv", async (req, res) => {
     };
     const fmt = (d) => new Date(d).toLocaleString("en-IN", { timeZone: "Asia/Kolkata", hour12: false });
     const lines = [headers.join(",")].concat(rows.map((r) => [
-      r.id, r.emp_id, r.full_name, r.department, r.language === "hi" ? "Hindi" : "English", r.score,
+      r.id, MODULES[r.module] ? MODULES[r.module].name : r.module, r.emp_id, r.full_name, r.department, r.language === "hi" ? "Hindi" : "English", r.score,
       r.correct_count, r.total_questions, r.passed ? "PASSED" : "FAILED", r.attempt_no,
       r.duration_sec === null ? "" : (r.duration_sec / 60).toFixed(1), fmt(r.created_at),
     ].map(esc).join(",")));
@@ -226,7 +232,7 @@ app.get("/healthz", async (req, res) => {
 });
 
 // Pages normally live in /public. If they were uploaded to the top level of the repo instead
-// (GitHub's web upload can flatten folders), use them from there — but ONLY these two pages
+// (GitHub's web upload can flatten folders), use them from there — but ONLY these pages
 // are ever served from the top level, never server.js, db.js or other code.
 const fs = require("fs");
 function pagePath(name) {
@@ -238,13 +244,15 @@ function pagePath(name) {
 }
 const INDEX_PAGE = pagePath("index.html");
 const ADMIN_PAGE = pagePath("admin.html");
-console.log(`Training page: ${INDEX_PAGE || "MISSING"} | Admin page: ${ADMIN_PAGE || "MISSING"}`);
+const ADVANCED_PAGE = pagePath("advanced.html");
+console.log(`Training page: ${INDEX_PAGE || "MISSING"} | Advanced page: ${ADVANCED_PAGE || "MISSING"} | Admin page: ${ADMIN_PAGE || "MISSING"}`);
 
 const noPage = (name) => (req, res) =>
   res.status(500).send(`${name} was not found on the server. Upload it to the "public" folder of the GitHub repo.`);
 
 app.get(["/admin", "/admin.html"], adminLimiter, requireAdmin, ADMIN_PAGE ? (req, res) => res.sendFile(ADMIN_PAGE) : noPage("admin.html"));
 app.get(["/", "/index.html"], INDEX_PAGE ? (req, res) => res.sendFile(INDEX_PAGE) : noPage("index.html"));
+app.get(["/advanced", "/advanced.html"], ADVANCED_PAGE ? (req, res) => res.sendFile(ADVANCED_PAGE) : noPage("advanced.html"));
 
 // Any other static files (only from the public folder, if it exists)
 if (fs.existsSync(path.join(__dirname, "public"))) {

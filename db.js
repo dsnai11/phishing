@@ -95,7 +95,10 @@ async function migrate(retries = 5) {
           user_agent       TEXT,
           created_at       TIMESTAMPTZ  NOT NULL DEFAULT now()
         );
+        -- Added for multiple training modules; existing rows become 'basic'.
+        ALTER TABLE quiz_attempts ADD COLUMN IF NOT EXISTS module VARCHAR(20) NOT NULL DEFAULT 'basic';
         CREATE INDEX IF NOT EXISTS idx_quiz_attempts_emp_id     ON quiz_attempts (emp_id);
+        CREATE INDEX IF NOT EXISTS idx_quiz_attempts_module     ON quiz_attempts (module, emp_id);
         CREATE INDEX IF NOT EXISTS idx_quiz_attempts_created_at ON quiz_attempts (created_at DESC);
       `);
       console.log(`Database ready (${useSSL ? "SSL" : "no SSL"}, ${isLocal ? "local" : new URL(DATABASE_URL).hostname})`);
