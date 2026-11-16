@@ -53,8 +53,8 @@ tr:hover td{background:#fafcfd}
 <body>
 <header><div class="in">
   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7ee0d6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 9.5-8 11-4.5-1.5-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></svg>
-  <h1>Phishing Awareness Quiz — Results<small>Admin dashboard</small></h1>
-  <span style="margin-left:auto;display:flex;gap:18px"><a href="/" target="_blank" rel="noopener" style="margin:0">Basic module ↗</a><a href="/advanced" target="_blank" rel="noopener" style="margin:0">Advanced module ↗</a></span>
+  <h1>Phishing Awareness — CISA-level Assessment Results<small>Admin dashboard</small></h1>
+  <a href="/" target="_blank" rel="noopener">Open training ↗</a>
 </div></header>
 
 <div class="in">
@@ -70,12 +70,7 @@ tr:hover td{background:#fafcfd}
     <div class="err" id="err"></div>
     <form class="filters" id="filters" onsubmit="event.preventDefault();state.page=1;load()">
       <label>Search (Employee ID, name, department)<input id="search" type="search" placeholder="e.g. EMP1024 or Priya"></label>
-      <label>Module
-        <select id="module" onchange="state.page=1;loadStats();load()">
-          <option value="">All modules</option>
-          <option value="basic">Basic (10 Q)</option>
-          <option value="advanced">Advanced – CISA-level (25 Q)</option>
-        </select></label>
+      <input type="hidden" id="module" value="advanced">
       <label>Show
         <select id="view">
           <option value="all">Every attempt</option>
@@ -93,10 +88,10 @@ tr:hover td{background:#fafcfd}
     <div class="tbl">
       <table>
         <thead><tr>
-          <th>Submitted (IST)</th><th>Module</th><th>Employee ID</th><th>Name</th><th>Department</th><th>Lang</th>
+          <th>Submitted (IST)</th><th>Employee ID</th><th>Name</th><th>Department</th><th>Lang</th>
           <th class="num">Score</th><th class="num">Correct</th><th>Result</th><th class="num">Attempt #</th><th class="num">Time</th><th></th>
         </tr></thead>
-        <tbody id="rows"><tr><td colspan="12" class="empty">Loading…</td></tr></tbody>
+        <tbody id="rows"><tr><td colspan="11" class="empty">Loading…</td></tr></tbody>
       </table>
     </div>
     <div class="pager">
@@ -148,7 +143,6 @@ async function load() {
       const col = x.passed ? "var(--green)" : "var(--red)";
       return `<tr>
         <td>${fmt(x.created_at)}</td>
-        <td><span class="pill mod ${x.module === "advanced" ? "adv" : ""}">${x.module === "advanced" ? "Advanced" : "Basic"}</span></td>
         <td><b>${esc(x.emp_id)}</b></td>
         <td>${esc(x.full_name)}</td>
         <td>${esc(x.department || "—")}</td>
@@ -160,12 +154,12 @@ async function load() {
         <td class="num">${x.duration_sec == null ? "—" : Math.max(1, Math.round(x.duration_sec / 60)) + " min"}</td>
         <td><button class="del" title="Delete this attempt" onclick="delRow(${x.id}, '${esc(x.emp_id)}')">🗑</button></td>
       </tr>`;
-    }).join("") : `<tr><td colspan="12" class="empty">No results match these filters yet.</td></tr>`;
+    }).join("") : `<tr><td colspan="11" class="empty">No results match these filters yet.</td></tr>`;
     $("pinfo").textContent = `${d.total.toLocaleString("en-IN")} record(s) · page ${state.page} of ${pages}`;
     $("prev").disabled = state.page <= 1;
     $("next").disabled = state.page >= pages;
   } catch (e) {
-    $("rows").innerHTML = `<tr><td colspan="12" class="empty">Could not load results.</td></tr>`;
+    $("rows").innerHTML = `<tr><td colspan="11" class="empty">Could not load results.</td></tr>`;
     showErr("Could not load results: " + e.message);
   }
 }
