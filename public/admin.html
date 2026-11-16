@@ -39,7 +39,7 @@ th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute
 td.num{text-align:right}th.num{text-align:right}
 tr:hover td{background:#fafcfd}
 .pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:700}
-.pass{background:var(--green-l);color:var(--green)}.fail{background:var(--red-l);color:var(--red)}
+.pass{background:var(--green-l);color:var(--green)}.mod{background:#eef1f5;color:var(--muted)}.mod.adv{background:#e8e6fb;color:#4b3fb0}.fail{background:var(--red-l);color:var(--red)}
 .bar{display:inline-block;width:60px;height:6px;border-radius:9px;background:var(--line);vertical-align:middle;margin-left:8px;overflow:hidden}
 .bar i{display:block;height:100%}
 .del{background:none;border:0;color:var(--muted);cursor:pointer;font-size:15px;padding:4px 6px;border-radius:6px}
@@ -54,7 +54,7 @@ tr:hover td{background:#fafcfd}
 <header><div class="in">
   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7ee0d6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 9.5-8 11-4.5-1.5-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></svg>
   <h1>Phishing Awareness Quiz — Results<small>Admin dashboard</small></h1>
-  <a href="/" target="_blank" rel="noopener">Open training ↗</a>
+  <span style="margin-left:auto;display:flex;gap:18px"><a href="/" target="_blank" rel="noopener" style="margin:0">Basic module ↗</a><a href="/advanced" target="_blank" rel="noopener" style="margin:0">Advanced module ↗</a></span>
 </div></header>
 
 <div class="in">
@@ -70,6 +70,12 @@ tr:hover td{background:#fafcfd}
     <div class="err" id="err"></div>
     <form class="filters" id="filters" onsubmit="event.preventDefault();state.page=1;load()">
       <label>Search (Employee ID, name, department)<input id="search" type="search" placeholder="e.g. EMP1024 or Priya"></label>
+      <label>Module
+        <select id="module" onchange="state.page=1;loadStats();load()">
+          <option value="">All modules</option>
+          <option value="basic">Basic (10 Q)</option>
+          <option value="advanced">Advanced – CISA-level (25 Q)</option>
+        </select></label>
       <label>Show
         <select id="view">
           <option value="all">Every attempt</option>
@@ -87,10 +93,10 @@ tr:hover td{background:#fafcfd}
     <div class="tbl">
       <table>
         <thead><tr>
-          <th>Submitted (IST)</th><th>Employee ID</th><th>Name</th><th>Department</th><th>Lang</th>
+          <th>Submitted (IST)</th><th>Module</th><th>Employee ID</th><th>Name</th><th>Department</th><th>Lang</th>
           <th class="num">Score</th><th class="num">Correct</th><th>Result</th><th class="num">Attempt #</th><th class="num">Time</th><th></th>
         </tr></thead>
-        <tbody id="rows"><tr><td colspan="11" class="empty">Loading…</td></tr></tbody>
+        <tbody id="rows"><tr><td colspan="12" class="empty">Loading…</td></tr></tbody>
       </table>
     </div>
     <div class="pager">
@@ -109,7 +115,7 @@ const fmt = (d) => new Date(d).toLocaleString("en-IN", { timeZone: "Asia/Kolkata
 
 function params(withPage) {
   const p = new URLSearchParams();
-  ["search", "view", "status", "from", "to"].forEach((k) => { const v = $(k).value.trim(); if (v) p.set(k, v); });
+  ["module", "search", "view", "status", "from", "to"].forEach((k) => { const v = $(k).value.trim(); if (v) p.set(k, v); });
   if (withPage) { p.set("page", state.page); p.set("limit", state.limit); }
   return p;
 }
@@ -117,7 +123,8 @@ function showErr(m) { const e = $("err"); e.textContent = m; e.style.display = m
 
 async function loadStats() {
   try {
-    const r = await fetch("/api/admin/stats", { credentials: "same-origin" });
+    const m = $("module").value;
+    const r = await fetch("/api/admin/stats" + (m ? "?module=" + m : ""), { credentials: "same-origin" });
     if (!r.ok) throw new Error("stats " + r.status);
     const s = await r.json();
     $("sAttempts").textContent = s.total_attempts.toLocaleString("en-IN");
@@ -141,6 +148,7 @@ async function load() {
       const col = x.passed ? "var(--green)" : "var(--red)";
       return `<tr>
         <td>${fmt(x.created_at)}</td>
+        <td><span class="pill mod ${x.module === "advanced" ? "adv" : ""}">${x.module === "advanced" ? "Advanced" : "Basic"}</span></td>
         <td><b>${esc(x.emp_id)}</b></td>
         <td>${esc(x.full_name)}</td>
         <td>${esc(x.department || "—")}</td>
@@ -152,12 +160,12 @@ async function load() {
         <td class="num">${x.duration_sec == null ? "—" : Math.max(1, Math.round(x.duration_sec / 60)) + " min"}</td>
         <td><button class="del" title="Delete this attempt" onclick="delRow(${x.id}, '${esc(x.emp_id)}')">🗑</button></td>
       </tr>`;
-    }).join("") : `<tr><td colspan="11" class="empty">No results match these filters yet.</td></tr>`;
+    }).join("") : `<tr><td colspan="12" class="empty">No results match these filters yet.</td></tr>`;
     $("pinfo").textContent = `${d.total.toLocaleString("en-IN")} record(s) · page ${state.page} of ${pages}`;
     $("prev").disabled = state.page <= 1;
     $("next").disabled = state.page >= pages;
   } catch (e) {
-    $("rows").innerHTML = `<tr><td colspan="11" class="empty">Could not load results.</td></tr>`;
+    $("rows").innerHTML = `<tr><td colspan="12" class="empty">Could not load results.</td></tr>`;
     showErr("Could not load results: " + e.message);
   }
 }
@@ -168,7 +176,7 @@ async function delRow(id, emp) {
   if (!r.ok) return showErr("Delete failed.");
   loadStats(); load();
 }
-function resetFilters() { $("filters").reset(); state.page = 1; load(); }
+function resetFilters() { $("filters").reset(); state.page = 1; loadStats(); load(); }
 
 loadStats(); load();
 </script>

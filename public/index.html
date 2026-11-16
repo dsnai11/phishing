@@ -231,7 +231,8 @@ const CONFIG = {
   // If you upload this page to an LMS instead, put your Render URL here, e.g. "https://phishing-quiz.onrender.com",
   // and add the LMS website address to ALLOWED_ORIGINS on Render.
   apiBase: "",
-  saveResults: true
+  saveResults: true,
+  moduleId: "basic"
 };
 
 /* =========================================================
@@ -731,7 +732,7 @@ async function saveResult(){
   try{
     const r = await fetch((CONFIG.apiBase||"") + "/api/results", {
       method:"POST", headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({ name:st.emp.name, empId:st.emp.empId, department:st.emp.dept, language:lang,
+      body: JSON.stringify({ module:CONFIG.moduleId||"basic", name:st.emp.name, empId:st.emp.empId, department:st.emp.dept, language:lang,
         answers:q.ans, durationSec: q.startedAt ? Math.round((Date.now()-q.startedAt)/1000) : null })
     });
     const data = await r.json().catch(()=>({}));
