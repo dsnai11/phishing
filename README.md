@@ -1,14 +1,13 @@
 # Phishing Awareness Training (English / हिंदी) — with Results Database
 
-An interactive, bilingual phishing awareness course with a 10-question final quiz.
+An interactive, bilingual phishing awareness course for Laxmi India Finance with a 25-question CISA/ISACA-level final assessment.
 Before the quiz, every learner enters **Full name, Employee ID and (optionally) Department**.
 When they finish, the attempt is saved in a **Neon PostgreSQL** database (the app itself runs on **Render**), and HR / IT can view,
 filter and download all results from a password-protected **admin dashboard**.
 
 | Page | URL | Who |
 |---|---|---|
-| **Basic module** — training + 10-question quiz | `https://<your-app>.onrender.com/` | All employees |
-| **Advanced module** — same training + 25-question CISA-level assessment | `https://<your-app>.onrender.com/advanced` | Officers, managers, IT, audit, risk & compliance |
+| Training + 25-question CISA-level assessment | `https://<your-app>.onrender.com/` (old `/advanced` links also work) | All employees |
 | Admin dashboard | `https://<your-app>.onrender.com/admin` | HR / IT only (username + password) |
 | CSV export | button on the dashboard | HR / IT only |
 
@@ -20,7 +19,7 @@ Table `quiz_attempts` (created automatically on first start):
 
 | Column | Meaning |
 |---|---|
-| `module` | `basic` or `advanced` |
+| `module` | `advanced` (older rows may say `basic` — see below) |
 | `emp_id` | Employee ID (stored in UPPER CASE) |
 | `full_name` | Name as entered (Hindi or English) |
 | `department` | Department / branch (optional) |
@@ -30,36 +29,37 @@ Table `quiz_attempts` (created automatically on first start):
 | `passed` | true / false against the pass mark |
 | `answers` | The option chosen for each question (for audit) |
 | `duration_sec` | Time taken on the quiz |
-| `attempt_no` | 1st, 2nd, 3rd… attempt by that Employee ID **in that module** |
+| `attempt_no` | 1st, 2nd, 3rd… attempt by that Employee ID |
 | `ip_address`, `user_agent` | For audit |
 | `created_at` | Submission time |
 
 **The score is calculated on the server** (`quizKey.js`), so nobody can fake a score by editing the page.
 
-The dashboard can filter by **module** (Basic / Advanced) and show **every attempt**, the **latest attempt per employee**, or the **best attempt per employee**.
+The dashboard can show **every attempt**, the **latest attempt per employee**, or the **best attempt per employee**.
 It can also search by Employee ID, name or department, filter by Passed / Failed and date range, delete test entries, and **download CSV** (opens in Excel with Hindi names shown correctly).
 
 ---
 
-## Two modules
+## The assessment
 
-| | Basic (`/`) | Advanced (`/advanced`) |
-|---|---|---|
-| Lessons | 5 interactive lessons | Same 5 lessons |
-| Final test | 10 questions | 25 scenario-based questions at moderate CISA / ISACA level, each tagged with its CISA domain (1, 2, 4, 5) |
-| Pass mark | `PASS_MARK` (default 80%) | `PASS_MARK_ADVANCED` (default: same as `PASS_MARK`) |
-| Certificate | Shield icon | Company logo |
+- Same 5 interactive lessons, then **25 scenario-based questions at moderate CISA / ISACA level**,
+  each tagged with its CISA domain (1, 2, 4, 5), in English and Hindi.
+- Pass mark: `PASS_MARK_ADVANCED`, or `PASS_MARK` if that is not set (default 80%).
+- The certificate shows the Laxmi India Finance logo and name.
 
-Both modules use the same app, the same Neon database and the same admin dashboard.
+### The retired basic module
+An earlier 10-question "basic" module has been removed. Any results it saved are **kept** in the
+`quiz_attempts` table with `module = 'basic'`, but the dashboard and CSV no longer show them.
+To delete them permanently, run this in Neon's **SQL Editor** (cannot be undone):
 
-### Upgrading an existing deployment to two modules
-1. In GitHub, upload the new `public/advanced.html` and replace `server.js`, `db.js`, `quizKey.js`,
-   `public/index.html` and `public/admin.html` with the versions in this zip. Commit.
-2. Render redeploys automatically (or use **Manual Deploy → Deploy latest commit**).
-3. On start-up the app adds a `module` column to `quiz_attempts`. **Existing results are kept** and marked `basic`.
-4. Check the logs show `Advanced page: …/advanced.html`, then open `/advanced`.
-5. Optional: add `PASS_MARK_ADVANCED` (e.g. `70`) under **Environment** for a different pass mark.
-   Also change `passMark` in `CONFIG` near the top of `public/advanced.html` so the page shows the same value.
+```sql
+DELETE FROM quiz_attempts WHERE module = 'basic';
+```
+
+### Updating your GitHub repo to this version
+1. **Delete** `public/advanced.html` (and any top-level `advanced.html`).
+2. **Replace** `public/index.html`, `public/admin.html`, `server.js` and `quizKey.js` with the files in this zip.
+3. Commit. Render redeploys automatically. The logs should show `Training page: …/index.html`.
 
 ---
 
@@ -142,7 +142,6 @@ Results are stored in your Neon database and seen on `/admin`.
 **Option B — Upload as SCORM and still save to Render.** The LMS tracks completion *and* Render keeps the results.
 1. In `public/index.html`, find `CONFIG` near the top of the script and set
    `apiBase: "https://<your-app>.onrender.com"`.
-   For the advanced module, do the same with `public/advanced.html`, renamed to `index.html` in its own package.
 2. Copy that `index.html` into the `lms-scorm/` folder (next to `imsmanifest.xml`) and zip **the two files** (not the folder).
 3. Upload the zip to the LMS as a SCORM 1.2 package.
 4. In Render, set `ALLOWED_ORIGINS` to your LMS website address, e.g. `https://lms.yourcompany.com`
@@ -157,9 +156,9 @@ When launched from an LMS, the learner's name and LMS user ID are pre-filled aut
 | What | Where |
 |---|---|
 | Reporting contact shown to learners | `CONFIG.reportTo` in `public/index.html` |
-| Pass mark | `CONFIG.passMark` in `public/index.html` **and** `PASS_MARK` on Render |
-| Quiz questions | `QUIZ` array in `public/index.html` (basic) or `public/advanced.html` (advanced) — **also update that module's `key` in `quizKey.js`** (same order) |
-| Certificate logo (advanced) | the `cert-logo` image in `public/advanced.html` (embedded as base64 so the page stays a single file) |
+| Pass mark | `CONFIG.passMark` in `public/index.html` **and** `PASS_MARK_ADVANCED` (or `PASS_MARK`) on Render |
+| Quiz questions | `QUIZ` array in `public/index.html` — **also update `key` in `quizKey.js`** (same order) |
+| Certificate logo | the `cert-logo` image in `public/index.html` (embedded as base64 so the page stays a single file) |
 | Admin username / password | `ADMIN_USER` / `ADMIN_PASSWORD` on Render → Environment |
 | Employee ID format | regex in `startQuiz()` (index.html) and in `server.js` — currently letters, numbers and `- _ / .`, up to 30 characters |
 
@@ -174,13 +173,12 @@ When launched from an LMS, the learner's name and LMS user ID are pre-filled aut
 phishing-quiz-app/
 ├── server.js          Express server: pages, save API, admin API, CSV export
 ├── db.js              Neon / PostgreSQL connection (SSL, wake-up retry) + automatic table creation
-├── quizKey.js         Correct answers & pass marks for both modules (server-side scoring)
+├── quizKey.js         Correct answers & pass mark (server-side scoring)
 ├── package.json
 ├── render.yaml        Render Blueprint (web service; database is on Neon)
 ├── .env.example       Settings for local development
 ├── public/
-│   ├── index.html     Basic module: bilingual training + 10-question quiz (also works as SCORM)
-│   ├── advanced.html  Advanced module: same training + 25-question CISA-level assessment
+│   ├── index.html     Bilingual training + 25-question CISA-level assessment (also works as SCORM)
 │   └── admin.html     Results dashboard
 └── lms-scorm/
     └── imsmanifest.xml   SCORM 1.2 manifest for Option B

@@ -4,7 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const { query, migrate } = require("./db");
-const { MODULES, scoreAnswers } = require("./quizKey");
+const { MODULES, DEFAULT_MODULE, scoreAnswers } = require("./quizKey");
 
 const PORT = process.env.PORT || 3000;
 const ADMIN_USER = process.env.ADMIN_USER || "admin";
@@ -82,7 +82,7 @@ app.post("/api/results", corsForSubmit, submitLimiter, async (req, res) => {
     const language = b.language === "hi" ? "hi" : "en";
     const durationSec = Number.isFinite(+b.durationSec) ? Math.max(0, Math.min(86400, Math.round(+b.durationSec))) : null;
     const answers = Array.isArray(b.answers) ? b.answers : [];
-    const moduleId = MODULES[b.module] ? b.module : "basic";
+    const moduleId = DEFAULT_MODULE;
     const expected = MODULES[moduleId].key.length;
 
     const errors = [];
@@ -121,7 +121,8 @@ app.post("/api/results", corsForSubmit, submitLimiter, async (req, res) => {
 function buildFilter(q) {
   const where = [];
   const params = [];
-  if (q.module && MODULES[q.module]) { params.push(q.module); where.push(`module = $${params.length}`); }
+  // Only the current module's results are shown (retired "basic" results stay in the DB but are hidden).
+  params.push(MODULES[q.module] ? q.module : DEFAULT_MODULE); where.push(`module = $${params.length}`);
   if (q.search) {
     params.push(`%${String(q.search).trim()}%`);
     where.push(`(emp_id ILIKE $${params.length} OR full_name ILIKE $${params.length} OR department ILIKE $${params.length})`);
@@ -164,7 +165,7 @@ app.get("/api/admin/stats", async (req, res) => {
         COALESCE(ROUND(AVG(score))::int, 0)             AS avg_score,
         COUNT(*) FILTER (WHERE created_at >= now() - interval '7 days')::int AS last_7_days
       FROM quiz_attempts ${where}`, params);
-    const m = MODULES[req.query.module];
+    const m = MODULES[req.query.module] || MODULES[DEFAULT_MODULE];
     res.json({ ...rows[0], pass_mark: m ? m.passMark : null,
       modules: Object.fromEntries(Object.entries(MODULES).map(([k, v]) => [k, { name: v.name, questions: v.key.length, passMark: v.passMark }])) });
   } catch (err) {
@@ -244,15 +245,14 @@ function pagePath(name) {
 }
 const INDEX_PAGE = pagePath("index.html");
 const ADMIN_PAGE = pagePath("admin.html");
-const ADVANCED_PAGE = pagePath("advanced.html");
-console.log(`Training page: ${INDEX_PAGE || "MISSING"} | Advanced page: ${ADVANCED_PAGE || "MISSING"} | Admin page: ${ADMIN_PAGE || "MISSING"}`);
+console.log(`Training page: ${INDEX_PAGE || "MISSING"} | Admin page: ${ADMIN_PAGE || "MISSING"}`);
 
 const noPage = (name) => (req, res) =>
   res.status(500).send(`${name} was not found on the server. Upload it to the "public" folder of the GitHub repo.`);
 
 app.get(["/admin", "/admin.html"], adminLimiter, requireAdmin, ADMIN_PAGE ? (req, res) => res.sendFile(ADMIN_PAGE) : noPage("admin.html"));
-app.get(["/", "/index.html"], INDEX_PAGE ? (req, res) => res.sendFile(INDEX_PAGE) : noPage("index.html"));
-app.get(["/advanced", "/advanced.html"], ADVANCED_PAGE ? (req, res) => res.sendFile(ADVANCED_PAGE) : noPage("advanced.html"));
+// "/advanced" is kept so links shared earlier still open the training.
+app.get(["/", "/index.html", "/advanced", "/advanced.html"], INDEX_PAGE ? (req, res) => res.sendFile(INDEX_PAGE) : noPage("index.html"));
 
 // Any other static files (only from the public folder, if it exists)
 if (fs.existsSync(path.join(__dirname, "public"))) {
