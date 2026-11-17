@@ -99,6 +99,45 @@ async function migrate(retries = 5) {
         ALTER TABLE quiz_attempts ADD COLUMN IF NOT EXISTS module VARCHAR(20) NOT NULL DEFAULT 'basic';
         CREATE INDEX IF NOT EXISTS idx_quiz_attempts_emp_id     ON quiz_attempts (emp_id);
         CREATE INDEX IF NOT EXISTS idx_quiz_attempts_module     ON quiz_attempts (module, emp_id);
+
+        -- Proctoring (added for full-screen / tab-switch monitoring)
+        ALTER TABLE quiz_attempts ADD COLUMN IF NOT EXISTS session_id     VARCHAR(40);
+        ALTER TABLE quiz_attempts ADD COLUMN IF NOT EXISTS violations     INTEGER     NOT NULL DEFAULT 0;
+        ALTER TABLE quiz_attempts ADD COLUMN IF NOT EXISTS proctor_status VARCHAR(20) NOT NULL DEFAULT 'none';
+        CREATE TABLE IF NOT EXISTS proctor_sessions (
+          id             VARCHAR(40)  PRIMARY KEY,
+          module         VARCHAR(20)  NOT NULL,
+          emp_id         VARCHAR(30)  NOT NULL,
+          full_name      VARCHAR(120) NOT NULL,
+          department     VARCHAR(80),
+          language       VARCHAR(5),
+          status         VARCHAR(20)  NOT NULL DEFAULT 'in_progress',
+          violations     INTEGER      NOT NULL DEFAULT 0,
+          events         JSONB        NOT NULL DEFAULT '[]'::jsonb,
+          attempt_id     BIGINT,
+          fullscreen     BOOLEAN,
+          ip_address     VARCHAR(64),
+          user_agent     TEXT,
+          started_at     TIMESTAMPTZ  NOT NULL DEFAULT now(),
+          last_event_at  TIMESTAMPTZ,
+          ended_at       TIMESTAMPTZ
+        );
+        CREATE INDEX IF NOT EXISTS idx_proctor_sessions_emp     ON proctor_sessions (emp_id);
+        CREATE INDEX IF NOT EXISTS idx_proctor_sessions_started ON proctor_sessions (started_at DESC);
+
+        -- Webcam monitoring
+        ALTER TABLE proctor_sessions ADD COLUMN IF NOT EXISTS camera     BOOLEAN;
+        ALTER TABLE proctor_sessions ADD COLUMN IF NOT EXISTS face_check BOOLEAN;
+        CREATE TABLE IF NOT EXISTS proctor_snapshots (
+          id          BIGSERIAL    PRIMARY KEY,
+          session_id  VARCHAR(40)  NOT NULL,
+          reason      VARCHAR(30)  NOT NULL,
+          question    SMALLINT,
+          image       TEXT         NOT NULL,   -- JPEG as a data URL (about 10-25 KB)
+          taken_at    TIMESTAMPTZ  NOT NULL DEFAULT now()
+        );
+        CREATE INDEX IF NOT EXISTS idx_proctor_snapshots_session ON proctor_snapshots (session_id, taken_at);
+        CREATE INDEX IF NOT EXISTS idx_proctor_snapshots_taken   ON proctor_snapshots (taken_at);
         CREATE INDEX IF NOT EXISTS idx_quiz_attempts_created_at ON quiz_attempts (created_at DESC);
       `);
       console.log(`Database ready (${useSSL ? "SSL" : "no SSL"}, ${isLocal ? "local" : new URL(DATABASE_URL).hostname})`);

@@ -1,67 +1,93 @@
-# Phishing Awareness Training 
+# Phishing Awareness Training — Basic module · Laxmi India Finance
 
-LIVE CALL: https://phishing-quiz-3di2.onrender.com
-
-An interactive, bilingual phishing awareness course for Laxmi India Finance with a 25-question CISA/ISACA-level final assessment.
-Before the quiz, every learner enters **Full name, Employee ID and (optionally) Department**.
-When they finish, the attempt is saved in a **Neon PostgreSQL** database (the app itself runs on **Render**), and HR / IT can view,
-filter and download all results from a password-protected **admin dashboard**.
+5 interactive lessons + a 15-question proctored quiz, **no time limit**, for all employees. English / हिंदी. Results are stored in a **Neon PostgreSQL** database; the app runs on **Render**.
 
 | Page | URL | Who |
 |---|---|---|
-| Training + 25-question CISA-level assessment | `https://<your-app>.onrender.com/` (old `/advanced` links also work) | All employees |
+| Basic module | `https://<your-app>.onrender.com/` (also `/basic`) | Employees |
 | Admin dashboard | `https://<your-app>.onrender.com/admin` | HR / IT only (username + password) |
-| CSV export | button on the dashboard | HR / IT only |
+
+This package contains **only the basic module**. The other package (advanced module (cisa-level): 25-question CISA-level assessment, 30 minutes)
+is a separate zip. Both can use the **same Neon database** — every result is tagged with its module, so either
+admin dashboard shows both (use the Module filter).
 
 ---
 
-## What gets stored
+## Proctoring
 
-Table `quiz_attempts` (created automatically on first start):
+Before the quiz, the learner enters **name, Employee ID and department**, reads the rules and ticks a consent box.
+The assessment then opens in **full screen**, and the page monitors and records:
 
-| Column | Meaning |
+| Action | Counted as a rule break |
 |---|---|
-| `module` | `advanced` (older rows may say `basic` — see below) |
-| `emp_id` | Employee ID (stored in UPPER CASE) |
-| `full_name` | Name as entered (Hindi or English) |
-| `department` | Department / branch (optional) |
-| `language` | `en` or `hi` — language used during the quiz |
-| `score` | Percentage (0–100) |
-| `correct_count`, `total_questions` | e.g. 9 / 10 |
-| `passed` | true / false against the pass mark |
-| `answers` | The option chosen for each question (for audit) |
-| `duration_sec` | Time taken on the quiz |
-| `attempt_no` | 1st, 2nd, 3rd… attempt by that Employee ID |
-| `ip_address`, `user_agent` | For audit |
-| `created_at` | Submission time |
+| Switching tab, minimising the browser | ✔ |
+| Clicking another window or app (Alt+Tab etc.) | ✔ |
+| Leaving full screen (Esc) | ✔ |
+| Copy / cut / paste | ✔ (blocked) |
+| Right-click | ✔ (blocked) |
+| Blocked shortcuts: Ctrl+C/V/X/A/P/S/U/F/O, F12, Ctrl+Shift+I/J/C | ✔ (blocked) |
+| Print Screen key | ✔ |
+| Opening the assessment in a second tab | ✔ |
+| Reloading or reopening the page | ✔ |
+| **Webcam:** no face visible for 8 seconds | ✔ (photo saved) |
+| **Webcam:** more than one face for 3 seconds | ✔ (photo saved) |
+| **Webcam:** camera covered / too dark for 5 seconds | ✔ (photo saved) |
+| **Webcam:** camera turned off or disconnected | ✔ (must be turned back on to continue) |
+| **Browser extension** changes the page (translators, Grammarly, AI helpers, injected panels) | ✔ |
 
-**The score is calculated on the server** (`quizKey.js`), so nobody can fake a score by editing the page.
+- **2 warnings, then exit:** the 1st and 2nd rule breaks show a warning; the **3rd ends the assessment**, submits it
+  automatically and records it as **FAILED** (flagged "Terminated"), whatever the score.
+- Actions within 2 seconds of each other (e.g. Alt+Tab that also leaves full screen) count as **one** rule break.
+- Questions **and** answer options are shuffled for every attempt. Lessons cannot be opened during the assessment.
+- No time limit; the time taken is recorded.
+- Reloading does **not** restart the quiz: the same questions, answers so far and timer continue (and the reload counts as a rule break).
+- **Every start is logged with name and Employee ID**, even if the learner closes the page and never submits.
 
-The dashboard can show **every attempt**, the **latest attempt per employee**, or the **best attempt per employee**.
-It can also search by Employee ID, name or department, filter by Passed / Failed and date range, delete test entries, and **download CSV** (opens in Excel with Hindi names shown correctly).
+Admin dashboard → **🔒 Integrity log** lists every started assessment (In progress / Not submitted / Submitted / Terminated),
+the number of rule breaks, and an **Activity log** (🔍) with the exact time and question of each action.
+The Results tab shows a **Proctoring** column (Clean / Warned / Terminated / Time up / Late) and both tabs export to CSV.
+
+### Webcam monitoring
+- The learner must turn on the webcam on the rules screen; **the Start button stays disabled until the camera
+  works and a face is seen**. No camera or permission refused → they cannot start (ask IT to provide a webcam).
+- A small camera preview stays at the bottom-right during the assessment. Face checks run **in the learner's
+  browser** (face-api, MIT licence, files in `public/vendor/face-api/`); no video is streamed or recorded.
+- **Photos** (320×240 JPEG, about 15 KB) are saved at the start, every 5 minutes, and at each face/camera problem
+  — at most 60 per assessment. They appear in the admin **Activity log** (🔍) next to the timeline.
+- Photos are deleted automatically after **180 days** (`SNAPSHOT_RETENTION_DAYS` on Render; `0` = keep).
+  Storage guide: about 100–150 KB per attempt, so 1,000 attempts ≈ 150 MB of Neon's free 1 GB.
+- If the face-check files cannot load (very restricted network), photos are still taken and the session is
+  marked "face check: No".
+
+### Browser extensions
+A web page **cannot block or switch off extensions** — browsers do not allow it. The assessment therefore:
+- **detects** extensions that change the page (translators, Grammarly, AI helpers, injected panels or buttons,
+  `chrome-extension://` resources): the Start button is blocked until they are turned off, and any that appear
+  during the assessment count as a rule break;
+- tells learners that an Incognito / InPrivate window normally runs without extensions.
+
+To truly switch extensions off, IT should apply the Chrome / Edge policy `ExtensionInstallBlocklist = *` to the
+exam PCs — see the separate **IT guide** document. Extensions that never touch the page (e.g. a side panel) can
+only be stopped by that policy.
+
+**What browser monitoring cannot do:** it cannot see a second device held out of camera view, cannot hear anyone
+(no microphone is used), and it cannot stop operating-system screenshots on every computer — it records
+the Print Screen key where the browser can see it. Use a supervised room if you need that level of control.
+Works best on a laptop/desktop with Chrome or Edge; iPhone Safari does not support full screen (the attempt is
+still monitored and marked "Full screen: No").
 
 ---
 
-## The assessment
+---
 
-- Same 5 interactive lessons, then **25 scenario-based questions at moderate CISA / ISACA level**,
-  each tagged with its CISA domain (1, 2, 4, 5), in English and Hindi.
-- Pass mark: `PASS_MARK_ADVANCED`, or `PASS_MARK` if that is not set (default 80%).
-- The certificate shows the Laxmi India Finance logo and name.
+## Uploading to GitHub
+Upload **everything in this folder** to the repository, keeping the folders:
+`server.js`, `db.js`, `quizKey.js`, `package.json`, `render.yaml`, `.gitignore`, `.env.example`, `README.md`,
+`public/basic.html`, `public/admin.html`, and the whole **`public/vendor/`** folder (face-detection library —
+drag the `vendor` folder into `public/` on GitHub). Never upload a `.env` file or `node_modules`.
 
-### The retired basic module
-An earlier 10-question "basic" module has been removed. Any results it saved are **kept** in the
-`quiz_attempts` table with `module = 'basic'`, but the dashboard and CSV no longer show them.
-To delete them permanently, run this in Neon's **SQL Editor** (cannot be undone):
-
-```sql
-DELETE FROM quiz_attempts WHERE module = 'basic';
-```
-
-### Updating your GitHub repo to this version
-1. **Delete** `public/advanced.html` (and any top-level `advanced.html`).
-2. **Replace** `public/index.html`, `public/admin.html`, `server.js` and `quizKey.js` with the files in this zip.
-3. Commit. Render redeploys automatically. The logs should show `Training page: …/index.html`.
+If this replaces an existing Render service, also delete any other `index.html`, `basic.html` or `advanced.html`
+left in the repo so `/` opens this module. In the Render logs check for `Pages: … basic=…/public/basic.html` and `Database ready`.
 
 ---
 
@@ -69,7 +95,7 @@ DELETE FROM quiz_attempts WHERE module = 'basic';
 
 ### Step 1 — Create the Neon database
 1. Sign up / log in at <https://console.neon.tech> (free, no credit card).
-2. **New Project** → name it `phishing-quiz` → Postgres version: latest →
+2. **New Project** → name it `phishing-quiz-basic` (or reuse the Neon project you already have) → Postgres version: latest →
    **Region: AWS Asia Pacific (Singapore)** (closest to India and to Render's Singapore region) → **Create**.
 3. On the project dashboard click **Connect**. Keep the database `neondb`, turn **Connection pooling ON**,
    and copy the connection string. It looks like:
@@ -79,18 +105,18 @@ DELETE FROM quiz_attempts WHERE module = 'basic';
 You don't need to create any table: the app creates `quiz_attempts` automatically on first start.
 
 ### Step 2 — Put the code on GitHub
-1. Create a new **private** repository on GitHub (e.g. `phishing-quiz`).
+1. Create a new **private** repository on GitHub (e.g. `phishing-quiz-basic`).
 2. Upload all files from this zip (keep the folder structure; `node_modules` is not needed).
 
 ### Step 3 — Deploy the app on Render (Blueprint)
 1. Log in to <https://dashboard.render.com> → **New +** → **Blueprint**.
-2. Connect GitHub and choose your repository. Render reads `render.yaml` and shows the web service **phishing-quiz**.
+2. Connect GitHub and choose your repository. Render reads `render.yaml` and shows the web service **phishing-quiz-basic**.
 3. When asked, enter:
    - **DATABASE_URL** — the Neon connection string from Step 1
    - **ADMIN_PASSWORD** — a strong password for the dashboard (min. 8 characters)
    - **ALLOWED_ORIGINS** — leave blank (only needed for the LMS option below)
 4. Click **Apply**. In the **Logs** you should see `Database ready (SSL, ep-xxxx…neon.tech)`.
-5. Open the URL Render shows (e.g. `https://phishing-quiz.onrender.com`) — the training loads.
+5. Open the URL Render shows (e.g. `https://phishing-quiz-basic.onrender.com`) — the training loads.
 6. Open `/admin` and sign in with **admin** / your password.
 
 **Manual alternative (no Blueprint):** Render → **New + → Web Service** → connect the repo →
@@ -121,30 +147,62 @@ FROM quiz_attempts GROUP BY emp_id HAVING NOT BOOL_OR(passed);
 
 ---
 
-## Run it on your own computer (optional)
+## What gets stored
 
-Needs Node.js 20+.
+**`quiz_attempts`** — one row per submitted attempt: `module`, `emp_id`, `full_name`, `department`, `language`,
+`score`, `correct_count`, `total_questions`, `passed`, `answers`, `duration_sec`, `attempt_no`,
+`session_id`, `violations` (rule breaks), `proctor_status`, `ip_address`, `user_agent`, `created_at`.
 
-```bash
-npm install
-cp .env.example .env        # paste your Neon DATABASE_URL and set ADMIN_PASSWORD
-npm run dev                 # http://localhost:3000  and  http://localhost:3000/admin
-```
+**`proctor_sessions`** — one row per started assessment: identity, `status`, `violations`, `events`
+(timeline of every action), `fullscreen`, `camera`, `face_check`, `started_at`, `ended_at`, linked `attempt_id`.
 
-Tip: in Neon you can create a **branch** (e.g. `dev`) of the database and use its connection string
-locally, so testing never touches the real results.
+**`proctor_snapshots`** — webcam photos: `session_id`, `reason` (start / periodic / no_face / multiple_faces /
+camera_blocked), `question`, `image`, `taken_at`. Deleted automatically after `SNAPSHOT_RETENTION_DAYS`.
+
+Both tables are created/updated automatically when the app starts. Scores are calculated on the server
+(`quizKey.js`), so nobody can fake a score by editing the page.
+
+Older rows: results from the earlier 10-question basic quiz are kept (`total_questions = 10`) and show
+"—" under Proctoring because they were taken before proctoring existed.
 
 ---
+
+## Customising
+
+| What | Where |
+|---|---|
+| Reporting contact shown to learners | `CONFIG.reportTo` in `public/basic.html` and `public/advanced.html` |
+| Pass mark | `CONFIG.passMark` in each page **and** `PASS_MARK` / `PASS_MARK_ADVANCED` on Render |
+| Time limit | `CONFIG.timeLimitMin` in each page **and** `TIME_LIMIT_BASIC_MIN` / `TIME_LIMIT_ADVANCED_MIN` on Render (defaults 0 and 30) |
+| Number of warnings | `CONFIG.maxWarnings` in each page **and** `MAX_WARNINGS` on Render (default 2) |
+| Shuffle questions/options | `CONFIG.shuffle` in each page |
+| Webcam on/off | `CONFIG.camera` in each page (`true` = required) |
+| Face-check timings, photo interval | `FACE` near the webcam code in each page (`noFaceSec` 8, `multiSec` 3, `darkSec` 5, `snapEveryMin` 5) |
+| Photo retention | `SNAPSHOT_RETENTION_DAYS` on Render (default 180) |
+| Quiz questions | `QUIZ` array in the page — **also update that module's `key` in `quizKey.js`** (original order) |
+| Certificate logo | the `cert-logo` image in each page and the start page (embedded as base64) |
+| Admin username / password | `ADMIN_USER` / `ADMIN_PASSWORD` on Render → Environment |
+
+## Security & privacy notes
+- The admin dashboard and all `/api/admin/*` endpoints require the admin username + password (HTTP Basic Auth over HTTPS).
+- Learners agree to monitoring **and webcam photos** on the rules screen before starting. No video, audio or
+  screen recording is made; only still photos at the moments listed above.
+- Webcam photos of employees are personal data: keep the retention period as short as your policy allows,
+  restrict the admin password to the people who review integrity cases, and check the notice/consent wording
+  with your compliance team.
+- Submissions are validated and rate-limited; text is cleaned before saving; CSV exports are protected against spreadsheet formula injection.
+- The Neon connection string is a secret: keep it only in Render's environment variables / your local `.env` (never in GitHub).
+- Employee names, IDs and activity logs are personal data — share the admin password only with the people responsible for training records.
 
 ## Using it with your LMS
 
 **Option A — Link (simplest).** Add the Render URL as a web link / URL activity in the LMS.
-Results are stored in your Neon database and seen on `/admin`.
+Use `https://<your-app>.onrender.com/`. Results are stored in your Neon database and seen on `/admin`.
 
 **Option B — Upload as SCORM and still save to Render.** The LMS tracks completion *and* Render keeps the results.
-1. In `public/index.html`, find `CONFIG` near the top of the script and set
+1. In `public/basic.html`, find `CONFIG` near the top of the script and set
    `apiBase: "https://<your-app>.onrender.com"`.
-2. Copy that `index.html` into the `lms-scorm/` folder (next to `imsmanifest.xml`) and zip **the two files** (not the folder).
+2. Copy that page, renamed to `index.html`, into the `lms-scorm/` folder (next to `imsmanifest.xml`) and zip **the two files** (not the folder).
 3. Upload the zip to the LMS as a SCORM 1.2 package.
 4. In Render, set `ALLOWED_ORIGINS` to your LMS website address, e.g. `https://lms.yourcompany.com`
    (comma-separate several). Redeploy.
@@ -153,35 +211,20 @@ When launched from an LMS, the learner's name and LMS user ID are pre-filled aut
 
 ---
 
-## Customising
-
-| What | Where |
-|---|---|
-| Reporting contact shown to learners | `CONFIG.reportTo` in `public/index.html` |
-| Pass mark | `CONFIG.passMark` in `public/index.html` **and** `PASS_MARK_ADVANCED` (or `PASS_MARK`) on Render |
-| Quiz questions | `QUIZ` array in `public/index.html` — **also update `key` in `quizKey.js`** (same order) |
-| Certificate logo | the `cert-logo` image in `public/index.html` (embedded as base64 so the page stays a single file) |
-| Admin username / password | `ADMIN_USER` / `ADMIN_PASSWORD` on Render → Environment |
-| Employee ID format | regex in `startQuiz()` (index.html) and in `server.js` — currently letters, numbers and `- _ / .`, up to 30 characters |
-
-## Security notes
-- The admin dashboard and all `/api/admin/*` endpoints require the admin username + password (HTTP Basic Auth over HTTPS).
-- Submissions are validated and rate-limited; text is cleaned before saving; CSV export is protected against spreadsheet formula injection.
-- The Neon connection string is a secret: keep it only in Render's environment variables / your local `.env` (never in GitHub). Connections use SSL with certificate verification. For extra protection, Neon's paid plans offer IP Allow lists.
-- Employee names and IDs are personal data — share the admin password only with the people responsible for training records, and change it if someone leaves the role.
+> Proctoring needs the page to run in a normal browser tab. Some LMS players show courses inside a frame that blocks full screen; in that case use Option A (link).
 
 ## Project structure
 ```
-phishing-quiz-app/
-├── server.js          Express server: pages, save API, admin API, CSV export
-├── db.js              Neon / PostgreSQL connection (SSL, wake-up retry) + automatic table creation
-├── quizKey.js         Correct answers & pass mark (server-side scoring)
+phishing-quiz-basic/
+├── server.js          Express server: page, proctoring API, results API, admin API, CSV exports
+├── db.js              Neon / PostgreSQL connection + automatic table setup
+├── quizKey.js         Answer keys, pass marks, time limits, warnings (server-side scoring)
 ├── package.json
 ├── render.yaml        Render Blueprint (web service; database is on Neon)
 ├── .env.example       Settings for local development
 ├── public/
-│   ├── index.html     Bilingual training + 25-question CISA-level assessment (also works as SCORM)
-│   └── admin.html     Results dashboard
-└── lms-scorm/
-    └── imsmanifest.xml   SCORM 1.2 manifest for Option B
+│   ├── basic.html     Basic module (opens at /)
+│   ├── admin.html     Results dashboard + integrity log + webcam photos
+│   └── vendor/face-api/  Face-detection library + model (MIT licence)
+└── lms-scorm/imsmanifest.xml
 ```

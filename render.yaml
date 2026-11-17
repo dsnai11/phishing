@@ -2,7 +2,7 @@
 # In Render: New + → Blueprint → select the GitHub repo that contains this file.
 services:
   - type: web
-    name: phishing-quiz
+    name: phishing-quiz-basic
     runtime: node
     plan: free                  # change to "starter" to avoid the free-tier sleep (~1 min wake-up)
     region: singapore           # closest Render region to India; pick a Neon region near it too

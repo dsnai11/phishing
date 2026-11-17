@@ -1,7 +1,7 @@
 {
-  "name": "phishing-awareness-quiz",
+  "name": "phishing-quiz-basic",
   "version": "1.0.0",
-  "description": "Bilingual (English/Hindi) phishing awareness training with quiz results stored in PostgreSQL. Ready for Render.",
+  "description": "Phishing Awareness Training \u2013 Basic module (English/Hindi), proctored, results in Neon PostgreSQL. Ready for Render.",
   "main": "server.js",
   "private": true,
   "scripts": {
