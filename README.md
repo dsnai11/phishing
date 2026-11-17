@@ -1,4 +1,8 @@
-# Phishing Awareness Training (English / हिंदी) — Laxmi India Finance
+# Phishing Awareness Training 
+
+Basic Quiz URL: https://phishing-quiz-3di2.onrender.com
+
+Advanced Quiz URL: https://phishing-quiz-advanced.onrender.com
 
 Interactive, bilingual phishing awareness training with **two proctored assessments**.
 Each module is a separate app in its own folder and runs as its own **Render** web service.
