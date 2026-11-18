@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+<meta charset="UTF-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phishing Awareness – Advanced Assessment | फ़िशिंग जागरूकता – उन्नत मूल्यांकन</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f2a4a;--navy2:#173a63;--teal:#0e8f86;--teal-l:#e3f4f2;
+  --red:#c8372d;--red-l:#fdecea;--amber:#b7791f;--amber-l:#fff6e0;
+  --green:#1f8a4c;--green-l:#e6f5ec;--ink:#1d2733;--muted:#5d6b7a;
+  --line:#dde3ea;--bg:#f4f6f9;--card:#fff;--r:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:Inter,"Noto Sans Devanagari",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:16px}
+body.hi{font-family:"Noto Sans Devanagari",Inter,system-ui,sans-serif;font-size:16.5px;line-height:1.75}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+header.top{background:var(--navy);color:#fff;position:sticky;top:0;z-index:20}
+.top-in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:12px 20px}
+.logo{width:38px;height:38px;border-radius:10px;background:var(--teal);display:grid;place-items:center;flex:none}
+.top h1{font-size:17px;margin:0;font-weight:700;line-height:1.25}
+.top small{display:block;opacity:.75;font-weight:400;font-size:12.5px}
+.spacer{flex:1}
+.lang{display:flex;background:rgba(255,255,255,.12);border-radius:999px;padding:3px}
+.lang button{border:0;background:transparent;color:#fff;padding:6px 14px;border-radius:999px;font-weight:600;font-size:14px}
+.lang button.on{background:#fff;color:var(--navy)}
+.progress{height:5px;background:rgba(255,255,255,.15)}
+.progress i{display:block;height:100%;background:#4fd1c5;width:0;transition:width .4s}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:270px 1fr;gap:24px;padding:24px 20px 60px}
+nav.side{position:sticky;top:90px;align-self:start;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:10px}
+nav.side button{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;border:0;background:transparent;padding:10px;border-radius:10px;color:var(--ink);font-size:14.5px;line-height:1.35}
+nav.side button:hover{background:var(--bg)}
+nav.side button.cur{background:var(--teal-l);color:var(--navy);font-weight:600}
+nav.side .num{flex:none;width:24px;height:24px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--muted)}
+nav.side button.done .num{background:var(--teal);border-color:var(--teal);color:#fff}
+nav.side button.cur .num{border-color:var(--teal);color:var(--teal)}
+nav.side button.done.cur .num{color:#fff}
+main{min-width:0}main:focus{outline:none}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:28px 32px;margin-bottom:20px}
+.eyebrow{font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--teal)}
+body.hi .eyebrow{letter-spacing:0}
+h2{font-size:28px;line-height:1.25;margin:6px 0 10px;color:var(--navy)}
+h3{font-size:19px;margin:22px 0 8px;color:var(--navy)}
+p{margin:0 0 12px}
+.lead{font-size:17.5px;color:#34404d}
+.hero{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;border:0}
+.hero h2{color:#fff;font-size:32px}
+.hero .lead{color:#d7e3f0}
+.hero .eyebrow{color:#7ee0d6}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
+.chip{background:rgba(255,255,255,.12);border-radius:999px;padding:5px 12px;font-size:13.5px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}
+.tile{border:1px solid var(--line);border-radius:12px;padding:16px;background:#fff}
+.tile b{display:block;color:var(--navy);margin-bottom:4px}
+.tile .ic{font-size:26px;line-height:1;margin-bottom:8px}
+.callout{border-radius:12px;padding:14px 16px;margin:14px 0;display:flex;gap:12px;align-items:flex-start}
+.callout .ic{font-size:22px;line-height:1.2}
+.c-red{background:var(--red-l);border-left:4px solid var(--red)}
+.c-teal{background:var(--teal-l);border-left:4px solid var(--teal)}
+.c-amber{background:var(--amber-l);border-left:4px solid var(--amber)}
+.flip{perspective:900px;min-height:170px;cursor:pointer}
+.flip-in{position:relative;width:100%;height:100%;min-height:170px;transition:transform .5s;transform-style:preserve-3d}
+.flip.on .flip-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;padding:16px;display:flex;flex-direction:column;justify-content:center}
+.front{background:#fff;border:1px solid var(--line);text-align:center;align-items:center}
+.front .ic{font-size:34px}
+.front b{color:var(--navy);margin-top:6px}
+.front small{color:var(--muted);font-size:12.5px;margin-top:4px}
+.back{background:var(--navy);color:#fff;transform:rotateY(180deg);font-size:14.5px;line-height:1.5}
+.back b{color:#7ee0d6;display:block;margin-bottom:4px}
+/* email mock */
+.mail{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:16px 0;font-family:Inter,"Noto Sans Devanagari",sans-serif}
+.mail-bar{background:#eef1f5;padding:8px 14px;font-size:12.5px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.mail-bar i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.mail-h{padding:14px 18px;border-bottom:1px solid var(--line);font-size:14.5px}
+.mail-h div{margin:3px 0}
+.mail-h span.k{color:var(--muted);display:inline-block;min-width:68px}
+.mail-b{padding:18px;font-size:15px}
+.hs{background:transparent;border:0;padding:1px 3px;border-radius:4px;color:inherit;text-align:left;border-bottom:2px dashed transparent;transition:.15s}
+.hunt .hs{border-bottom-color:#c9d3de}
+.hunt .hs:hover{background:var(--amber-l);border-bottom-color:var(--amber)}
+.hs.found{background:var(--red-l);border-bottom:2px solid var(--red)!important;color:var(--red);font-weight:600}
+.fakebtn{display:inline-block;background:#1a73e8;color:#fff!important;padding:8px 18px;border-radius:6px;font-weight:600;margin:6px 0}
+.hs.fakebtn.found{background:var(--red);color:#fff!important}
+.attach{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:13.5px;margin-top:6px}
+.found-list{list-style:none;padding:0;margin:10px 0 0}
+.found-list li{background:var(--red-l);border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:14.5px;animation:pop .3s}
+.found-list li b{color:var(--red)}
+@keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.counter{display:inline-flex;align-items:center;gap:8px;background:var(--navy);color:#fff;border-radius:999px;padding:6px 14px;font-weight:700;font-size:14px}
+/* scenario */
+.scn{border:1px solid var(--line);border-radius:14px;padding:20px;background:#fff}
+.scn-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.badge{font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--bg);color:var(--muted)}
+.msg{border-radius:12px;padding:14px 16px;font-size:15px;margin-bottom:14px;white-space:pre-line}
+.msg.sms{background:#e9edf2;border-radius:16px 16px 16px 4px;max-width:520px}
+.msg.wa{background:#dcf8c6;border-radius:16px 16px 16px 4px;max-width:520px}
+.msg.email{background:#fff;border:1px solid var(--line)}
+.msg.call{background:var(--navy);color:#fff}
+.msg.poster{background:#fffbe6;border:2px dashed #e0b400;text-align:center}
+.msg .meta{display:block;font-size:12.5px;opacity:.7;margin-bottom:4px;white-space:normal}
+.choices{display:flex;gap:10px;flex-wrap:wrap}
+.btn{border:0;border-radius:10px;padding:11px 20px;font-weight:600;font-size:15px;transition:.15s}
+.btn-phish{background:var(--red);color:#fff}.btn-phish:hover{filter:brightness(1.08)}
+.btn-legit{background:var(--green);color:#fff}.btn-legit:hover{filter:brightness(1.08)}
+.btn-pri{background:var(--teal);color:#fff}.btn-pri:hover{filter:brightness(1.08)}
+.btn-sec{background:#fff;color:var(--navy);border:1.5px solid var(--line)}
+.btn-sec:hover{border-color:var(--navy)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.fb{border-radius:12px;padding:14px 16px;margin-top:14px;animation:pop .3s}
+.fb.ok{background:var(--green-l);border-left:4px solid var(--green)}
+.fb.no{background:var(--red-l);border-left:4px solid var(--red)}
+.fb b.t{display:block;margin-bottom:4px}
+.fb ul{margin:6px 0 0;padding-left:20px}
+.dots{display:flex;gap:6px}
+.dots i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.dots i.ok{background:var(--green)}.dots i.no{background:var(--red)}.dots i.cur{outline:2px solid var(--navy);outline-offset:1px}
+/* url */
+.url-anat{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:15px;background:#0f1b2b;color:#cfe0f5;padding:16px;border-radius:12px;overflow-x:auto;white-space:nowrap}
+.url-anat .p{color:#8aa0b8}.url-anat .s{color:#ffd479}.url-anat .d{color:#5ef0c0;font-weight:700;text-decoration:underline}.url-anat .x{color:#c49cff}
+.url-legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13.5px;margin:10px 0 4px}
+.url-legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:middle;background:var(--c)}
+.url-opt{display:block;width:100%;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:12px 14px;margin-bottom:8px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14.5px;word-break:break-all}
+.url-opt:hover{border-color:var(--navy)}
+.url-opt.ok{border-color:var(--green);background:var(--green-l)}
+.url-opt.no{border-color:var(--red);background:var(--red-l)}
+.url-opt small{display:block;font-family:Inter,"Noto Sans Devanagari",sans-serif;font-size:13.5px;margin-top:4px;color:var(--ink)}
+/* steps */
+.steps{counter-reset:s;display:grid;gap:12px;margin-top:10px}
+.step{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fff}
+.step .n{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-weight:800;color:#fff;font-size:15px}
+.step b{display:block;color:var(--navy)}
+.acc{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden;background:#fff}
+.acc>button{width:100%;text-align:left;border:0;background:#fff;padding:14px 16px;font-weight:600;color:var(--navy);display:flex;justify-content:space-between;align-items:center}
+.acc>button::after{content:"+";font-size:22px;color:var(--teal);line-height:1}
+.acc.open>button::after{content:"–"}
+.acc .ab{display:none;padding:0 16px 14px}
+.acc.open .ab{display:block}
+.acc ol,.acc ul{margin:0;padding-left:22px}
+.check{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:10px;border:1px solid var(--line);margin-bottom:8px;background:#fff;cursor:pointer}
+.check input{margin-top:5px;width:18px;height:18px;accent-color:var(--teal);flex:none}
+.check.on{background:var(--teal-l);border-color:var(--teal)}
+/* quiz */
+.q-opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:13px 16px;margin-bottom:10px;font-size:15.5px;color:var(--ink)}
+.q-opt:hover:not(:disabled){border-color:var(--navy)}
+.q-opt .l{flex:none;width:26px;height:26px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-weight:700;font-size:13px}
+.q-opt.ok{border-color:var(--green);background:var(--green-l)}
+.q-opt.ok .l{background:var(--green);color:#fff}
+.q-opt.no{border-color:var(--red);background:var(--red-l)}
+.q-opt.no .l{background:var(--red);color:#fff}
+.q-opt:disabled{cursor:default}
+.qbar{height:8px;background:var(--bg);border-radius:99px;overflow:hidden;margin:10px 0 20px}
+.qbar i{display:block;height:100%;background:var(--teal);transition:width .3s}
+.score-ring{width:150px;height:150px;margin:10px auto}
+.cert{border:3px double var(--navy);border-radius:16px;padding:34px;text-align:center;background:linear-gradient(#fff,#f7fbfb);margin-top:18px}
+.cert h3{font-size:24px;margin:6px 0}
+.cert .nm{font-size:26px;font-weight:800;color:var(--teal);border-bottom:2px solid var(--line);display:inline-block;padding:0 20px 4px;margin:10px 0}
+input[type=text]{font-family:inherit;font-size:16px;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;width:100%;max-width:360px}
+.navbtns{display:flex;justify-content:space-between;gap:12px;margin-top:6px}
+.muted{color:var(--muted)}
+.center{text-align:center}
+.mt{margin-top:16px}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;transition:.3s;pointer-events:none;z-index:50}
+.toast.on{opacity:1}
+/* proctoring */
+body.proctoring nav.side{display:none}
+body.proctoring .wrap{grid-template-columns:1fr;max-width:920px}
+body.proctoring main{user-select:none;-webkit-user-select:none}
+body.proc-locked main{filter:blur(10px);pointer-events:none}
+#proc-overlay{position:fixed;inset:0;background:rgba(15,42,74,.82);z-index:100;display:grid;place-items:center;padding:20px}
+#proc-overlay[hidden]{display:none}
+.pov-card{background:#fff;border-radius:16px;padding:28px 30px;max-width:500px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.35);animation:pop .25s}
+.pov-card.warn{border-top:6px solid var(--red)}
+.pov-card h3{margin:6px 0 10px;color:var(--red);font-size:22px}
+.pov-ic{font-size:42px;line-height:1.1}
+.pov-strong{font-weight:700;color:var(--navy)}
+#proc-timer{position:fixed;top:74px;right:20px;z-index:30;background:var(--navy);color:#fff;border-radius:999px;padding:8px 16px;font-size:14.5px;box-shadow:0 4px 14px rgba(0,0,0,.2);font-variant-numeric:tabular-nums;display:flex;gap:12px;align-items:center}
+#proc-timer[hidden]{display:none}
+#proc-timer.low{background:var(--red)}
+.q-opt.sel{border-color:var(--navy);background:#eef3fa;box-shadow:inset 0 0 0 1px var(--navy)}
+.q-opt.sel .l{background:var(--navy);color:#fff}
+.qnav{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center}
+.qnav .muted{font-size:13.5px}
+#cam-box{position:fixed;right:16px;bottom:16px;z-index:40;width:200px;border-radius:12px;overflow:hidden;background:#000;box-shadow:0 6px 20px rgba(0,0,0,.3);border:2px solid #fff}
+#cam-box[hidden]{display:none}
+body.cam-on .wrap{padding-bottom:200px}
+#cam-box video{display:block;width:100%;height:auto;transform:scaleX(-1)}
+#cam-status{position:absolute;left:8px;bottom:8px;background:rgba(0,0,0,.65);color:#7ee0a0;font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px}
+#cam-status.bad{color:#ff8a80}
+.camcheck{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:0 0 12px;background:#fafcfd}
+.camcheck .btn{margin-top:6px}
+.extok{color:var(--green);font-weight:600;margin:0 0 12px}
+#extcheck ul{margin:6px 0 10px}
+@media (max-width:600px){#cam-box{width:120px;right:10px;bottom:64px}}
+#proc-timer .pt-w{background:rgba(255,255,255,.16);border-radius:999px;padding:2px 10px;font-size:13px}
+.rules{padding-left:22px;margin:12px 0 18px}.rules li{margin-bottom:9px}
+.endbanner{text-align:left;margin:4px 0 10px}
+@media (max-width:600px){#proc-timer{top:auto;bottom:16px;right:50%;transform:translateX(50%)}}
+
+.cert-logo{display:block;height:84px;width:auto;margin:0 auto 10px}
+.cert-org{font-size:20px;font-weight:800;letter-spacing:.14em;color:var(--navy);margin-bottom:4px}
+.badge.dom{display:inline-block;background:var(--teal-l);color:var(--navy);margin:-2px 0 6px}
+.idform{display:grid;gap:14px;max-width:460px;margin-top:16px}
+.idform label{display:grid;gap:6px;font-weight:600;font-size:14.5px;color:var(--navy)}
+.idform input{max-width:none;font-weight:400}
+.idform input:focus,input[type=text]:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-l)}
+.idpill{display:inline-flex;flex-wrap:wrap;gap:6px;align-items:center;background:var(--bg);border-radius:999px;padding:6px 14px;font-size:13.5px;margin-top:8px;color:var(--muted)}
+.idpill b{color:var(--navy)}
+.linkbtn{border:0;background:none;color:var(--teal);font-weight:600;text-decoration:underline;padding:0 0 0 4px;font-size:13.5px}
+.savebar{display:inline-block;border-radius:12px;padding:10px 16px;margin:6px auto;font-size:14.5px;max-width:560px}
+.savebar.saving{background:var(--amber-l)}.savebar.ok{background:var(--green-l);color:var(--green)}.savebar.err{background:var(--red-l);color:var(--red)}
+@media (max-width:900px){
+  .wrap{grid-template-columns:1fr}
+  nav.side{position:static;display:flex;overflow-x:auto;gap:4px}
+  nav.side button{flex:none;width:auto;white-space:nowrap}
+  .g3{grid-template-columns:1fr 1fr}
+}
+@media (max-width:600px){
+  .g2,.g3{grid-template-columns:1fr}
+  .card{padding:20px 18px}
+  h2{font-size:23px}.hero h2{font-size:26px}
+  .top h1{font-size:15px}
+}
+@media print{
+  header.top,nav.side,.navbtns,.noprint{display:none!important}
+  .wrap{display:block;padding:0}
+  .card{border:0}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <div class="logo" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 9.5-8 11-4.5-1.5-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></svg>
+    </div>
+    <h1 id="tTitle">Phishing Awareness<small id="tSub">Cyber Security Training</small></h1>
+    <div class="spacer"></div>
+    <div class="lang" role="group" aria-label="Language">
+      <button id="bEn" class="on" onclick="setLang('en')">English</button>
+      <button id="bHi" onclick="setLang('hi')">हिंदी</button>
+    </div>
+  </div>
+  <div class="progress"><i id="prog"></i></div>
+</header>
+
+<div class="wrap">
+  <nav class="side" id="side" aria-label="Lessons"></nav>
+  <main id="main" tabindex="-1"></main>
+</div>
+<div class="toast" id="toast"></div>
+<div id="proc-overlay" hidden></div>
+<div id="proc-timer" hidden></div>
+<div id="cam-box" hidden><video id="cam-video" muted playsinline autoplay></video><span id="cam-status"></span></div>
+
+<script>
+/* =========================================================
+   EDIT HERE: organisation-specific settings
+   ========================================================= */
+const CONFIG = {
+  orgName: { en: "our organisation", hi: "हमारी संस्था" },
+  reportTo: {
+    en: "the IT / Information Security team (use the 'Report Phishing' button in Outlook, or email your IT helpdesk)",
+    hi: "IT / सूचना सुरक्षा टीम (Outlook में 'Report Phishing' बटन का उपयोग करें, या IT हेल्पडेस्क को ईमेल करें)"
+  },
+  passMark: 80,
+  // Where quiz results are sent. Leave "" when this page is served by the Render app itself.
+  // If you upload this page to an LMS instead, put your Render URL here, e.g. "https://phishing-quiz.onrender.com",
+  // and add the LMS website address to ALLOWED_ORIGINS on Render.
+  apiBase: "",
+  saveResults: true,
+  // Proctoring
+  camera: true,          // webcam required: face checks + photos
+  record: true,          // record camera video + microphone sound for the whole test (needs a microphone)
+  timeLimitMin: 30,      // 0 = no time limit
+  maxWarnings: 2,        // warnings before the assessment is ended (3rd rule break ends it)
+  shuffle: true,         // random order of questions and answer options
+  moduleId: "advanced"
+};
+
+/* =========================================================
+   CONTENT (English + Hindi)
+   ========================================================= */
+const UI = {
+  en:{title:"Phishing Awareness — Advanced",sub:"Cyber Security Training · CISA-level assessment · approx. 45 min",next:"Next",prev:"Back",
+      lessons:["Welcome","What is Phishing?","Spot the Red Flags","Phish or Legit?","Check the Link","Stop · Think · Report","Final Assessment (25 Q)"],
+      lessonWord:"Lesson",markDone:"Lesson completed",unlockQuiz:"Start the quiz",phish:"🎣 Phishing",legit:"✅ Legitimate",
+      correct:"Correct!",wrong:"Not quite.",scnOf:"Scenario",of:"of",nextScn:"Next scenario",seeResults:"See my results",
+      tapFlip:"Tap to flip",qOf:"Question",submit:"Check answer",nextQ:"Next question",finish:"Finish quiz",
+      passed:"Congratulations — you passed!",failed:"You did not reach the pass mark yet.",scoreTxt:"Your score",
+      passNeed:"Pass mark",retry:"Retake quiz",review:"Review lessons",nameLbl:"Enter your name for the certificate",
+      genCert:"Show certificate",certTitle:"Certificate of Completion",certBody:"has successfully completed the training",
+      course:"Phishing Awareness — Advanced Assessment (CISA-level)",date:"Date",score:"Score",print:"Print / Save as PDF",
+      printFail:"Printing is not available in this preview. Use your browser's print option or open the module from your LMS.",
+      found:"Red flags found",revealAll:"Show all red flags",huntDone:"Excellent! You found all the red flags.",
+      clickHint:"👆 Click on anything in this email that looks suspicious.",
+      scnScore:"You identified correctly",urlQ:"Which link really belongs to SecureBank (securebank.in)?",
+      langToast:"हिंदी में बदल दिया गया",
+      idTitle:"Before you begin the quiz",idSub:"Please enter your details. Your score will be recorded against your Employee ID.",
+      fName:"Full name",fEmp:"Employee ID",fDept:"Department / Branch (optional)",fStart:"Start quiz",
+      eName:"Please enter your full name.",eEmp:"Please enter a valid Employee ID (letters, numbers, - _ / . only).",
+      takingAs:"Taking quiz as",change:"Change",
+      saving:"Saving your result…",saved:"Your result has been recorded.",attempt:"Attempt",
+      saveErr:"Your result could not be saved. Please check your internet connection and try again.",retrySave:"Retry saving",
+      empLbl:"Employee ID"},
+  hi:{title:"फ़िशिंग जागरूकता — उन्नत",sub:"साइबर सुरक्षा प्रशिक्षण · CISA-स्तरीय मूल्यांकन · लगभग 45 मिनट",next:"आगे",prev:"पीछे",
+      lessons:["स्वागत","फ़िशिंग क्या है?","ख़तरे के संकेत पहचानें","फ़िशिंग या असली?","लिंक की जाँच करें","रुकें · सोचें · रिपोर्ट करें","अंतिम मूल्यांकन (25 प्रश्न)"],
+      lessonWord:"पाठ",markDone:"पाठ पूरा हुआ",unlockQuiz:"क्विज़ शुरू करें",phish:"🎣 फ़िशिंग",legit:"✅ असली",
+      correct:"सही जवाब!",wrong:"सही नहीं।",scnOf:"स्थिति",of:"में से",nextScn:"अगली स्थिति",seeResults:"मेरा परिणाम देखें",
+      tapFlip:"पलटने के लिए टैप करें",qOf:"प्रश्न",submit:"उत्तर जाँचें",nextQ:"अगला प्रश्न",finish:"क्विज़ समाप्त करें",
+      passed:"बधाई हो — आप उत्तीर्ण हुए!",failed:"आप अभी उत्तीर्ण अंक तक नहीं पहुँचे।",scoreTxt:"आपका स्कोर",
+      passNeed:"उत्तीर्ण अंक",retry:"क्विज़ दोबारा दें",review:"पाठ दोबारा पढ़ें",nameLbl:"प्रमाणपत्र के लिए अपना नाम लिखें",
+      genCert:"प्रमाणपत्र देखें",certTitle:"पूर्णता प्रमाणपत्र",certBody:"ने यह प्रशिक्षण सफलतापूर्वक पूरा किया है",
+      course:"फ़िशिंग जागरूकता — उन्नत मूल्यांकन (CISA-स्तरीय)",date:"दिनांक",score:"स्कोर",print:"प्रिंट / PDF के रूप में सेव करें",
+      printFail:"इस प्रीव्यू में प्रिंट उपलब्ध नहीं है। ब्राउज़र का प्रिंट विकल्प उपयोग करें या LMS से मॉड्यूल खोलें।",
+      found:"ख़तरे के संकेत मिले",revealAll:"सभी संकेत दिखाएँ",huntDone:"बहुत बढ़िया! आपने सभी ख़तरे के संकेत ढूँढ लिए।",
+      clickHint:"👆 इस ईमेल में जो भी चीज़ संदिग्ध लगे, उस पर क्लिक करें।",
+      scnScore:"आपने सही पहचाना",urlQ:"कौन-सा लिंक वास्तव में SecureBank (securebank.in) का है?",
+      langToast:"Switched to English",
+      idTitle:"क्विज़ शुरू करने से पहले",idSub:"कृपया अपना विवरण भरें। आपका स्कोर आपकी कर्मचारी ID के साथ दर्ज किया जाएगा।",
+      fName:"पूरा नाम",fEmp:"कर्मचारी ID (Employee ID)",fDept:"विभाग / शाखा (वैकल्पिक)",fStart:"क्विज़ शुरू करें",
+      eName:"कृपया अपना पूरा नाम लिखें।",eEmp:"कृपया सही कर्मचारी ID लिखें (केवल अक्षर, अंक, - _ / .)।",
+      takingAs:"क्विज़ दे रहे हैं",change:"बदलें",
+      saving:"आपका परिणाम सेव हो रहा है…",saved:"आपका परिणाम दर्ज कर लिया गया है।",attempt:"प्रयास",
+      saveErr:"आपका परिणाम सेव नहीं हो सका। कृपया इंटरनेट कनेक्शन जाँचें और दोबारा कोशिश करें।",retrySave:"दोबारा सेव करें",
+      empLbl:"कर्मचारी ID"}
+};
+
+/* ---------- Lesson 2: red-flag hotspots ---------- */
+const FLAGS = {
+  from:{en:["Look-alike sender address","The display name says “HR Department”, but the domain is <i>hr-payroll-update.co</i> — not your company's real domain. Always check the actual email address, not just the name."],
+        hi:["नक़ली भेजने वाले का पता","नाम “HR Department” दिख रहा है, लेकिन डोमेन <i>hr-payroll-update.co</i> है — जो आपकी कंपनी का असली डोमेन नहीं है। हमेशा नाम नहीं, बल्कि पूरा ईमेल पता जाँचें।"]},
+  subj:{en:["Urgency and fear","“Suspended” and “within 2 hours” are pressure tactics. Attackers want you to act before you think."],
+        hi:["जल्दबाज़ी और डर","“निलंबित” और “2 घंटे के अंदर” जैसे शब्द दबाव बनाने के लिए हैं। हमलावर चाहते हैं कि आप सोचने से पहले ही कदम उठा लें।"]},
+  greet:{en:["Generic greeting","“Dear Employee” — your real HR team knows your name. Generic greetings are typical of mass phishing."],
+         hi:["सामान्य संबोधन","“प्रिय कर्मचारी” — आपकी असली HR टीम आपका नाम जानती है। सामान्य संबोधन बड़े पैमाने पर भेजे गए फ़िशिंग ईमेल की पहचान है।"]},
+  typo:{en:["Spelling and grammar mistakes","“you're salary acount” — official communication is usually proof-read. Errors are a warning sign (though AI-written phishing may have none)."],
+        hi:["वर्तनी और व्याकरण की गलतियाँ","“you're salary acount” — आधिकारिक संदेश आमतौर पर जाँच कर भेजे जाते हैं। गलतियाँ चेतावनी का संकेत हैं (हालाँकि AI से लिखे फ़िशिंग ईमेल में गलतियाँ नहीं भी हो सकतीं)।"]},
+  creds:{en:["Asking for password / OTP","No genuine department will ever ask for your password, PIN or OTP by email. This alone confirms it is phishing."],
+         hi:["पासवर्ड / OTP की माँग","कोई भी असली विभाग ईमेल पर आपका पासवर्ड, PIN या OTP कभी नहीं माँगेगा। सिर्फ़ यही बात साबित करती है कि यह फ़िशिंग है।"]},
+  link:{en:["Suspicious link","Hovering over the button reveals <i>http://hr-portal.verify-login.xyz</i> — an unknown domain, no HTTPS. Never click; hover first."],
+        hi:["संदिग्ध लिंक","बटन पर माउस ले जाने पर <i>http://hr-portal.verify-login.xyz</i> दिखता है — अनजान डोमेन, HTTPS भी नहीं। कभी क्लिक न करें; पहले होवर करके देखें।"]},
+  att:{en:["Dangerous attachment","A “.zip” or “.html” file from an unknown sender can contain malware or a fake login page. Don't open unexpected attachments."],
+       hi:["ख़तरनाक अटैचमेंट","अनजान भेजने वाले की “.zip” या “.html” फ़ाइल में मैलवेयर या नक़ली लॉगिन पेज हो सकता है। अप्रत्याशित अटैचमेंट न खोलें।"]}
+};
+
+/* ---------- Lesson 3: scenarios ---------- */
+const SCN = [
+ {type:"sms",ans:"phish",
+  meta:{en:"SMS from: VK-KYCUPD",hi:"SMS: VK-KYCUPD"},
+  msg:{en:"Dear Customer, your bank KYC expires TODAY. Your account will be BLOCKED. Update now: bit.ly/kyc-upd8 ",
+       hi:"प्रिय ग्राहक, आपका बैंक KYC आज समाप्त हो रहा है। आपका खाता ब्लॉक हो जाएगा। अभी अपडेट करें: bit.ly/kyc-upd8 "},
+  why:{en:["Banks do not send KYC links by SMS with shortened URLs.","Threat (“BLOCKED”) and a same-day deadline create panic.","This is <b>smishing</b> (SMS phishing). Visit your bank branch or official app instead."],
+       hi:["बैंक छोटे (shortened) URL के साथ SMS पर KYC लिंक नहीं भेजते।","धमकी (“ब्लॉक”) और आज की समय-सीमा घबराहट पैदा करती है।","यह <b>स्मिशिंग</b> (SMS फ़िशिंग) है। इसके बजाय बैंक शाखा या आधिकारिक ऐप का उपयोग करें।"]}},
+ {type:"wa",ans:"phish",
+  meta:{en:"WhatsApp · +91 98xxx xxx41 (profile photo: your Managing Director)",hi:"WhatsApp · +91 98xxx xxx41 (प्रोफ़ाइल फ़ोटो: आपके प्रबंध निदेशक)"},
+  msg:{en:"Hi, this is my new number. I'm in a board meeting and can't talk. I need you to arrange a payment of ₹2,40,000 to a vendor urgently. Keep this confidential, I'll explain later. Reply quickly.",
+       hi:"नमस्ते, यह मेरा नया नंबर है। मैं बोर्ड मीटिंग में हूँ और बात नहीं कर सकता। एक वेंडर को तुरंत ₹2,40,000 का भुगतान करवा दीजिए। इसे गोपनीय रखें, बाद में बताऊँगा। जल्दी जवाब दें।"},
+  why:{en:["This is <b>CEO fraud / whaling</b>. Anyone can copy a profile photo.","“New number”, “can't talk”, “urgent” and “confidential” are classic signs.","Verify by calling the person on their <b>known</b> number. Never bypass the payment approval process."],
+       hi:["यह <b>CEO फ्रॉड / व्हेलिंग</b> है। कोई भी प्रोफ़ाइल फ़ोटो कॉपी कर सकता है।","“नया नंबर”, “बात नहीं कर सकता”, “तुरंत” और “गोपनीय” — ये आम संकेत हैं।","व्यक्ति के <b>पहले से ज्ञात</b> नंबर पर कॉल करके पुष्टि करें। भुगतान की अनुमोदन प्रक्रिया को कभी न छोड़ें।"]}},
+ {type:"email",ans:"legit",
+  meta:{en:"Email from: IT Helpdesk <itsupport@[your-company-domain]> · sent to all staff",hi:"ईमेल: IT Helpdesk <itsupport@[आपकी-कंपनी-डोमेन]> · सभी कर्मचारियों को"},
+  msg:{en:"Dear colleagues,\nThe email server will be under scheduled maintenance this Saturday from 10 PM to 2 AM. Email may be unavailable during this window. No action is required from you.\nRegards, IT Team",
+       hi:"प्रिय सहकर्मियों,\nइस शनिवार रात 10 बजे से 2 बजे तक ईमेल सर्वर का निर्धारित रखरखाव होगा। इस दौरान ईमेल उपलब्ध नहीं रह सकता। आपको कुछ करने की आवश्यकता नहीं है।\nसादर, IT टीम"},
+  why:{en:["Comes from the known internal address and matches normal IT communication.","No link, no attachment, no request for credentials and “no action required”.","Still unsure? Confirming with the IT helpdesk by phone is always OK."],
+       hi:["यह जाने-पहचाने आंतरिक पते से आया है और सामान्य IT सूचना जैसा है।","कोई लिंक नहीं, कोई अटैचमेंट नहीं, पासवर्ड की माँग नहीं और “कुछ करने की आवश्यकता नहीं”।","फिर भी संदेह हो तो IT हेल्पडेस्क को फ़ोन करके पुष्टि करना हमेशा ठीक है।"]}},
+ {type:"call",ans:"phish",
+  meta:{en:"📞 Incoming call · “Bank Fraud Department”",hi:"📞 इनकमिंग कॉल · “बैंक फ्रॉड विभाग”"},
+  msg:{en:"“Sir/Madam, we have detected a suspicious transaction of ₹49,999 on your account. To block it, please tell me the OTP you just received on your phone.”",
+       hi:"“सर/मैडम, आपके खाते पर ₹49,999 का एक संदिग्ध लेन-देन दिखा है। इसे रोकने के लिए अभी आपके फ़ोन पर आया OTP बता दीजिए।”"},
+  why:{en:["This is <b>vishing</b> (voice phishing). The OTP will actually <i>authorise</i> a fraudulent transaction.","No bank, RBI, police or IT team will ever ask for your OTP.","Hang up and call the number printed on your card or the bank's official website."],
+       hi:["यह <b>विशिंग</b> (वॉइस फ़िशिंग) है। OTP बताने से असल में धोखाधड़ी वाला लेन-देन <i>मंज़ूर</i> हो जाएगा।","कोई भी बैंक, RBI, पुलिस या IT टीम कभी आपका OTP नहीं माँगेगी।","फ़ोन काट दें और अपने कार्ड पर छपे नंबर या बैंक की आधिकारिक वेबसाइट वाले नंबर पर कॉल करें।"]}},
+ {type:"email",ans:"phish",
+  meta:{en:"Email from: Accounts <accounts@abc-supp1iers.com> (your regular vendor is abc-suppliers.com)",hi:"ईमेल: Accounts <accounts@abc-supp1iers.com> (आपका नियमित वेंडर abc-suppliers.com है)"},
+  msg:{en:"Dear Sir,\nPlease note that our bank account has changed due to an audit. Kindly release this month's payment of ₹6,85,000 to the new account below. Updated details attached.\nThanks, Accounts Team",
+       hi:"महोदय,\nकृपया ध्यान दें कि ऑडिट के कारण हमारा बैंक खाता बदल गया है। इस महीने का ₹6,85,000 का भुगतान नीचे दिए गए नए खाते में करें। नए विवरण संलग्न हैं।\nधन्यवाद, अकाउंट्स टीम"},
+  why:{en:["“supp<b>1</b>iers” uses the number 1 instead of the letter l — a look-alike domain.","This is <b>Business Email Compromise (BEC)</b>. Bank-detail changes are a top fraud trick.","Always verify bank changes by calling the vendor on a number from your records — never one from the email."],
+       hi:["“supp<b>1</b>iers” में अक्षर l की जगह अंक 1 है — यह नक़ली (look-alike) डोमेन है।","यह <b>बिज़नेस ईमेल कॉम्प्रोमाइज़ (BEC)</b> है। बैंक विवरण बदलना सबसे आम धोखाधड़ी तरीक़ा है।","बैंक विवरण में बदलाव की पुष्टि हमेशा अपने रिकॉर्ड वाले नंबर पर वेंडर को कॉल करके करें — ईमेल में दिए नंबर पर कभी नहीं।"]}},
+ {type:"poster",ans:"phish",
+  meta:{en:"Sticker pasted near the office parking",hi:"ऑफ़िस पार्किंग के पास चिपका स्टिकर"},
+  msg:{en:"🎁 DIWALI BONUS FOR ALL EMPLOYEES!\nScan this QR code and log in with your office ID to claim ₹5,000\n▣ [QR CODE]",
+       hi:"🎁 सभी कर्मचारियों के लिए दिवाली बोनस!\nयह QR कोड स्कैन करें और ₹5,000 पाने के लिए अपनी ऑफ़िस ID से लॉगिन करें\n▣ [QR कोड]"},
+  why:{en:["This is <b>quishing</b> (QR-code phishing). QR codes hide the real web address.","Bonuses are never claimed by scanning random stickers or entering your login.","Report suspicious posters to Admin/IT. Check the URL your phone shows before opening any QR link."],
+       hi:["यह <b>क्विशिंग</b> (QR कोड फ़िशिंग) है। QR कोड असली वेब पता छिपा देता है।","बोनस कभी भी किसी अनजान स्टिकर को स्कैन करके या लॉगिन डालकर नहीं मिलता।","संदिग्ध पोस्टर की जानकारी Admin/IT को दें। कोई भी QR लिंक खोलने से पहले फ़ोन पर दिखने वाला URL जाँचें।"]}},
+ {type:"email",ans:"legit",
+  meta:{en:"Meeting invite from your manager (internal address) · Subject: Q3 portfolio review",hi:"आपके मैनेजर (आंतरिक पता) का मीटिंग इनवाइट · विषय: Q3 पोर्टफ़ोलियो समीक्षा"},
+  msg:{en:"Hi, as discussed in yesterday's call, sending the invite for Thursday 3 PM. Please bring the branch-wise collection numbers.\n— sent via your company calendar",
+       hi:"नमस्ते, कल की कॉल में जैसा तय हुआ था, गुरुवार दोपहर 3 बजे का इनवाइट भेज रहा हूँ। कृपया शाखा-वार कलेक्शन के आँकड़े साथ लाएँ।\n— कंपनी कैलेंडर से भेजा गया"},
+  why:{en:["Expected: it follows up on a conversation you actually had.","Internal sender, no external link, no request for credentials or money.","Context is your best friend — unexpected requests deserve suspicion; expected ones less so."],
+       hi:["अपेक्षित: यह आपकी असल में हुई बातचीत से जुड़ा है।","आंतरिक भेजने वाला, कोई बाहरी लिंक नहीं, पासवर्ड या पैसे की माँग नहीं।","संदर्भ सबसे अच्छा साथी है — अनपेक्षित माँगों पर संदेह करें; अपेक्षित संदेश पर कम।"]}}
+];
+
+/* ---------- Lesson 4: URL options ---------- */
+const URLS = [
+ {u:"https://securebank.in.account-verify.com/login",ok:false,
+  e:{en:"The real domain is <b>account-verify.com</b>. “securebank.in” is just a sub-domain placed in front to fool you.",hi:"असली डोमेन <b>account-verify.com</b> है। “securebank.in” केवल सामने जोड़ा गया सब-डोमेन है ताकि आप धोखा खा जाएँ।"}},
+ {u:"https://secure-bank-in.support/kyc",ok:false,
+  e:{en:"Domain is <b>secure-bank-in.support</b> — extra hyphens and an unusual ending. Not the bank.",hi:"डोमेन <b>secure-bank-in.support</b> है — अतिरिक्त हाइफ़न और अजीब एक्सटेंशन। यह बैंक नहीं है।"}},
+ {u:"https://netbanking.securebank.in/login",ok:true,
+  e:{en:"Correct! Reading right-to-left from the first “/”, the domain is <b>securebank.in</b>. “netbanking.” is the bank's own sub-domain.",hi:"सही! पहले “/” से पहले दाएँ से बाएँ पढ़ें, डोमेन <b>securebank.in</b> है। “netbanking.” बैंक का अपना सब-डोमेन है।"}},
+ {u:"https://securebаnk.in/login",ok:false,
+  e:{en:"Tricky! The “а” here is a Cyrillic letter that looks identical to “a” (a <b>homograph attack</b>). Type known addresses yourself or use bookmarks.",hi:"मुश्किल! यहाँ “а” एक सिरिलिक अक्षर है जो “a” जैसा ही दिखता है (<b>होमोग्राफ़ हमला</b>)। जाने-पहचाने पते ख़ुद टाइप करें या बुकमार्क का उपयोग करें।"}}
+];
+
+/* ---------- Final assessment: 25 CISA-level questions ---------- */
+const DOMAINS = {
+  1:{en:"CISA Domain 1 · Information Systems Auditing Process",hi:"CISA डोमेन 1 · सूचना प्रणाली ऑडिट प्रक्रिया"},
+  2:{en:"CISA Domain 2 · Governance & Management of IT",hi:"CISA डोमेन 2 · IT का गवर्नेंस और प्रबंधन"},
+  4:{en:"CISA Domain 4 · IS Operations & Business Resilience",hi:"CISA डोमेन 4 · IS संचालन और व्यावसायिक निरंतरता"},
+  5:{en:"CISA Domain 5 · Protection of Information Assets",hi:"CISA डोमेन 5 · सूचना संपत्तियों की सुरक्षा"}
+};
+const QUIZ = [
+ {d:5,a:1,
+  q:{en:"An IS auditor finds that phishing awareness training is delivered once a year, but the organisation has no way of knowing whether employee behaviour has changed. What is the BEST recommendation?",
+     hi:"एक IS ऑडिटर पाता है कि फ़िशिंग जागरूकता प्रशिक्षण साल में एक बार दिया जाता है, लेकिन संगठन के पास यह जानने का कोई तरीक़ा नहीं है कि कर्मचारियों का व्यवहार बदला या नहीं। सबसे अच्छी (BEST) सिफ़ारिश क्या है?"},
+  o:{en:["Move to quarterly e-learning modules, each ending with a short scored assessment","Run periodic phishing simulations and track click and report rates over time","Deploy an advanced email gateway that sandboxes links and attachments","Add more phishing scenarios to the annual course and raise its pass mark"],
+     hi:["हर तिमाही ई-लर्निंग मॉड्यूल चलाएँ, जिनके अंत में छोटा अंकित मूल्यांकन हो","समय-समय पर फ़िशिंग सिमुलेशन चलाएँ और क्लिक व रिपोर्ट दरों को लगातार ट्रैक करें","लिंक और अटैचमेंट को सैंडबॉक्स करने वाला उन्नत ईमेल गेटवे लगाएँ","वार्षिक कोर्स में और फ़िशिंग उदाहरण जोड़ें और उत्तीर्ण अंक बढ़ाएँ"]},
+  e:{en:"The gap is the lack of evidence about real behaviour. Only simulations measure what employees actually do. More frequent or harder training still measures knowledge, not behaviour, and a better gateway is a technical control that does not address the finding.",
+     hi:"कमी यह है कि वास्तविक व्यवहार का कोई सबूत नहीं है। केवल सिमुलेशन मापते हैं कि कर्मचारी असल में क्या करते हैं। अधिक बार या कठिन प्रशिक्षण अब भी ज्ञान मापता है, व्यवहार नहीं; और बेहतर गेटवे एक तकनीकी नियंत्रण है जो इस कमी को दूर नहीं करता।"}},
+ {d:5,a:3,
+  q:{en:"Customers are receiving fraudulent emails that display the organisation's exact domain in the “From” address. Which control would MOST effectively enable receiving mail servers to reject these messages?",
+     hi:"ग्राहकों को ऐसे धोखाधड़ी वाले ईमेल मिल रहे हैं जिनके “From” पते में संगठन का बिल्कुल वही डोमेन दिखता है। कौन-सा नियंत्रण प्राप्त करने वाले मेल सर्वरों को इन संदेशों को अस्वीकार करने में सबसे प्रभावी (MOST effectively) ढंग से सक्षम करेगा?"},
+  o:{en:["Enforce TLS encryption on all inbound and outbound mail connections","Publish an SPF record listing all authorised sending servers","Apply sender reputation and anti-spam scoring at the email gateway","Publish a DMARC policy at enforcement, aligned with SPF and DKIM"],
+     hi:["सभी आने-जाने वाले मेल कनेक्शन पर TLS एन्क्रिप्शन लागू करें","सभी अधिकृत भेजने वाले सर्वरों की सूची वाला SPF रिकॉर्ड प्रकाशित करें","ईमेल गेटवे पर भेजने वाले की प्रतिष्ठा और एंटी-स्पैम स्कोरिंग लागू करें","SPF और DKIM के साथ संरेखित (aligned), enforcement स्तर की DMARC नीति प्रकाशित करें"]},
+  e:{en:"SPF alone checks the hidden envelope sender, not the visible “From” address, and does not tell receivers what to do on failure. DMARC aligns SPF/DKIM with the visible domain and instructs receivers to quarantine or reject. TLS protects data in transit, and your own gateway's reputation scoring does not protect customers' inboxes.",
+     hi:"केवल SPF छिपे हुए envelope sender की जाँच करता है, दिखने वाले “From” पते की नहीं, और विफल होने पर क्या करना है यह नहीं बताता। DMARC, SPF/DKIM को दिखने वाले डोमेन से जोड़ता है और प्राप्तकर्ता को क्वारंटीन या अस्वीकार करने का निर्देश देता है। TLS केवल रास्ते में डेटा बचाता है, और आपके अपने गेटवे की स्कोरिंग ग्राहकों के इनबॉक्स की रक्षा नहीं करती।"}},
+ {d:5,a:0,
+  q:{en:"A finance executive receives an email that appears to come from the CFO, requesting an urgent transfer to a new beneficiary. Which control would MOST effectively prevent a financial loss?",
+     hi:"एक वित्त अधिकारी को CFO की ओर से दिखने वाला ईमेल मिलता है जिसमें एक नए लाभार्थी को तुरंत पैसे भेजने को कहा गया है। कौन-सा नियंत्रण वित्तीय नुक़सान को सबसे प्रभावी (MOST effectively) ढंग से रोकेगा?"},
+  o:{en:["Call-back on a known number and dual approval for new beneficiaries","Email filtering with impersonation detection for the names of senior executives","A warning banner on every email received from outside the organisation","Targeted business email compromise training for the whole finance team"],
+     hi:["ज्ञात नंबर पर कॉल-बैक और नए लाभार्थी के लिए दोहरी मंज़ूरी","वरिष्ठ अधिकारियों के नाम की नक़ल पहचानने वाली ईमेल फ़िल्टरिंग","संगठन के बाहर से आने वाले हर ईमेल पर चेतावनी बैनर","पूरी वित्त टीम के लिए बिज़नेस ईमेल कॉम्प्रोमाइज़ पर लक्षित प्रशिक्षण"]},
+  e:{en:"Filters, banners and training reduce the likelihood but can all be bypassed — for example, if the CFO's real mailbox is compromised, the email is internal and genuine-looking. A preventive control built into the payment process stops the loss regardless of how convincing the email is.",
+     hi:"फ़िल्टर, बैनर और प्रशिक्षण संभावना घटाते हैं, लेकिन सबको पार किया जा सकता है — जैसे, अगर CFO का असली मेलबॉक्स हैक हो जाए तो ईमेल आंतरिक और असली दिखेगा। भुगतान प्रक्रिया में बना निवारक नियंत्रण नुक़सान रोकता है, ईमेल कितना भी विश्वसनीय लगे।"}},
+ {d:4,a:2,
+  q:{en:"An employee reports that they clicked a phishing link and entered their network username and password on the page. What should the incident response team do FIRST?",
+     hi:"एक कर्मचारी बताता है कि उसने फ़िशिंग लिंक पर क्लिक करके पेज पर अपना नेटवर्क यूज़रनेम और पासवर्ड डाल दिया। इंसिडेंट रिस्पॉन्स टीम को सबसे पहले (FIRST) क्या करना चाहिए?"},
+  o:{en:["Isolate the employee's workstation from the network for forensic analysis","Block the phishing URL and sender domain at the gateway and web proxy","Reset the user's credentials and revoke all active sessions and tokens","Search all mailboxes for the same email and remove every copy"],
+     hi:["फ़ॉरेंसिक विश्लेषण के लिए कर्मचारी के कंप्यूटर को नेटवर्क से अलग करें","गेटवे और वेब प्रॉक्सी पर फ़िशिंग URL और भेजने वाले डोमेन को ब्लॉक करें","उपयोगकर्ता के क्रेडेंशियल रीसेट करें और सभी सक्रिय सेशन व टोकन रद्द करें","सभी मेलबॉक्स में वही ईमेल खोजें और उसकी हर कॉपी हटाएँ"]},
+  e:{en:"All four are valid steps, but the confirmed compromise is the credential, which the attacker can use from anywhere at any moment. Containing the account comes first. Blocking the URL and purging the email protect others next; isolating the PC matters mainly if malware is suspected.",
+     hi:"चारों कदम सही हैं, लेकिन पुष्टि हुआ नुक़सान क्रेडेंशियल का है, जिसे हमलावर कहीं से भी, किसी भी पल उपयोग कर सकता है। सबसे पहले खाते को नियंत्रित करना है। इसके बाद URL ब्लॉक करना और ईमेल हटाना दूसरों को बचाता है; कंप्यूटर अलग करना मुख्य रूप से मैलवेयर के संदेह में ज़रूरी है।"}},
+ {d:2,a:1,
+  q:{en:"Which metric BEST demonstrates the effectiveness of a phishing awareness programme to senior management?",
+     hi:"वरिष्ठ प्रबंधन को फ़िशिंग जागरूकता कार्यक्रम की प्रभावशीलता दिखाने के लिए कौन-सा मीट्रिक सबसे अच्छा (BEST) है?"},
+  o:{en:["Percentage of all employees who completed the annual training on time","Trend in simulation click rates and report rates across campaigns","Average score achieved in the post-training knowledge quiz","Number of phishing emails blocked by the gateway each month"],
+     hi:["समय पर वार्षिक प्रशिक्षण पूरा करने वाले कर्मचारियों का प्रतिशत","विभिन्न अभियानों में सिमुलेशन क्लिक दर और रिपोर्ट दर का रुझान","प्रशिक्षण के बाद की ज्ञान-क्विज़ में औसत स्कोर","गेटवे द्वारा हर महीने ब्लॉक किए गए फ़िशिंग ईमेल की संख्या"]},
+  e:{en:"Completion measures activity, quiz scores measure knowledge, and blocked emails measure the gateway. Only a behavioural trend — fewer clicks, more reports — shows that the programme is reducing human risk.",
+     hi:"पूर्णता गतिविधि मापती है, क्विज़ स्कोर ज्ञान मापता है, और ब्लॉक हुए ईमेल गेटवे को मापते हैं। केवल व्यवहार का रुझान — कम क्लिक, अधिक रिपोर्ट — दिखाता है कि कार्यक्रम मानवीय जोखिम घटा रहा है।"}},
+ {d:5,a:0,
+  q:{en:"Multi-factor authentication (MFA) is PRIMARILY effective against which phishing-related risk?",
+     hi:"मल्टी-फ़ैक्टर ऑथेंटिकेशन (MFA) फ़िशिंग से जुड़े किस जोखिम के विरुद्ध मुख्य रूप से (PRIMARILY) प्रभावी है?"},
+  o:{en:["Account takeover using credentials captured on a fake login page","Malicious emails sent from spoofed domains reaching users' inboxes","Malware executing from attachments that users open","Sensitive data being sent to attackers by deceived employees"],
+     hi:["नक़ली लॉगिन पेज पर पकड़े गए क्रेडेंशियल से खाते पर क़ब्ज़ा","नक़ली डोमेन से दुर्भावनापूर्ण ईमेल का उपयोगकर्ताओं के इनबॉक्स तक पहुँचना","उपयोगकर्ता द्वारा खोले गए अटैचमेंट से मैलवेयर का चलना","धोखा खाए कर्मचारियों द्वारा हमलावरों को संवेदनशील डेटा भेजना"]},
+  e:{en:"MFA makes a stolen password insufficient on its own to log in. It does not stop emails arriving, malware running, or employees voluntarily sending data — those need email authentication, endpoint controls and DLP.",
+     hi:"MFA सुनिश्चित करता है कि केवल चोरी हुआ पासवर्ड लॉगिन के लिए काफ़ी न हो। यह ईमेल आने, मैलवेयर चलने या कर्मचारियों के ख़ुद डेटा भेजने को नहीं रोकता — उनके लिए ईमेल प्रमाणीकरण, एंडपॉइंट नियंत्रण और DLP चाहिए।"}},
+ {d:5,a:3,
+  q:{en:"Attackers holding a valid password are sending repeated MFA push requests until a user approves one (“MFA fatigue”). Which control BEST addresses this?",
+     hi:"सही पासवर्ड वाले हमलावर बार-बार MFA पुश अनुरोध भेज रहे हैं ताकि कोई उपयोगकर्ता एक को मंज़ूर कर दे (“MFA fatigue”)। कौन-सा नियंत्रण इसका सबसे अच्छा (BEST) समाधान है?"},
+  o:{en:["Lock the account after a set number of consecutive failed password attempts","Train users to deny any MFA prompt that they did not initiate","Replace push notifications with SMS one-time passcodes","Use number matching or phishing-resistant MFA and limit push requests"],
+     hi:["लगातार तय संख्या में ग़लत पासवर्ड प्रयासों के बाद खाता लॉक करें","उपयोगकर्ताओं को सिखाएँ कि जो MFA प्रॉम्प्ट उन्होंने शुरू नहीं किया उसे अस्वीकार करें","पुश नोटिफ़िकेशन की जगह SMS वन-टाइम पासकोड का उपयोग करें","नंबर मैचिंग या फ़िशिंग-रोधी MFA अपनाएँ और पुश अनुरोध सीमित करें"]},
+  e:{en:"The attacker has the correct password, so lockout never triggers. Training helps but relies on every user, every time. SMS OTP is weaker and can itself be phished. Number matching and FIDO2/passkeys technically prevent blind approval.",
+     hi:"हमलावर के पास सही पासवर्ड है, इसलिए लॉकआउट कभी लागू नहीं होगा। प्रशिक्षण मदद करता है, लेकिन हर उपयोगकर्ता पर हर बार निर्भर है। SMS OTP कमज़ोर है और ख़ुद फ़िश हो सकता है। नंबर मैचिंग और FIDO2/पासकी तकनीकी रूप से बिना देखे मंज़ूरी को रोकते हैं।"}},
+ {d:4,a:2,
+  q:{en:"While reviewing the phishing incident-handling process, which finding should be of GREATEST concern to the IS auditor?",
+     hi:"फ़िशिंग घटना-प्रबंधन प्रक्रिया की समीक्षा में IS ऑडिटर के लिए कौन-सी बात सबसे अधिक (GREATEST) चिंता की होनी चाहिए?"},
+  o:{en:["Reported phishing emails are reviewed only during business hours","The “Report Phishing” button is not available in the mobile mail app used by staff","There is no procedure to purge the same email from other mailboxes","Phishing incidents are not categorised by severity in the ticketing tool"],
+     hi:["रिपोर्ट किए गए फ़िशिंग ईमेल की समीक्षा केवल कार्य-समय में होती है","कर्मचारियों के मोबाइल मेल ऐप में “Report Phishing” बटन उपलब्ध नहीं है","उसी ईमेल को दूसरे मेलबॉक्स से हटाने की कोई प्रक्रिया नहीं है","टिकटिंग टूल में फ़िशिंग घटनाओं को गंभीरता के अनुसार वर्गीकृत नहीं किया जाता"]},
+  e:{en:"All four are weaknesses, but campaigns reach many users at once. Without search-and-purge, every other recipient can still click the same email after it has been reported — the largest residual exposure.",
+     hi:"चारों कमज़ोरियाँ हैं, लेकिन अभियान एक साथ कई उपयोगकर्ताओं तक पहुँचते हैं। खोजकर हटाने की प्रक्रिया के बिना, रिपोर्ट होने के बाद भी हर दूसरा प्राप्तकर्ता उसी ईमेल पर क्लिक कर सकता है — यही सबसे बड़ा बचा हुआ जोखिम है।"}},
+ {d:5,a:1,
+  q:{en:"Which characteristic MOST distinguishes spear phishing from other phishing attacks?",
+     hi:"कौन-सी विशेषता स्पीयर फ़िशिंग को अन्य फ़िशिंग हमलों से सबसे अधिक (MOST) अलग करती है?"},
+  o:{en:["It uses a convincing spoofed address of a trusted organisation","It is personalised using information gathered about the target","It avoids links and attachments so that it can bypass email filters","It targets senior executives who have authority over payments"],
+     hi:["यह किसी भरोसेमंद संगठन के विश्वसनीय नक़ली पते का उपयोग करती है","यह निशाने के बारे में जुटाई गई जानकारी से व्यक्तिगत बनाई जाती है","यह ईमेल फ़िल्टर से बचने के लिए लिंक और अटैचमेंट का उपयोग नहीं करती","यह भुगतान का अधिकार रखने वाले वरिष्ठ अधिकारियों को निशाना बनाती है"]},
+  e:{en:"Spoofing and filter evasion appear in many kinds of phishing. Targeting senior executives specifically is “whaling”, a subset. The defining feature of spear phishing is personalisation based on reconnaissance.",
+     hi:"नक़ली पता और फ़िल्टर से बचना कई तरह की फ़िशिंग में होता है। ख़ास तौर पर वरिष्ठ अधिकारियों को निशाना बनाना “व्हेलिंग” है, जो इसका एक हिस्सा है। स्पीयर फ़िशिंग की असली पहचान पहले से जुटाई जानकारी पर आधारित व्यक्तिगत संदेश है।"}},
+ {d:2,a:0,
+  q:{en:"What is the PRIMARY benefit of a policy stating that no one — including IT staff — will ever ask an employee for their password or OTP?",
+     hi:"इस नीति का मुख्य (PRIMARY) लाभ क्या है कि कोई भी — IT स्टाफ़ भी — किसी कर्मचारी से कभी उसका पासवर्ड या OTP नहीं माँगेगा?"},
+  o:{en:["Any request for a password or OTP becomes a clear sign of social engineering","It establishes accountability for actions performed with each user's credentials","It enforces segregation of duties between IT administrators and end users","It supports compliance with regulatory requirements for strong authentication"],
+     hi:["पासवर्ड या OTP की कोई भी माँग साफ़ तौर पर सोशल इंजीनियरिंग का संकेत बन जाती है","इससे हर उपयोगकर्ता के क्रेडेंशियल से किए गए कार्यों की जवाबदेही तय होती है","इससे IT प्रशासकों और उपयोगकर्ताओं के बीच कर्तव्यों का पृथक्करण लागू होता है","इससे मज़बूत प्रमाणीकरण की नियामक आवश्यकताओं के अनुपालन में मदद मिलती है"]},
+  e:{en:"Accountability, segregation of duties and compliance are secondary effects. The primary purpose is to remove ambiguity: employees do not need to judge whether a caller is genuine, because the request itself proves it is not.",
+     hi:"जवाबदेही, कर्तव्यों का पृथक्करण और अनुपालन गौण प्रभाव हैं। मुख्य उद्देश्य असमंजस हटाना है: कर्मचारी को यह तय नहीं करना पड़ता कि कॉल करने वाला असली है या नहीं, क्योंकि माँग ही साबित करती है कि वह असली नहीं है।"}},
+ {d:5,a:3,
+  q:{en:"Which control would BEST provide early warning of newly registered look-alike domains (for example, company-payroll.co) that could be used to target both employees and customers?",
+     hi:"कौन-सा नियंत्रण नए रजिस्टर हुए मिलते-जुलते डोमेन (जैसे company-payroll.co) की सबसे अच्छी (BEST) शुरुआती चेतावनी देगा, जिनका उपयोग कर्मचारियों और ग्राहकों दोनों को निशाना बनाने में हो सकता है?"},
+  o:{en:["DNS filtering that blocks employees from visiting newly registered domains","Gateway rules that quarantine email from domains less than 30 days old","Periodic review of the organisation's own DNS and SPF records","A brand monitoring service that alerts on look-alike domain registrations"],
+     hi:["DNS फ़िल्टरिंग जो कर्मचारियों को नए रजिस्टर हुए डोमेन पर जाने से रोके","गेटवे नियम जो 30 दिन से नए डोमेन के ईमेल को क्वारंटीन करें","संगठन के अपने DNS और SPF रिकॉर्ड की समय-समय पर समीक्षा","डोमेन और ब्रांड मॉनिटरिंग सेवा जो मिलते-जुलते डोमेन के रजिस्ट्रेशन पर अलर्ट दे"]},
+  e:{en:"DNS filtering and domain-age rules protect employees only, and only once an attack is under way — customers remain exposed. Reviewing your own DNS does not reveal domains registered by others. Monitoring detects look-alikes at registration, allowing blocking and takedown before campaigns begin.",
+     hi:"DNS फ़िल्टरिंग और डोमेन-आयु नियम केवल कर्मचारियों को बचाते हैं, और वह भी हमला शुरू होने पर — ग्राहक असुरक्षित रहते हैं। अपने DNS की समीक्षा से दूसरों के रजिस्टर किए डोमेन का पता नहीं चलता। मॉनिटरिंग रजिस्ट्रेशन के समय ही पहचान करती है, जिससे अभियान शुरू होने से पहले ब्लॉक और बंद कराना संभव होता है।"}},
+ {d:2,a:2,
+  q:{en:"Who should be designated as the risk owner for business email compromise (BEC) affecting vendor payments?",
+     hi:"वेंडर भुगतान को प्रभावित करने वाले बिज़नेस ईमेल कॉम्प्रोमाइज़ (BEC) के जोखिम का स्वामी (risk owner) किसे नामित किया जाना चाहिए?"},
+  o:{en:["The Chief Information Security Officer","The Chief Risk Officer, who maintains the risk framework","The head of finance, as owner of the payment process","The IT steering committee that oversees technology risk"],
+     hi:["मुख्य सूचना सुरक्षा अधिकारी (CISO)","मुख्य जोखिम अधिकारी (CRO), जो जोखिम ढाँचा संभालते हैं","भुगतान प्रक्रिया के स्वामी के रूप में वित्त प्रमुख","तकनीकी जोखिम की निगरानी करने वाली IT संचालन समिति"]},
+  e:{en:"The CISO advises on and implements security controls, the CRO maintains the risk framework and oversight, and the committee provides direction. The owner is the business executive accountable for the process and its losses, who decides on treatment.",
+     hi:"CISO सुरक्षा नियंत्रणों पर सलाह देता और उन्हें लागू करता है, CRO जोखिम ढाँचा और निगरानी संभालता है, और समिति दिशा देती है। स्वामी वह व्यवसाय प्रमुख है जो प्रक्रिया और उसके नुक़सान के लिए जवाबदेह है और जोखिम उपचार पर निर्णय लेता है।"}},
+ {d:1,a:0,
+  q:{en:"An IS auditor needs to evaluate whether phishing awareness training has changed employee behaviour. Which evidence is MOST reliable?",
+     hi:"IS ऑडिटर को आकलन करना है कि फ़िशिंग जागरूकता प्रशिक्षण से कर्मचारियों का व्यवहार बदला या नहीं। कौन-सा सबूत सबसे विश्वसनीय (MOST reliable) है?"},
+  o:{en:["Results of unannounced phishing simulations across several campaigns","Post-training test scores recorded in the learning management system","A sample of training attendance records reconciled with HR lists","A survey in which employees rate their confidence in spotting phishing"],
+     hi:["कई अभियानों में किए गए अघोषित फ़िशिंग सिमुलेशन के परिणाम","लर्निंग मैनेजमेंट सिस्टम में दर्ज प्रशिक्षण-पश्चात परीक्षा अंक","HR सूची से मिलान किए गए प्रशिक्षण उपस्थिति रिकॉर्ड का नमूना","सर्वेक्षण जिसमें कर्मचारी फ़िशिंग पहचानने के अपने आत्मविश्वास का मूल्यांकन करते हैं"]},
+  e:{en:"Test scores show knowledge, attendance shows participation, and self-assessment is subjective. Direct observation of behaviour under realistic conditions is the most reliable evidence of change.",
+     hi:"परीक्षा अंक ज्ञान दिखाते हैं, उपस्थिति भागीदारी दिखाती है, और स्व-मूल्यांकन व्यक्तिपरक होता है। वास्तविक परिस्थितियों में व्यवहार का प्रत्यक्ष अवलोकन बदलाव का सबसे विश्वसनीय सबूत है।"}},
+ {d:5,a:1,
+  q:{en:"Attackers send emails containing links that are harmless when delivered but are redirected to a malicious site several hours later. Which email security feature BEST addresses this?",
+     hi:"हमलावर ऐसे लिंक वाले ईमेल भेजते हैं जो पहुँचते समय हानिरहित होते हैं, लेकिन कुछ घंटों बाद दुर्भावनापूर्ण साइट पर भेज देते हैं। कौन-सा ईमेल सुरक्षा फ़ीचर इसका सबसे अच्छा (BEST) समाधान है?"},
+  o:{en:["Sender reputation and domain-age checks performed at the time of delivery","Time-of-click URL rewriting with real-time destination analysis","Sandboxing of attachments before messages are released to inboxes","Blocking of URL-shortener links in all incoming emails"],
+     hi:["ईमेल पहुँचते समय भेजने वाले की प्रतिष्ठा और डोमेन-आयु की जाँच","क्लिक के समय URL री-राइटिंग और गंतव्य का रियल-टाइम विश्लेषण","इनबॉक्स में भेजने से पहले अटैचमेंट की सैंडबॉक्सिंग","सभी आने वाले ईमेल में URL-शॉर्टनर लिंक ब्लॉक करना"]},
+  e:{en:"Delivery-time checks see only the harmless version of the link. Attachment sandboxing does not inspect links, and blocking shorteners covers only one technique. Rewritten links are re-evaluated every time a user clicks.",
+     hi:"पहुँचते समय की जाँच लिंक का केवल हानिरहित रूप देखती है। अटैचमेंट सैंडबॉक्सिंग लिंक की जाँच नहीं करती, और शॉर्टनर ब्लॉक करना केवल एक तरीक़े को रोकता है। री-राइट किए गए लिंक की हर क्लिक पर दोबारा जाँच होती है।"}},
+ {d:5,a:3,
+  q:{en:"Why are QR-code phishing (“quishing”) emails PARTICULARLY effective at bypassing an organisation's existing controls?",
+     hi:"QR कोड फ़िशिंग (“क्विशिंग”) ईमेल संगठन के मौजूदा नियंत्रणों को पार करने में ख़ास तौर पर (PARTICULARLY) प्रभावी क्यों होते हैं?"},
+  o:{en:["The QR code usually points to a site with a valid HTTPS certificate","Users trust QR codes because they scan them every day to make payments","The QR code is often placed in a PDF attachment instead of the email body","The URL sits in an image and is opened on an unmanaged phone"],
+     hi:["QR कोड आमतौर पर वैध HTTPS प्रमाणपत्र वाली साइट पर ले जाता है","उपयोगकर्ता QR कोड पर भरोसा करते हैं क्योंकि वे रोज़ भुगतान में इनका उपयोग करते हैं","QR कोड अक्सर ईमेल के बजाय PDF अटैचमेंट में रखा जाता है","URL इमेज में छिपा होता है और बिना प्रबंधन वाले फ़ोन पर खुलता है"]},
+  e:{en:"User trust and HTTPS make the lure convincing, but they do not explain bypassing controls. The key reason is technical: many scanners do not decode images, and the personal phone that opens the link is outside web filtering and endpoint protection.",
+     hi:"उपयोगकर्ता का भरोसा और HTTPS झांसे को विश्वसनीय बनाते हैं, लेकिन नियंत्रणों को पार करने का कारण नहीं हैं। मुख्य कारण तकनीकी है: कई स्कैनर इमेज डिकोड नहीं करते, और लिंक खोलने वाला निजी फ़ोन वेब फ़िल्टरिंग और एंडपॉइंट सुरक्षा के बाहर होता है।"}},
+ {d:5,a:2,
+  q:{en:"Which of the following is a DETECTIVE control against the consequences of a successful phishing attack?",
+     hi:"निम्नलिखित में से कौन-सा सफल फ़िशिंग हमले के परिणामों के विरुद्ध एक डिटेक्टिव (पता लगाने वाला) नियंत्रण है?"},
+  o:{en:["Annual security awareness training for all employees and contractors","A DMARC policy configured to reject spoofed email","SIEM alerts for impossible-travel and anomalous sign-ins","Dual authorisation for changes to vendor bank details"],
+     hi:["सभी कर्मचारियों और ठेकेदारों के लिए वार्षिक सुरक्षा जागरूकता प्रशिक्षण","नक़ली ईमेल को अस्वीकार करने के लिए कॉन्फ़िगर की गई DMARC नीति","असंभव यात्रा (impossible travel) और असामान्य लॉगिन के लिए SIEM अलर्ट","वेंडर बैंक विवरण में बदलाव के लिए दोहरी मंज़ूरी"]},
+  e:{en:"Training, DMARC reject and dual authorisation all aim to stop an event happening — they are preventive. SIEM alerts identify suspicious activity after credentials may already have been compromised.",
+     hi:"प्रशिक्षण, DMARC reject और दोहरी मंज़ूरी सभी घटना को होने से रोकने के लिए हैं — ये निवारक (preventive) हैं। SIEM अलर्ट क्रेडेंशियल लीक होने के बाद संदिग्ध गतिविधि की पहचान करते हैं।"}},
+ {d:4,a:0,
+  q:{en:"An employee forwards a suspicious email to several colleagues asking, “Is this genuine?” What is the PRIMARY risk?",
+     hi:"एक कर्मचारी संदिग्ध ईमेल कई सहकर्मियों को फ़ॉरवर्ड करके पूछता है, “क्या यह असली है?” मुख्य (PRIMARY) जोखिम क्या है?"},
+  o:{en:["It exposes more users and bypasses the formal reporting process","Forwarding may strip header information that analysts need to investigate","The forwarded copy may trigger data loss prevention alerts internally","Colleagues may reply to the sender to check whether it is authentic"],
+     hi:["अधिक उपयोगकर्ता ख़तरे में आते हैं और औपचारिक रिपोर्टिंग छूट जाती है","फ़ॉरवर्ड करने से हेडर की वह जानकारी हट सकती है जो विश्लेषकों को चाहिए","फ़ॉरवर्ड की गई कॉपी से आंतरिक DLP अलर्ट ट्रिगर हो सकते हैं","सहकर्मी प्रामाणिकता जाँचने के लिए भेजने वाले को जवाब दे सकते हैं"]},
+  e:{en:"Lost headers, DLP noise and replies to the attacker are real but secondary. The primary risk is that more people now hold a live phishing email while the security team, which could block and purge it, is unaware.",
+     hi:"हेडर का हटना, DLP अलर्ट और हमलावर को जवाब वास्तविक लेकिन गौण जोखिम हैं। मुख्य जोखिम यह है कि अब अधिक लोगों के पास सक्रिय फ़िशिंग ईमेल है, जबकि उसे ब्लॉक करके हटा सकने वाली सुरक्षा टीम अनजान है।"}},
+ {d:2,a:1,
+  q:{en:"Which is MOST important when establishing an internal phishing simulation programme?",
+     hi:"आंतरिक फ़िशिंग सिमुलेशन कार्यक्रम शुरू करते समय सबसे महत्वपूर्ण (MOST important) क्या है?"},
+  o:{en:["Using templates that closely mimic real attacks seen in the sector","Management approval, clear objectives and a non-punitive approach","Sending simulations at random times so employees cannot anticipate them","Providing immediate micro-training to users who click a simulated link"],
+     hi:["क्षेत्र में देखे गए असली हमलों जैसे टेम्पलेट का उपयोग करना","प्रबंधन की मंज़ूरी, स्पष्ट उद्देश्य और दंड-रहित दृष्टिकोण","अनियमित समय पर सिमुलेशन भेजना ताकि कर्मचारी पहले से अनुमान न लगा सकें","सिमुलेशन लिंक पर क्लिक करने वालों को तुरंत छोटा प्रशिक्षण देना"]},
+  e:{en:"Realistic templates, random timing and instant training are good practices, but they depend on a properly governed programme. Without approval, objectives and a supportive culture, simulations can create legal, HR and trust problems that discourage reporting.",
+     hi:"वास्तविक टेम्पलेट, अनियमित समय और तुरंत प्रशिक्षण अच्छी प्रथाएँ हैं, लेकिन ये सही ढंग से नियंत्रित कार्यक्रम पर निर्भर हैं। मंज़ूरी, उद्देश्य और सहयोगी माहौल के बिना सिमुलेशन क़ानूनी, HR और भरोसे की समस्याएँ पैदा कर सकते हैं जो रिपोर्टिंग को हतोत्साहित करती हैं।"}},
+ {d:1,a:2,
+  q:{en:"During an audit, the IS auditor finds the organisation's DMARC record is published with the policy p=none. What does this MOST likely indicate?",
+     hi:"ऑडिट के दौरान IS ऑडिटर पाता है कि संगठन का DMARC रिकॉर्ड p=none नीति के साथ प्रकाशित है। इसका सबसे संभावित (MOST likely) अर्थ क्या है?"},
+  o:{en:["Spoofed emails using the domain are delivered to recipients' spam folders","Aggregate DMARC reports are not being collected for the domain","Failing messages are reported but not blocked, so spoofing still works","Receiving servers do not perform SPF and DKIM checks for the domain"],
+     hi:["डोमेन का उपयोग करने वाले नक़ली ईमेल प्राप्तकर्ता के स्पैम फ़ोल्डर में जाते हैं","डोमेन के लिए DMARC की सामूहिक रिपोर्ट एकत्र नहीं की जा रही हैं","विफल संदेश केवल रिपोर्ट होते हैं, ब्लॉक नहीं, इसलिए नक़ल अब भी संभव है","प्राप्त करने वाले सर्वर डोमेन के लिए SPF और DKIM जाँच नहीं करते"]},
+  e:{en:"Sending to spam is p=quarantine. Reports can still be collected with p=none, and receivers still run SPF/DKIM. p=none is monitoring mode: the auditor should recommend moving to quarantine and then reject once legitimate senders are confirmed.",
+     hi:"स्पैम में भेजना p=quarantine है। p=none के साथ भी रिपोर्ट एकत्र की जा सकती हैं, और प्राप्तकर्ता SPF/DKIM जाँच करते हैं। p=none निगरानी मोड है: वैध भेजने वालों की पुष्टि के बाद ऑडिटर को quarantine और फिर reject अपनाने की सिफ़ारिश करनी चाहिए।"}},
+ {d:5,a:3,
+  q:{en:"How does the principle of least privilege BEST reduce the impact of a successful phishing attack?",
+     hi:"न्यूनतम विशेषाधिकार (least privilege) का सिद्धांत सफल फ़िशिंग हमले के प्रभाव को सबसे अच्छी (BEST) तरह कैसे कम करता है?"},
+  o:{en:["It reduces the number of users who receive phishing emails","It ensures compromised accounts are detected more quickly","It prevents attackers from reusing stolen passwords on the organisation's other systems","It limits the data and systems reachable through a compromised account"],
+     hi:["यह फ़िशिंग ईमेल पाने वाले उपयोगकर्ताओं की संख्या घटाता है","यह सुनिश्चित करता है कि हैक हुए खातों का जल्दी पता चले","यह हमलावरों को चोरी हुए पासवर्ड संगठन के दूसरे सिस्टम पर दोबारा उपयोग करने से रोकता है","यह सीमित करता है कि हैक हुए खाते से कौन-सा डेटा और सिस्टम पहुँच में है"]},
+  e:{en:"Least privilege does not affect who is targeted, how fast compromise is detected, or password reuse. It limits the blast radius: an attacker inherits only the access the compromised user genuinely needed.",
+     hi:"न्यूनतम विशेषाधिकार यह तय नहीं करता कि किसे निशाना बनाया जाए, हैक का पता कितनी जल्दी चले, या पासवर्ड का दोबारा उपयोग। यह नुक़सान का दायरा सीमित करता है: हमलावर को केवल वही पहुँच मिलती है जिसकी उस उपयोगकर्ता को सच में ज़रूरत थी।"}},
+ {d:5,a:0,
+  q:{en:"A caller claiming to be from the regulator asks a branch employee to share customer loan details immediately for an “urgent inspection”. What is the BEST response?",
+     hi:"नियामक का अधिकारी होने का दावा करने वाला एक कॉलर शाखा कर्मचारी से “तत्काल निरीक्षण” के लिए ग्राहकों के लोन विवरण तुरंत साझा करने को कहता है। सबसे अच्छी (BEST) प्रतिक्रिया क्या है?"},
+  o:{en:["Decline, verify through the compliance team's official contacts, and report it","Ask the caller to email the request on official letterhead, and then share the details","Note the caller's name and number, call that number back, then share the details","Escalate to the branch manager and share the details if the manager approves"],
+     hi:["मना करें, अनुपालन टीम के आधिकारिक संपर्क से पुष्टि करें, और रिपोर्ट करें","कॉलर से आधिकारिक लेटरहेड पर ईमेल से अनुरोध भेजने को कहें, फिर विवरण साझा करें","कॉलर का नाम और नंबर नोट करें, उसी नंबर पर वापस कॉल करें, फिर विवरण साझा करें","शाखा प्रबंधक को सूचित करें और प्रबंधक की मंज़ूरी पर विवरण साझा करें"]},
+  e:{en:"Letterheads can be forged, a number supplied by the caller leads back to the caller, and a manager's approval does not verify identity. Regulatory requests must be validated through the compliance function using independently known contacts.",
+     hi:"लेटरहेड नक़ली हो सकता है, कॉलर का दिया नंबर उसी तक वापस ले जाता है, और प्रबंधक की मंज़ूरी पहचान की पुष्टि नहीं करती। नियामक अनुरोधों का सत्यापन अनुपालन विभाग द्वारा स्वतंत्र रूप से ज्ञात संपर्कों से होना चाहिए।"}},
+ {d:4,a:2,
+  q:{en:"What is the MOST important reason to preserve the original phishing email, including full headers, during an investigation?",
+     hi:"जाँच के दौरान मूल फ़िशिंग ईमेल को पूरे हेडर सहित सुरक्षित रखने का सबसे महत्वपूर्ण (MOST important) कारण क्या है?"},
+  o:{en:["It can be reused as a realistic example in future awareness training","It supports disciplinary action against the employee who clicked","Headers contain routing and authentication data needed as evidence","It allows the spam filter to learn and automatically block similar messages"],
+     hi:["इसे भविष्य के जागरूकता प्रशिक्षण में वास्तविक उदाहरण के रूप में उपयोग किया जा सकता है","इससे क्लिक करने वाले कर्मचारी के विरुद्ध अनुशासनात्मक कार्रवाई में मदद मिलती है","हेडर में साक्ष्य के लिए ज़रूरी रूटिंग और प्रमाणीकरण डेटा होता है","इससे स्पैम फ़िल्टर सीखकर ऐसे संदेश अपने-आप ब्लॉक कर सकता है"]},
+  e:{en:"Training reuse and filter tuning are side benefits, and investigations should not focus on blaming the employee. Headers reveal sending servers, IPs and authentication results, used to block, trace and support any legal or regulatory action.",
+     hi:"प्रशिक्षण में उपयोग और फ़िल्टर सुधार अतिरिक्त लाभ हैं, और जाँच का उद्देश्य कर्मचारी को दोष देना नहीं होना चाहिए। हेडर भेजने वाले सर्वर, IP और प्रमाणीकरण परिणाम बताते हैं, जिनसे ब्लॉक करने, स्रोत खोजने और क़ानूनी या नियामक कार्रवाई में मदद मिलती है।"}},
+ {d:5,a:1,
+  q:{en:"Which control BEST prevents a malicious macro in an emailed Office document from executing, even if the user opens the file?",
+     hi:"कौन-सा नियंत्रण ईमेल से आए Office दस्तावेज़ के दुर्भावनापूर्ण मैक्रो को चलने से सबसे अच्छी (BEST) तरह रोकता है, भले ही उपयोगकर्ता फ़ाइल खोल ले?"},
+  o:{en:["Training users never to click “Enable Content” on documents received from outside","A centrally enforced policy that blocks macros in files from the internet","Antivirus scanning of Office attachments at the email gateway","A warning banner on emails that contain Office attachments"],
+     hi:["उपयोगकर्ताओं को सिखाना कि बाहर से आए दस्तावेज़ में कभी “Enable Content” न दबाएँ","केंद्रीय रूप से लागू नीति जो इंटरनेट से आई फ़ाइलों में मैक्रो ब्लॉक करे","ईमेल गेटवे पर Office अटैचमेंट की एंटीवायरस स्कैनिंग","Office अटैचमेंट वाले ईमेल पर चेतावनी बैनर"]},
+  e:{en:"Training and banners depend on the user's decision, and signature-based antivirus can miss new or obfuscated macros. A centrally enforced block works regardless of what the user clicks.",
+     hi:"प्रशिक्षण और बैनर उपयोगकर्ता के निर्णय पर निर्भर हैं, और सिग्नेचर-आधारित एंटीवायरस नए या छिपाए गए मैक्रो को चूक सकता है। केंद्रीय रूप से लागू ब्लॉक उपयोगकर्ता के क्लिक की परवाह किए बिना काम करता है।"}},
+ {d:2,a:3,
+  q:{en:"An IS auditor finds that the security awareness programme has no designated owner and has not been reviewed in three years. This MOST likely indicates a weakness in:",
+     hi:"IS ऑडिटर पाता है कि सुरक्षा जागरूकता कार्यक्रम का कोई नामित स्वामी नहीं है और तीन साल से इसकी समीक्षा नहीं हुई। यह सबसे अधिक संभावना (MOST likely) से किसमें कमज़ोरी दर्शाता है?"},
+  o:{en:["The design of awareness content and delivery methods","The HR onboarding and induction process","Monitoring and reporting of security metrics","Information security governance"],
+     hi:["जागरूकता सामग्री और प्रशिक्षण पद्धति की रूपरेखा","HR का ऑनबोर्डिंग और इंडक्शन प्रक्रिया","सुरक्षा मीट्रिक की निगरानी और रिपोर्टिंग","सूचना सुरक्षा गवर्नेंस"]},
+  e:{en:"Outdated content and weak metrics are symptoms. The root cause — no accountable owner and no periodic review — is a governance failure, and fixing it is what corrects the symptoms.",
+     hi:"पुरानी सामग्री और कमज़ोर मीट्रिक लक्षण हैं। मूल कारण — कोई जवाबदेह स्वामी नहीं और कोई समय-समय पर समीक्षा नहीं — गवर्नेंस की विफलता है, और उसे ठीक करने से ही लक्षण ठीक होते हैं।"}},
+ {d:5,a:0,
+  q:{en:"Deceived by a phishing email, an employee tries to send a spreadsheet of customers' Aadhaar and PAN numbers to an external address. Which control would BEST detect and block this in real time?",
+     hi:"फ़िशिंग ईमेल के झांसे में आकर एक कर्मचारी ग्राहकों के आधार और PAN नंबर वाली स्प्रेडशीट एक बाहरी पते पर भेजने की कोशिश करता है। कौन-सा नियंत्रण इसे रियल-टाइम में सबसे अच्छी (BEST) तरह पहचानकर रोकेगा?"},
+  o:{en:["Data loss prevention rules that inspect outbound email content","Mandatory encryption of all emails sent outside the organisation","Sandboxing of outbound attachments at the email gateway","Logging and periodic review of outbound email traffic"],
+     hi:["आउटबाउंड ईमेल की सामग्री जाँचने वाले डेटा लॉस प्रिवेंशन (DLP) नियम","संगठन के बाहर भेजे जाने वाले सभी ईमेल का अनिवार्य एन्क्रिप्शन","ईमेल गेटवे पर आउटबाउंड अटैचमेंट की सैंडबॉक्सिंग","आउटबाउंड ईमेल ट्रैफ़िक की लॉगिंग और समय-समय पर समीक्षा"]},
+  e:{en:"Encryption would protect the data in transit — straight to the attacker. Sandboxing looks for malware, not sensitive data, and log review detects the leak only afterwards. DLP recognises Aadhaar/PAN patterns and can block the email before it leaves.",
+     hi:"एन्क्रिप्शन डेटा को रास्ते में सुरक्षित रखेगा — सीधे हमलावर तक। सैंडबॉक्सिंग मैलवेयर खोजती है, संवेदनशील डेटा नहीं, और लॉग समीक्षा लीक का पता बाद में ही लगाती है। DLP आधार/PAN के पैटर्न पहचानकर ईमेल को बाहर जाने से पहले रोक सकता है।"}}
+];
+
+/* =========================================================
+   STATE
+   ========================================================= */
+let lang = "en", cur = 0;
+const done = new Set();
+const st = {flags:new Set(), scn:{i:0,res:[]}, url:null, quiz:{i:0,ans:[],picked:null,finished:false,startedAt:0}, name:"", checks:new Set(),
+  emp:{name:"",empId:"",dept:"",ok:false,err:""}, save:{status:"idle",data:null}};
+const esc = s => String(s??"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+try{ const s = localStorage.getItem("phishLang"); if(s==="hi"||s==="en") lang=s; }catch(e){}
+
+const T = k => UI[lang][k];
+const L = o => o[lang];
+const $ = s => document.querySelector(s);
+
+/* =========================================================
+   SCORM 1.2 (works automatically when launched from an LMS)
+   ========================================================= */
+const SCORM = {api:null,
+  find(w){let n=0;while(w&&!w.API&&w.parent&&w.parent!==w&&n<10){w=w.parent;n++;}return w&&w.API?w.API:null;},
+  init(){try{this.api=this.find(window)||(window.opener&&this.find(window.opener));if(this.api){this.api.LMSInitialize("");
+    const s=this.api.LMSGetValue("cmi.core.lesson_status");if(!s||s==="not attempted"){this.set("cmi.core.lesson_status","incomplete");}
+    const nm=this.api.LMSGetValue("cmi.core.student_name");if(nm){const p=nm.split(",");st.emp.name=(p.length>1?p[1].trim()+" "+p[0].trim():nm).trim();}
+    const sid=this.api.LMSGetValue("cmi.core.student_id");if(sid&&!st.emp.empId)st.emp.empId=String(sid).trim().slice(0,30);
+    this.api.LMSCommit("");}}catch(e){this.api=null;}},
+  set(k,v){try{this.api&&this.api.LMSSetValue(k,String(v));}catch(e){}},
+  commit(){try{this.api&&this.api.LMSCommit("");}catch(e){}},
+  finish(){try{this.api&&this.api.LMSFinish("");}catch(e){}}
+};
+
+/* =========================================================
+   RENDER
+   ========================================================= */
+function setLang(l){
+  lang=l; try{localStorage.setItem("phishLang",l);}catch(e){}
+  document.documentElement.lang = l;
+  document.body.classList.toggle("hi", l==="hi");
+  $("#bEn").classList.toggle("on", l==="en"); $("#bHi").classList.toggle("on", l==="hi");
+  render();
+}
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("on"),2200);}
+function go(i){ if(typeof procActive==="function" && procActive() && i!==6){ toast(PT("navBlocked")); return; } cur=i;render();window.scrollTo({top:0,behavior:"smooth"});$("#main").focus({preventScroll:true});}
+function complete(i){ if(!done.has(i)){done.add(i);} }
+
+function renderSide(){
+  $("#tTitle").firstChild.nodeValue = T("title");
+  $("#tSub").textContent = T("sub");
+  $("#side").innerHTML = T("lessons").map((n,i)=>
+    `<button class="${i===cur?'cur':''} ${done.has(i)?'done':''}" onclick="go(${i})"><span class="num">${done.has(i)?'✓':i}</span><span>${n}</span></button>`).join("");
+  $("#prog").style.width = (done.size/T("lessons").length*100)+"%";
+}
+function navBtns(nextLabel){
+  const last = T("lessons").length-1;
+  return `<div class="navbtns noprint">
+    ${cur>0?`<button class="btn btn-sec" onclick="go(${cur-1})">← ${T("prev")}</button>`:'<span></span>'}
+    ${cur<last?`<button class="btn btn-pri" onclick="complete(${cur});go(${cur+1})">${nextLabel||T("next")} →</button>`:''}
+  </div>`;
+}
+function head(i){return `<div class="eyebrow">${T("lessonWord")} ${i} / 5</div><h2>${T("lessons")[i]}</h2>`;}
+
+const V = {};
+
+/* ---- 0 Welcome ---- */
+V[0] = () => {
+  const en = lang==="en";
+  return `<section class="card hero">
+    <div class="eyebrow">${en?"Advanced module · CISA-level assessment":"उन्नत मॉड्यूल · CISA-स्तरीय मूल्यांकन"}</div>
+    <h2>${en?"Don't take the bait! 🎣":"झांसे में न आएँ! 🎣"}</h2>
+    <p class="lead">${en
+      ?"Most cyber attacks don't begin with hacking a system — they begin with tricking a person. One click on the wrong link can expose customer data, company funds and your own accounts. This short course will make you the strongest line of defence."
+      :"ज़्यादातर साइबर हमले किसी सिस्टम को हैक करने से नहीं, बल्कि किसी इंसान को धोखा देने से शुरू होते हैं। गलत लिंक पर एक क्लिक से ग्राहकों का डेटा, कंपनी का पैसा और आपके अपने खाते ख़तरे में पड़ सकते हैं। यह छोटा-सा कोर्स आपको सुरक्षा की सबसे मज़बूत दीवार बनाएगा।"}</p>
+    <div class="chips">
+      <span class="chip">⏱ ${en?"~45 minutes":"~45 मिनट"}</span>
+      <span class="chip">🧩 ${en?"5 interactive lessons":"5 इंटरैक्टिव पाठ"}</span>
+      <span class="chip">📝 ${en?"25-question CISA-level assessment":"25 प्रश्नों का CISA-स्तरीय मूल्यांकन"}</span>
+      <span class="chip">🏅 ${en?"Pass mark":"उत्तीर्ण अंक"}: ${CONFIG.passMark}%</span>
+      <span class="chip">🔒 ${en?"Proctored":"निगरानी वाला"}${CONFIG.timeLimitMin?` · ⏱ ${CONFIG.timeLimitMin} ${en?"min limit":"मिनट सीमा"}`:` · ${en?"no time limit":"कोई समय-सीमा नहीं"}`}</span>
+    </div>
+  </section>
+  <section class="card">
+    <h3 style="margin-top:0">${en?"By the end of this course you will be able to:":"इस कोर्स के अंत तक आप:"}</h3>
+    <div class="grid g2">
+      ${(en?[["🔎","Explain what phishing is and the different forms it takes"],["🚩","Spot the red flags in emails, SMS, calls and WhatsApp messages"],["🔗","Check a link and identify the real website domain"],["📣","Know exactly what to do — and whom to report to — if you are targeted or you click"]]
+           :[["🔎","समझा पाएँगे कि फ़िशिंग क्या है और इसके कौन-कौन से रूप हैं"],["🚩","ईमेल, SMS, कॉल और WhatsApp संदेशों में ख़तरे के संकेत पहचान पाएँगे"],["🔗","किसी लिंक की जाँच करके असली वेबसाइट डोमेन पहचान पाएँगे"],["📣","जान पाएँगे कि निशाना बनने या गलती से क्लिक होने पर क्या करें और किसे रिपोर्ट करें"]])
+        .map(x=>`<div class="tile"><div class="ic">${x[0]}</div>${x[1]}</div>`).join("")}
+    </div>
+    <div class="callout c-teal"><span class="ic">💡</span><div>${en
+      ?"<b>How to use this module:</b> Use the English / हिंदी switch at the top anytime. Click, flip and answer as you go — each lesson has an activity. Your score is recorded when you finish the quiz."
+      :"<b>इस मॉड्यूल का उपयोग कैसे करें:</b> ऊपर English / हिंदी बटन से कभी भी भाषा बदलें। हर पाठ में एक गतिविधि है — क्लिक करें, कार्ड पलटें और जवाब दें। क्विज़ पूरी करने पर आपका स्कोर दर्ज हो जाएगा।"}</div></div>
+  </section>${navBtns(en?"Let's begin":"शुरू करें")}`;
+};
+
+/* ---- 1 What is phishing ---- */
+V[1] = () => {
+  const en = lang==="en";
+  const types = en ? [
+    ["📧","Email Phishing","Mass emails pretending to be banks, HR, IT or delivery companies.","Example: “Your mailbox is full — click to keep receiving emails.”"],
+    ["🎯","Spear Phishing","Targeted at a specific person using details from LinkedIn or social media.","Example: An email mentioning your real manager's name and a current project."],
+    ["🐋","Whaling / CEO Fraud","Attacker poses as a senior leader to get urgent payments or data.","Example: “I'm travelling — transfer ₹3 lakh to this vendor today, keep it confidential.”"],
+    ["📱","Smishing (SMS)","Fake SMS about KYC, electricity bills, parcels or rewards.","Example: “Your power will be cut tonight. Call this number now.”"],
+    ["📞","Vishing (Voice)","Phone calls from fake bank officials, police, courier or ‘IT support’.","Example: “Share your OTP to stop a fraud transaction.”"],
+    ["🔳","Quishing (QR code)","QR codes on posters, emails or parcels leading to fake sites.","Example: “Scan to receive payment” — scanning to RECEIVE money is always a scam."]
+  ] : [
+    ["📧","ईमेल फ़िशिंग","बैंक, HR, IT या कूरियर कंपनी बनकर बड़ी संख्या में भेजे गए ईमेल।","उदाहरण: “आपका मेलबॉक्स भर गया है — ईमेल पाते रहने के लिए क्लिक करें।”"],
+    ["🎯","स्पीयर फ़िशिंग","LinkedIn या सोशल मीडिया की जानकारी से किसी ख़ास व्यक्ति को निशाना बनाना।","उदाहरण: ऐसा ईमेल जिसमें आपके असली मैनेजर का नाम और मौजूदा प्रोजेक्ट लिखा हो।"],
+    ["🐋","व्हेलिंग / CEO फ्रॉड","हमलावर वरिष्ठ अधिकारी बनकर तुरंत भुगतान या डेटा माँगता है।","उदाहरण: “मैं यात्रा पर हूँ — आज ही इस वेंडर को ₹3 लाख भेजें, गोपनीय रखें।”"],
+    ["📱","स्मिशिंग (SMS)","KYC, बिजली बिल, पार्सल या इनाम के बारे में नक़ली SMS।","उदाहरण: “आज रात आपकी बिजली कट जाएगी। अभी इस नंबर पर कॉल करें।”"],
+    ["📞","विशिंग (कॉल)","नक़ली बैंक अधिकारी, पुलिस, कूरियर या ‘IT सपोर्ट’ बनकर फ़ोन कॉल।","उदाहरण: “धोखाधड़ी वाला लेन-देन रोकने के लिए OTP बताइए।”"],
+    ["🔳","क्विशिंग (QR कोड)","पोस्टर, ईमेल या पार्सल पर QR कोड जो नक़ली साइट पर ले जाते हैं।","उदाहरण: “पेमेंट पाने के लिए स्कैन करें” — पैसा पाने के लिए स्कैन करना हमेशा धोखा है।"]
+  ];
+  return `<section class="card">${head(1)}
+    <p class="lead">${en
+      ?"<b>Phishing</b> is a cyber-fraud in which a criminal pretends to be someone you trust — a bank, a colleague, your boss, a government body or the IT team — to trick you into <b>clicking a link, opening a file, sharing information or sending money</b>."
+      :"<b>फ़िशिंग</b> एक साइबर धोखाधड़ी है जिसमें अपराधी कोई भरोसेमंद व्यक्ति या संस्था बनकर — जैसे बैंक, सहकर्मी, आपका बॉस, कोई सरकारी विभाग या IT टीम — आपको <b>लिंक पर क्लिक करने, फ़ाइल खोलने, जानकारी देने या पैसे भेजने</b> के लिए धोखा देता है।"}</p>
+    <div class="callout c-amber"><span class="ic">🎣</span><div>${en
+      ?"The name comes from <b>“fishing”</b>: the attacker throws out bait and waits for someone to bite. You are not the fish — you are the person who spots the hook."
+      :"यह नाम <b>“फ़िशिंग” (मछली पकड़ना)</b> से आया है: हमलावर चारा डालता है और किसी के फँसने का इंतज़ार करता है। आप मछली नहीं हैं — आप वो हैं जो काँटा पहचान लेता है।"}</div></div>
+    <h3>${en?"Why attackers target employees like you":"हमलावर आप जैसे कर्मचारियों को क्यों निशाना बनाते हैं"}</h3>
+    <div class="grid g3">
+      ${(en?[["🏦","Access to money","Payments, loan disbursements and vendor accounts are attractive targets."],["🗂️","Access to data","Customer KYC, Aadhaar/PAN details and loan records are valuable on the black market."],["🔑","Access to systems","One stolen password can open the door to the whole network."]]
+           :[["🏦","पैसे तक पहुँच","भुगतान, लोन वितरण और वेंडर खाते आकर्षक निशाने हैं।"],["🗂️","डेटा तक पहुँच","ग्राहकों के KYC, आधार/PAN विवरण और लोन रिकॉर्ड ब्लैक मार्केट में क़ीमती होते हैं।"],["🔑","सिस्टम तक पहुँच","एक चोरी हुआ पासवर्ड पूरे नेटवर्क का दरवाज़ा खोल सकता है।"]])
+        .map(x=>`<div class="tile"><div class="ic">${x[0]}</div><b>${x[1]}</b>${x[2]}</div>`).join("")}
+    </div>
+    <h3>${en?"The many faces of phishing":"फ़िशिंग के कई रूप"} <span class="muted" style="font-size:14px;font-weight:400">— ${T("tapFlip")}</span></h3>
+    <div class="grid g3">
+      ${types.map(t=>`<div class="flip" onclick="this.classList.toggle('on')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.classList.toggle('on')}">
+        <div class="flip-in"><div class="face front"><div class="ic">${t[0]}</div><b>${t[1]}</b><small>${T("tapFlip")} ↻</small></div>
+        <div class="face back"><b>${t[1]}</b>${t[2]}<br><br><i>${t[3]}</i></div></div></div>`).join("")}
+    </div>
+    <div class="callout c-red"><span class="ic">🤖</span><div>${en
+      ?"<b>New in 2026: AI-powered phishing.</b> Criminals now use AI to write flawless emails in any language and even clone voices of senior leaders in phone or video calls. Perfect grammar is no longer proof that a message is genuine — <b>always verify the request itself.</b>"
+      :"<b>2026 का नया ख़तरा: AI से फ़िशिंग।</b> अपराधी अब AI से किसी भी भाषा में बिना गलती के ईमेल लिखते हैं और फ़ोन या वीडियो कॉल पर वरिष्ठ अधिकारियों की आवाज़ तक नक़ल कर लेते हैं। सही व्याकरण अब असली होने का सबूत नहीं है — <b>हमेशा माँग की पुष्टि करें।</b>"}</div></div>
+  </section>${navBtns()}`;
+};
+
+/* ---- 2 Red flags hunt ---- */
+V[2] = () => {
+  const en = lang==="en", n = Object.keys(FLAGS).length, f = st.flags.size, all = f===n;
+  const hs = (k,html,cls="") => `<button class="hs ${cls} ${st.flags.has(k)?'found':''}" onclick="flag('${k}')">${html}</button>`;
+  return `<section class="card">${head(2)}
+    <p class="lead">${en
+      ?"Phishing messages almost always leave clues. Let's practise. Below is a realistic phishing email. <b>Find all 7 red flags.</b>"
+      :"फ़िशिंग संदेश लगभग हमेशा कुछ सुराग छोड़ते हैं। आइए अभ्यास करें। नीचे एक असली जैसा फ़िशिंग ईमेल है। <b>सभी 7 ख़तरे के संकेत ढूँढें।</b>"}</p>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+      <span class="muted">${T("clickHint")}</span>
+      <span class="counter">🚩 ${T("found")}: ${f} / ${n}</span>
+    </div>
+    <div class="mail ${all?'':'hunt'}">
+      <div class="mail-bar"><i style="background:#ff6058"></i><i style="background:#ffbd2e"></i><i style="background:#28c940"></i>&nbsp; Inbox</div>
+      <div class="mail-h">
+        <div><span class="k">From:</span> ${hs("from","HR Department &lt;hr-team@hr-payroll-update.co&gt;")}</div>
+        <div><span class="k">To:</span> you</div>
+        <div><span class="k">Subject:</span> <b>${hs("subj","URGENT: Salary account SUSPENDED – action required within 2 hours")}</b></div>
+      </div>
+      <div class="mail-b">
+        <p>${hs("greet","Dear Employee,")}</p>
+        <p>Due to a security update in our payroll system, ${hs("typo","you're salary acount")} has been temporarily suspended. To avoid delay in this month's salary credit, ${hs("creds","verify your login ID, password and the OTP")} sent to your mobile.</p>
+        <p>${hs("link","Verify Now","fakebtn")}</p>
+        <p>Failure to verify will result in your salary being put on hold.</p>
+        <p>Regards,<br>HR &amp; Payroll Team</p>
+        ${hs("att",'<span class="attach">📎 Salary_Revision_Nov.zip · 182 KB</span>')}
+      </div>
+    </div>
+    ${all?`<div class="fb ok"><b class="t">🎉 ${T("huntDone")}</b></div>`:`<button class="btn btn-sec noprint" onclick="revealFlags()">${T("revealAll")}</button>`}
+    <ul class="found-list">
+      ${Object.keys(FLAGS).filter(k=>st.flags.has(k)).map(k=>`<li><b>🚩 ${L(FLAGS[k])[0]}</b><br>${L(FLAGS[k])[1]}</li>`).join("")}
+    </ul>
+    <h3>${en?"Quick checklist: the 6 questions to ask before you click":"क्लिक करने से पहले ख़ुद से पूछें ये 6 सवाल"}</h3>
+    <div class="grid g2">
+      ${(en?[["👤","Who sent it?","Check the full email address / number, not the display name."],["⏰","Is it urgent or threatening?","Pressure is the attacker's favourite tool."],["🔐","Does it ask for passwords, OTP, PIN or bank details?","Genuine teams never ask for these."],["🔗","Where does the link really go?","Hover (desktop) or long-press (mobile) to preview."],["📎","Was I expecting this attachment?","Be careful with .zip, .html, .exe and macro-enabled files."],["💰","Does it involve money or gift cards?","Always verify through a second, trusted channel."]]
+           :[["👤","किसने भेजा?","नाम नहीं, पूरा ईमेल पता / नंबर जाँचें।"],["⏰","क्या इसमें जल्दबाज़ी या धमकी है?","दबाव बनाना हमलावर का पसंदीदा हथियार है।"],["🔐","क्या पासवर्ड, OTP, PIN या बैंक विवरण माँगा गया है?","असली टीमें ये कभी नहीं माँगतीं।"],["🔗","लिंक असल में कहाँ जाता है?","डेस्कटॉप पर होवर करें या मोबाइल पर देर तक दबाकर देखें।"],["📎","क्या मुझे इस अटैचमेंट की उम्मीद थी?",".zip, .html, .exe और मैक्रो वाली फ़ाइलों से सावधान रहें।"],["💰","क्या इसमें पैसे या गिफ़्ट कार्ड की बात है?","हमेशा किसी दूसरे, भरोसेमंद माध्यम से पुष्टि करें।"]])
+        .map(x=>`<div class="tile"><b>${x[0]} ${x[1]}</b>${x[2]}</div>`).join("")}
+    </div>
+  </section>${navBtns()}`;
+};
+function flag(k){ if(st.flags.has(k)) return; st.flags.add(k); if(st.flags.size===Object.keys(FLAGS).length) complete(2); render(); }
+function revealFlags(){ Object.keys(FLAGS).forEach(k=>st.flags.add(k)); complete(2); render(); }
+
+/* ---- 3 Phish or Legit ---- */
+V[3] = () => {
+  const en = lang==="en", s = st.scn, n = SCN.length;
+  if (s.i >= n) {
+    const ok = s.res.filter(Boolean).length;
+    return `<section class="card">${head(3)}
+      <div class="center"><div style="font-size:54px">${ok>=6?'🏆':ok>=4?'👍':'📚'}</div>
+      <h3>${T("scnScore")}: ${ok} / ${n}</h3>
+      <div class="dots" style="justify-content:center;margin:10px 0">${s.res.map(r=>`<i class="${r?'ok':'no'}"></i>`).join("")}</div>
+      <p class="muted">${en?(ok>=6?"Excellent instincts! You'd make attackers' lives very difficult.":"Good effort. Review the explanations — real attacks look just like these."):(ok>=6?"शानदार समझ! आप हमलावरों का काम बहुत मुश्किल कर देंगे।":"अच्छी कोशिश। स्पष्टीकरण दोबारा पढ़ें — असली हमले बिल्कुल ऐसे ही दिखते हैं।")}</p>
+      <button class="btn btn-sec noprint" onclick="st.scn={i:0,res:[]};render()">↻ ${en?"Try again":"दोबारा करें"}</button></div>
+      <div class="callout c-teal mt"><span class="ic">🧠</span><div>${en
+        ?"<b>Key takeaway:</b> It's not about the channel — email, SMS, WhatsApp, a call or a QR sticker. It's about the <b>request</b>. Unexpected + urgent + asks for credentials or money = STOP and verify."
+        :"<b>मुख्य सीख:</b> बात माध्यम की नहीं है — ईमेल, SMS, WhatsApp, कॉल या QR स्टिकर। बात <b>माँग</b> की है। अनपेक्षित + जल्दबाज़ी + पासवर्ड या पैसे की माँग = रुकें और पुष्टि करें।"}</div></div>
+    </section>${navBtns()}`;
+  }
+  const c = SCN[s.i], answered = s.res.length > s.i, right = s.res[s.i];
+  return `<section class="card">${head(3)}
+    <p class="lead">${en?"Read each message and decide: <b>is it phishing or legitimate?</b>":"हर संदेश पढ़ें और तय करें: <b>यह फ़िशिंग है या असली?</b>"}</p>
+    <div class="scn">
+      <div class="scn-top"><span class="badge">${T("scnOf")} ${s.i+1} ${en?"of":"/"} ${n}</span>
+        <div class="dots">${SCN.map((_,j)=>`<i class="${j<s.res.length?(s.res[j]?'ok':'no'):''} ${j===s.i?'cur':''}"></i>`).join("")}</div></div>
+      <div class="msg ${c.type}"><span class="meta">${L(c.meta)}</span>${L(c.msg)}</div>
+      <div class="choices noprint">
+        <button class="btn btn-phish" ${answered?'disabled':''} onclick="answerScn('phish')">${T("phish")}</button>
+        <button class="btn btn-legit" ${answered?'disabled':''} onclick="answerScn('legit')">${T("legit")}</button>
+      </div>
+      ${answered?`<div class="fb ${right?'ok':'no'}"><b class="t">${right?'✔ '+T("correct"):'✘ '+T("wrong")} ${en?"This is":"यह है:"} ${c.ans==='phish'?T("phish"):T("legit")}</b>
+        <ul>${L(c.why).map(w=>`<li>${w}</li>`).join("")}</ul></div>
+        <div class="mt"><button class="btn btn-pri" onclick="st.scn.i++;if(st.scn.i>=SCN.length)complete(3);render()">${s.i===n-1?T("seeResults"):T("nextScn")} →</button></div>`:''}
+    </div>
+  </section>${navBtns()}`;
+};
+function answerScn(a){ const s=st.scn; if(s.res.length>s.i) return; s.res.push(SCN[s.i].ans===a); render(); }
+
+/* ---- 4 Check the link ---- */
+V[4] = () => {
+  const en = lang==="en";
+  return `<section class="card">${head(4)}
+    <p class="lead">${en
+      ?"A link's text can say anything. What matters is the <b>real domain</b> it leads to. Learn to read a web address in 10 seconds."
+      :"लिंक पर कुछ भी लिखा हो सकता है। असली बात यह है कि वह किस <b>असली डोमेन</b> पर ले जाता है। 10 सेकंड में वेब पता पढ़ना सीखें।"}</p>
+    <h3>${en?"Anatomy of a web address":"वेब पते की बनावट"}</h3>
+    <div class="url-anat"><span class="p">https://</span><span class="s">netbanking.</span><span class="d">securebank.in</span><span class="x">/login?id=123</span></div>
+    <div class="url-legend">
+      <span style="--c:#8aa0b8">${en?"Protocol":"प्रोटोकॉल"}</span>
+      <span style="--c:#ffd479">${en?"Sub-domain (can be anything)":"सब-डोमेन (कुछ भी हो सकता है)"}</span>
+      <span style="--c:#5ef0c0">${en?"REAL domain — this is what matters":"असली डोमेन — यही मायने रखता है"}</span>
+      <span style="--c:#c49cff">${en?"Path":"पाथ"}</span>
+    </div>
+    <div class="callout c-teal"><span class="ic">📏</span><div>${en
+      ?"<b>The golden rule:</b> find the first single “/” after “https://”. The real domain is the part <b>just before it</b> (e.g. <i>securebank.in</i>). Anything to the left of that is decoration that attackers can control."
+      :"<b>सुनहरा नियम:</b> “https://” के बाद पहला अकेला “/” ढूँढें। असली डोमेन <b>ठीक उससे पहले</b> वाला हिस्सा है (जैसे <i>securebank.in</i>)। उसके बाईं ओर का सब कुछ सजावट है जिसे हमलावर बदल सकते हैं।"}</div></div>
+    <h3>🧪 ${T("urlQ")}</h3>
+    ${URLS.map((x,i)=>{const sel=st.url!==null, cls = sel?(x.ok?'ok':(st.url===i?'no':'')):'';
+      return `<button class="url-opt ${cls}" ${sel?'disabled':''} onclick="pickUrl(${i})">${x.u}${sel&&(x.ok||st.url===i)?`<small>${x.ok?'✔':'✘'} ${L(x.e)}</small>`:''}</button>`;}).join("")}
+    ${st.url!==null?`<div class="noprint"><button class="btn btn-sec" onclick="st.url=null;render()">↻ ${en?"Try again":"दोबारा करें"}</button></div>`:''}
+    <h3>${en?"More link tricks to watch for":"लिंक की और चालें जिनसे सावधान रहें"}</h3>
+    <div class="grid g2">
+      ${(en?[["🔒","HTTPS ≠ safe","The padlock only means the connection is encrypted — criminals can get HTTPS for fake sites too."],["✂️","Short links","bit.ly, tinyurl etc. hide the destination. Be extra careful with them in SMS."],["🔤","Look-alike letters","rn vs m, 1 vs l, 0 vs o: micr0soft.com, paypa1.com."],["🖱️","Hover before you click","On desktop, hover to see the real link at the bottom of the screen. On mobile, long-press."]]
+           :[["🔒","HTTPS ≠ सुरक्षित","पैडलॉक का मतलब सिर्फ़ इतना है कि कनेक्शन एन्क्रिप्टेड है — अपराधी नक़ली साइट के लिए भी HTTPS ले सकते हैं।"],["✂️","छोटे लिंक","bit.ly, tinyurl आदि असली पता छिपा देते हैं। SMS में इनसे ख़ास सावधानी बरतें।"],["🔤","मिलते-जुलते अक्षर","rn और m, 1 और l, 0 और o: micr0soft.com, paypa1.com।"],["🖱️","क्लिक से पहले होवर करें","डेस्कटॉप पर माउस ले जाकर स्क्रीन के नीचे असली लिंक देखें। मोबाइल पर देर तक दबाएँ।"]])
+        .map(x=>`<div class="tile"><b>${x[0]} ${x[1]}</b>${x[2]}</div>`).join("")}
+    </div>
+  </section>${navBtns()}`;
+};
+function pickUrl(i){ st.url=i; complete(4); render(); }
+
+/* ---- 5 Stop Think Report ---- */
+V[5] = () => {
+  const en = lang==="en";
+  const steps = en ? [["STOP","#c8372d","Pause. Don't click, reply, download or call back in a hurry. Urgency is a trap."],
+                      ["THINK","#b7791f","Was I expecting this? Does the sender, link and request make sense? Use the 6-question checklist."],
+                      ["VERIFY","#0e8f86","Contact the person or organisation through a channel you already trust — known phone number, official website, or in person."],
+                      ["REPORT","#0f2a4a",`Report it to ${L(CONFIG.reportTo)}. Then delete it. Reporting protects your colleagues too.`]]
+                   : [["रुकें","#c8372d","ठहरें। जल्दबाज़ी में क्लिक, जवाब, डाउनलोड या कॉल-बैक न करें। जल्दबाज़ी एक जाल है।"],
+                      ["सोचें","#b7791f","क्या मुझे इसकी उम्मीद थी? क्या भेजने वाला, लिंक और माँग समझ में आते हैं? 6 सवालों की चेकलिस्ट अपनाएँ।"],
+                      ["पुष्टि करें","#0e8f86","उस व्यक्ति या संस्था से ऐसे माध्यम से संपर्क करें जिस पर आपको पहले से भरोसा है — ज्ञात फ़ोन नंबर, आधिकारिक वेबसाइट या आमने-सामने।"],
+                      ["रिपोर्ट करें","#0f2a4a",`इसे ${L(CONFIG.reportTo)} को रिपोर्ट करें। फिर डिलीट करें। रिपोर्ट करने से आपके सहकर्मी भी सुरक्षित रहते हैं।`]];
+  const clicked = en ? ["Disconnect from the network (unplug the cable / turn off Wi-Fi) if you downloaded a file or your device behaves strangely.","Change your password immediately from a different, safe device — and anywhere else you use the same password.","Report to IT / Information Security right away. Tell them what you clicked, what you entered and when.","If money or banking details are involved: inform your bank and call the National Cyber Crime Helpline <b>1930</b> or report at <b>cybercrime.gov.in</b>.","Don't hide it out of embarrassment. Fast reporting is what stops the damage — you will not be blamed for reporting honestly."]
+                     : ["अगर आपने कोई फ़ाइल डाउनलोड की है या डिवाइस अजीब व्यवहार कर रहा है, तो नेटवर्क से डिस्कनेक्ट करें (केबल निकालें / Wi-Fi बंद करें)।","किसी दूसरे, सुरक्षित डिवाइस से तुरंत पासवर्ड बदलें — और जहाँ भी वही पासवर्ड उपयोग करते हैं, वहाँ भी।","तुरंत IT / सूचना सुरक्षा टीम को रिपोर्ट करें। बताएँ कि आपने क्या क्लिक किया, क्या जानकारी डाली और कब।","अगर पैसा या बैंक विवरण शामिल है: अपने बैंक को सूचित करें और राष्ट्रीय साइबर अपराध हेल्पलाइन <b>1930</b> पर कॉल करें या <b>cybercrime.gov.in</b> पर रिपोर्ट करें।","शर्मिंदगी के कारण इसे न छिपाएँ। जल्दी रिपोर्ट करने से ही नुक़सान रुकता है — ईमानदारी से रिपोर्ट करने पर आपको दोषी नहीं ठहराया जाएगा।"];
+  const habits = en ? ["I will never share my password, PIN or OTP with anyone — including IT.","I will turn on Multi-Factor Authentication (MFA) wherever it is available.","I will verify any request for payment or bank-detail changes by phone.","I will hover over links before clicking and check the real domain.","I will report suspicious messages instead of just deleting them.","I will think before posting work details on social media."]
+                    : ["मैं अपना पासवर्ड, PIN या OTP किसी के साथ साझा नहीं करूँगा/करूँगी — IT के साथ भी नहीं।","जहाँ भी उपलब्ध हो, मैं मल्टी-फ़ैक्टर ऑथेंटिकेशन (MFA) चालू करूँगा/करूँगी।","भुगतान या बैंक विवरण बदलने की किसी भी माँग की पुष्टि मैं फ़ोन पर करूँगा/करूँगी।","क्लिक करने से पहले मैं लिंक पर होवर करके असली डोमेन जाँचूँगा/जाँचूँगी।","संदिग्ध संदेशों को सिर्फ़ डिलीट करने के बजाय मैं उन्हें रिपोर्ट करूँगा/करूँगी।","सोशल मीडिया पर काम से जुड़ी जानकारी डालने से पहले मैं सोचूँगा/सोचूँगी।"];
+  return `<section class="card">${head(5)}
+    <p class="lead">${en?"When something feels off, follow four simple steps:":"जब भी कुछ गड़बड़ लगे, ये चार आसान कदम अपनाएँ:"}</p>
+    <div class="steps">${steps.map(s=>`<div class="step"><div class="n" style="background:${s[1]};width:auto;min-width:44px;padding:0 10px">${s[0]}</div><div>${s[2]}</div></div>`).join("")}</div>
+    <h3>${en?"Oops — I already clicked! What now?":"ओह — मैंने तो क्लिक कर दिया! अब क्या करूँ?"}</h3>
+    <div class="acc open"><button onclick="this.parentNode.classList.toggle('open')">🚨 ${en?"Do these 5 things immediately":"तुरंत ये 5 काम करें"}</button>
+      <div class="ab"><ol>${clicked.map(c=>`<li style="margin-bottom:6px">${c}</li>`).join("")}</ol></div></div>
+    <div class="acc"><button onclick="this.parentNode.classList.toggle('open')">🇮🇳 ${en?"Official places to report fraud in India":"भारत में धोखाधड़ी रिपोर्ट करने के आधिकारिक स्थान"}</button>
+      <div class="ab"><ul>
+        <li><b>1930</b> — ${en?"National Cyber Crime Helpline (financial fraud)":"राष्ट्रीय साइबर अपराध हेल्पलाइन (वित्तीय धोखाधड़ी)"}</li>
+        <li><b>cybercrime.gov.in</b> — ${en?"National Cyber Crime Reporting Portal":"राष्ट्रीय साइबर अपराध रिपोर्टिंग पोर्टल"}</li>
+        <li><b>sancharsaathi.gov.in (Chakshu)</b> — ${en?"Report suspected fraud calls, SMS and WhatsApp messages":"संदिग्ध धोखाधड़ी कॉल, SMS और WhatsApp संदेश रिपोर्ट करें"}</li>
+        <li>${en?"Inside the company":"कंपनी के अंदर"}: ${L(CONFIG.reportTo)}</li>
+      </ul></div></div>
+    <h3>✍️ ${en?"My personal security pledge":"मेरी व्यक्तिगत सुरक्षा प्रतिज्ञा"} <span class="muted" style="font-size:14px;font-weight:400">— ${en?"tick each one":"हर एक पर टिक करें"}</span></h3>
+    ${habits.map((h,i)=>`<label class="check ${st.checks.has(i)?'on':''}"><input type="checkbox" ${st.checks.has(i)?'checked':''} onchange="tick(${i},this.checked)"><span>${h}</span></label>`).join("")}
+    ${st.checks.size===habits.length?`<div class="fb ok"><b class="t">🛡️ ${en?"Pledge complete — you're ready for the quiz!":"प्रतिज्ञा पूरी — अब आप क्विज़ के लिए तैयार हैं!"}</b></div>`:''}
+  </section>${navBtns(T("unlockQuiz"))}`;
+};
+function tick(i,on){ on?st.checks.add(i):st.checks.delete(i); if(st.checks.size===6) complete(5); render(); }
+
+/* ---- 6 Final quiz (proctored) ---- */
+const PUI = {
+ en:{rulesTitle:"Assessment rules — please read carefully",
+   r1:"The assessment opens in <b>full screen</b>. Stay in full screen until you submit.",
+   r2:"Do <b>not</b> switch tabs, open other windows or apps, or minimise the browser.",
+   r3:"Copy, paste, right-click, printing, screenshots and developer tools are <b>blocked</b>.",
+   r4:"Questions and answer options appear in a <b>random order</b>.",
+   rTime:"You have <b>{m} minutes</b>. When the time ends, your answers are submitted automatically.",
+   rNoTime:"There is <b>no time limit</b>, but the time you take is recorded.",
+   r5:"Do not reload or close the page — this also counts as a rule break.",
+   r6:"Every rule break is <b>recorded with your name and Employee ID</b>. You get <b>2 warnings</b>; the <b>3rd</b> rule break ends the assessment and it is recorded as <b>FAILED</b>.",
+   consent:"I have read the rules and agree that my activity and webcam photos during this assessment will be monitored and recorded.",
+   startBtn:"Start assessment in full screen", starting:"Starting…",
+   otherTab:"This assessment is already open in another tab or window. Close the other one first.",
+   timeLeft:"Time left", elapsed:"Time", warnShort:"Warnings",
+   warnTitle:"Warning {n} of {max}", finalTitle:"Final warning ({n} of {max})",
+   warnBody:"This action has been recorded against your name and Employee ID.",
+   warnNext:"One more rule break will end your assessment and it will be recorded as FAILED.",
+   warnMore:"Warnings left: {left}. After that, the next rule break ends the assessment.",
+   fsTitle:"Full screen required", fsBody:"Return to full screen to continue the assessment.",
+   resume:"Return to the assessment",
+   navBlocked:"You cannot leave the assessment until you submit it.",
+   fiveMin:"5 minutes left", oneMin:"1 minute left",
+   endTerminated:"Your assessment was ended after repeated rule breaks. It has been recorded as FAILED and flagged for review.",
+   endTime:"Time is up — your answers were submitted automatically.",
+   notAnswered:"Not answered", violations:"Rule breaks recorded", proctored:"Proctored",
+   rNoBack:"Answer each question and press <b>Save &amp; next</b>. You cannot go back, and correct answers are shown <b>only after you submit</b>.",
+   saveNext:"Save answer & next", submitFinal:"Submit assessment", hiddenNote:"Correct answers and explanations are shown after you submit.", answeredCount:"Answered {a} of {n}",
+   rCam:"Your <b>webcam must stay on</b>. Photos are taken at the start, every 5 minutes, and whenever there is a problem. Being out of view for more than 8 seconds, another person in view, or covering or turning off the camera counts as a rule break.",
+   rExt:"Browser extensions (translators, Grammarly, AI helpers, etc.) must be <b>turned off</b>. Any extension that changes this page counts as a rule break.",
+   camTitle:"Camera check", camOn:"Turn on camera", camStarting:"Starting camera…",
+   camDenied:"Camera permission is blocked. Click the camera icon in the address bar, choose Allow, then press “Turn on camera” again.",
+   camNone:"No camera was found. A working webcam is required for this assessment — please contact IT.",
+   camErr:"The camera could not be started. Close other apps that may be using it (Teams, Zoom) and try again.",
+   camLive:"Camera is on — your preview is at the bottom-right of the screen.",
+   faceOk:"✔ Your face is clearly visible.", faceNone:"We can't see your face. Sit facing the camera in good light.", faceMany:"More than one face is visible. Only you should be in view.",
+   faceDark:"The camera image is too dark or covered.", faceLoading:"Loading the face check…", faceUnavail:"The face check could not load, so the assessment cannot start. Reload the page; if it still fails, contact IT.",
+   extTitle:"Extensions detected", extBody:"These browser extensions are changing this page. Turn them off — or open the assessment in an Incognito / InPrivate window, where extensions are normally off — then press “Check again”:", extRecheck:"Check again", extOk:"✔ No extensions detected.",
+   camTitleOv:"Camera required", camBodyOv:"Your camera was turned off or disconnected. Turn it back on to continue the assessment.",
+   stOk:"Face OK", stNone:"No face", stMany:"{n} faces", stDark:"Camera covered?", stLoad:"Checking…",
+   rRec:"Your <b>camera video and microphone sound are recorded for the whole assessment</b>. The microphone must stay on; muting or disconnecting it counts as a rule break.",
+   consentRec:"I have read the rules and agree that this assessment is monitored and that my webcam video, microphone sound and activity are recorded.",
+   camDeniedAV:"Camera or microphone permission is blocked. Click the camera icon in the address bar, allow both the camera and the microphone, then press “Turn on camera” again.",
+   camNoMic:"No microphone was found. A working microphone is required for this assessment — please contact IT.",
+   camOnAV:"Turn on camera & microphone", micOk:"✔ Microphone is on.", recNote:"Video and sound will be recorded from the moment you start.",
+   camTitleOvAV:"Camera and microphone required", camBodyOvAV:"Your camera or microphone was turned off or disconnected. Turn them back on to continue the assessment.",
+   v:{tab_hidden:"You switched to another tab or minimised the browser.",window_blur:"You left the assessment window (clicked another window or app).",fullscreen_exit:"You exited full-screen mode.",copy:"Copying is not allowed.",cut:"Cutting text is not allowed.",paste:"Pasting is not allowed.",right_click:"Right-click is not allowed.",shortcut:"That keyboard shortcut is not allowed.",print_screen:"Taking screenshots is not allowed.",multiple_tabs:"The assessment was opened in another tab or window.",page_reload:"The page was reloaded or reopened during the assessment.",no_face:"Your face was not visible to the camera.",multiple_faces:"More than one person was visible on camera.",camera_blocked:"The camera was covered or too dark.",camera_off:"The camera was turned off or disconnected.",extension:"A browser extension changed the assessment page.",mic_off:"The microphone was turned off, muted or disconnected."}},
+ hi:{rulesTitle:"मूल्यांकन के नियम — कृपया ध्यान से पढ़ें",
+   r1:"मूल्यांकन <b>फ़ुल स्क्रीन</b> में खुलेगा। सबमिट करने तक फ़ुल स्क्रीन में ही रहें।",
+   r2:"टैब <b>न</b> बदलें, दूसरी विंडो या ऐप न खोलें, और ब्राउज़र को छोटा (minimise) न करें।",
+   r3:"कॉपी, पेस्ट, राइट-क्लिक, प्रिंट, स्क्रीनशॉट और डेवलपर टूल <b>ब्लॉक</b> हैं।",
+   r4:"प्रश्न और उत्तर विकल्प <b>बदले हुए क्रम</b> में आएँगे।",
+   rTime:"आपके पास <b>{m} मिनट</b> हैं। समय समाप्त होने पर आपके उत्तर अपने-आप सबमिट हो जाएँगे।",
+   rNoTime:"कोई <b>समय-सीमा नहीं</b> है, लेकिन आपके द्वारा लिया गया समय दर्ज किया जाएगा।",
+   r5:"पेज को रीलोड या बंद न करें — यह भी नियम तोड़ना माना जाएगा।",
+   r6:"हर नियम उल्लंघन <b>आपके नाम और कर्मचारी ID के साथ दर्ज</b> होगा। आपको <b>2 चेतावनियाँ</b> मिलेंगी; <b>तीसरा</b> उल्लंघन होने पर मूल्यांकन समाप्त हो जाएगा और उसे <b>अनुत्तीर्ण (FAILED)</b> दर्ज किया जाएगा।",
+   consent:"मैंने नियम पढ़ लिए हैं और मैं सहमत हूँ कि इस मूल्यांकन के दौरान मेरी गतिविधि और वेबकैम फ़ोटो की निगरानी की जाएगी और उन्हें दर्ज किया जाएगा।",
+   startBtn:"फ़ुल स्क्रीन में मूल्यांकन शुरू करें", starting:"शुरू हो रहा है…",
+   otherTab:"यह मूल्यांकन पहले से किसी दूसरे टैब या विंडो में खुला है। पहले उसे बंद करें।",
+   timeLeft:"बचा समय", elapsed:"समय", warnShort:"चेतावनियाँ",
+   warnTitle:"चेतावनी {n} / {max}", finalTitle:"अंतिम चेतावनी ({n} / {max})",
+   warnBody:"यह गतिविधि आपके नाम और कर्मचारी ID के साथ दर्ज कर ली गई है।",
+   warnNext:"एक और नियम उल्लंघन होने पर आपका मूल्यांकन समाप्त हो जाएगा और उसे अनुत्तीर्ण दर्ज किया जाएगा।",
+   warnMore:"बची चेतावनियाँ: {left}। उसके बाद अगला उल्लंघन मूल्यांकन समाप्त कर देगा।",
+   fsTitle:"फ़ुल स्क्रीन आवश्यक है", fsBody:"मूल्यांकन जारी रखने के लिए फ़ुल स्क्रीन पर लौटें।",
+   resume:"मूल्यांकन पर लौटें",
+   navBlocked:"सबमिट करने से पहले आप मूल्यांकन नहीं छोड़ सकते।",
+   fiveMin:"5 मिनट बचे हैं", oneMin:"1 मिनट बचा है",
+   endTerminated:"बार-बार नियम तोड़ने के कारण आपका मूल्यांकन समाप्त कर दिया गया। इसे अनुत्तीर्ण दर्ज किया गया है और समीक्षा के लिए चिह्नित किया गया है।",
+   endTime:"समय समाप्त — आपके उत्तर अपने-आप सबमिट कर दिए गए।",
+   notAnswered:"उत्तर नहीं दिया", violations:"दर्ज नियम उल्लंघन", proctored:"निगरानी वाला",
+   rNoBack:"हर प्रश्न का उत्तर चुनें और <b>सेव करें और आगे</b> दबाएँ। आप पिछले प्रश्न पर वापस नहीं जा सकते, और सही उत्तर <b>केवल सबमिट करने के बाद</b> दिखाए जाएँगे।",
+   saveNext:"उत्तर सेव करें और आगे", submitFinal:"मूल्यांकन सबमिट करें", hiddenNote:"सही उत्तर और स्पष्टीकरण सबमिट करने के बाद दिखाए जाएँगे।", answeredCount:"{n} में से {a} उत्तर दिए",
+   rCam:"आपका <b>वेबकैम पूरे समय चालू रहना चाहिए</b>। शुरुआत में, हर 5 मिनट में और कोई समस्या होने पर फ़ोटो ली जाएगी। 8 सेकंड से अधिक कैमरे से बाहर रहना, कैमरे में किसी दूसरे व्यक्ति का दिखना, या कैमरा ढकना या बंद करना नियम उल्लंघन माना जाएगा।",
+   rExt:"ब्राउज़र एक्सटेंशन (अनुवादक, Grammarly, AI हेल्पर आदि) <b>बंद</b> होने चाहिए। इस पेज को बदलने वाला कोई भी एक्सटेंशन नियम उल्लंघन माना जाएगा।",
+   camTitle:"कैमरा जाँच", camOn:"कैमरा चालू करें", camStarting:"कैमरा शुरू हो रहा है…",
+   camDenied:"कैमरा अनुमति ब्लॉक है। एड्रेस बार में कैमरा आइकन पर क्लिक करें, Allow चुनें, फिर “कैमरा चालू करें” दोबारा दबाएँ।",
+   camNone:"कोई कैमरा नहीं मिला। इस मूल्यांकन के लिए चालू वेबकैम आवश्यक है — कृपया IT से संपर्क करें।",
+   camErr:"कैमरा शुरू नहीं हो सका। कैमरा उपयोग कर रहे दूसरे ऐप (Teams, Zoom) बंद करें और दोबारा कोशिश करें।",
+   camLive:"कैमरा चालू है — आपका प्रीव्यू स्क्रीन के नीचे-दाएँ है।",
+   faceOk:"✔ आपका चेहरा साफ़ दिख रहा है।", faceNone:"आपका चेहरा नहीं दिख रहा। अच्छी रोशनी में कैमरे के सामने बैठें।", faceMany:"एक से अधिक चेहरे दिख रहे हैं। कैमरे में केवल आप होने चाहिए।",
+   faceDark:"कैमरे की तस्वीर बहुत अंधेरी है या कैमरा ढका है।", faceLoading:"चेहरे की जाँच लोड हो रही है…", faceUnavail:"चेहरे की जाँच लोड नहीं हो सकी, इसलिए मूल्यांकन शुरू नहीं हो सकता। पेज रीलोड करें; फिर भी समस्या हो तो IT से संपर्क करें।",
+   extTitle:"एक्सटेंशन मिले", extBody:"ये ब्राउज़र एक्सटेंशन इस पेज को बदल रहे हैं। इन्हें बंद करें — या मूल्यांकन को Incognito / InPrivate विंडो में खोलें, जहाँ एक्सटेंशन आमतौर पर बंद रहते हैं — फिर “दोबारा जाँचें” दबाएँ:", extRecheck:"दोबारा जाँचें", extOk:"✔ कोई एक्सटेंशन नहीं मिला।",
+   camTitleOv:"कैमरा आवश्यक है", camBodyOv:"आपका कैमरा बंद या डिस्कनेक्ट हो गया। मूल्यांकन जारी रखने के लिए इसे दोबारा चालू करें।",
+   stOk:"चेहरा ठीक", stNone:"चेहरा नहीं", stMany:"{n} चेहरे", stDark:"कैमरा ढका?", stLoad:"जाँच…",
+   rRec:"<b>पूरे मूल्यांकन के दौरान आपके कैमरे का वीडियो और माइक्रोफ़ोन की आवाज़ रिकॉर्ड की जाएगी</b>। माइक्रोफ़ोन चालू रहना चाहिए; उसे म्यूट या डिस्कनेक्ट करना नियम उल्लंघन माना जाएगा।",
+   consentRec:"मैंने नियम पढ़ लिए हैं और मैं सहमत हूँ कि इस मूल्यांकन की निगरानी की जाएगी और मेरा वेबकैम वीडियो, माइक्रोफ़ोन की आवाज़ और गतिविधि रिकॉर्ड की जाएगी।",
+   camDeniedAV:"कैमरा या माइक्रोफ़ोन अनुमति ब्लॉक है। एड्रेस बार में कैमरा आइकन पर क्लिक करें, कैमरा और माइक्रोफ़ोन दोनों को Allow करें, फिर “कैमरा चालू करें” दोबारा दबाएँ।",
+   camNoMic:"कोई माइक्रोफ़ोन नहीं मिला। इस मूल्यांकन के लिए चालू माइक्रोफ़ोन आवश्यक है — कृपया IT से संपर्क करें।",
+   camOnAV:"कैमरा और माइक्रोफ़ोन चालू करें", micOk:"✔ माइक्रोफ़ोन चालू है।", recNote:"शुरू करते ही वीडियो और आवाज़ रिकॉर्ड होनी शुरू हो जाएगी।",
+   camTitleOvAV:"कैमरा और माइक्रोफ़ोन आवश्यक हैं", camBodyOvAV:"आपका कैमरा या माइक्रोफ़ोन बंद या डिस्कनेक्ट हो गया। मूल्यांकन जारी रखने के लिए इन्हें दोबारा चालू करें।",
+   v:{tab_hidden:"आपने दूसरा टैब खोला या ब्राउज़र छोटा किया।",window_blur:"आपने मूल्यांकन विंडो छोड़ी (किसी दूसरी विंडो या ऐप पर क्लिक किया)।",fullscreen_exit:"आप फ़ुल-स्क्रीन मोड से बाहर निकले।",copy:"कॉपी करने की अनुमति नहीं है।",cut:"टेक्स्ट कट करने की अनुमति नहीं है।",paste:"पेस्ट करने की अनुमति नहीं है।",right_click:"राइट-क्लिक की अनुमति नहीं है।",shortcut:"यह कीबोर्ड शॉर्टकट अनुमत नहीं है।",print_screen:"स्क्रीनशॉट लेने की अनुमति नहीं है।",multiple_tabs:"मूल्यांकन किसी दूसरे टैब या विंडो में खोला गया।",page_reload:"मूल्यांकन के दौरान पेज रीलोड किया गया या दोबारा खोला गया।",no_face:"आपका चेहरा कैमरे में नहीं दिखा।",multiple_faces:"कैमरे में एक से अधिक व्यक्ति दिखे।",camera_blocked:"कैमरा ढका हुआ था या तस्वीर बहुत अंधेरी थी।",camera_off:"कैमरा बंद या डिस्कनेक्ट किया गया।",extension:"किसी ब्राउज़र एक्सटेंशन ने मूल्यांकन पेज को बदला।",mic_off:"माइक्रोफ़ोन बंद, म्यूट या डिस्कनेक्ट किया गया।"}}
+};
+const PT = k => PUI[lang][k];
+const fmtT = (s, o) => String(s).replace(/\{(\w+)\}/g, (_, k) => o[k]);
+const PKEY = "phishProctor_" + (CONFIG.moduleId || "basic");
+const MAXW = CONFIG.maxWarnings ?? 2;
+let QZ = QUIZ;
+st.proc = {stage:"idle", sid:null, violations:0, lastV:0, events:[], fs:!!(document.fullscreenEnabled||document.webkitFullscreenEnabled),
+  endReason:null, overlay:null, consent:false, timer:null, warned5:false, warned1:false, otherTab:false, starting:false};
+
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function buildOrder(){
+  if(CONFIG.shuffle===false) return QUIZ.map((_,i)=>({o:i,p:[0,1,2,3]}));
+  return shuffle(QUIZ.map((_,i)=>i)).map(o=>({o, p:shuffle([0,1,2,3])}));
+}
+function applyOrder(map){
+  st.quiz.map = map;
+  QZ = map.map(({o,p}) => { const it = QUIZ[o];
+    return Object.assign({}, it, {o:{en:p.map(k=>it.o.en[k]), hi:p.map(k=>it.o.hi[k])}, a:p.indexOf(it.a), _o:o, _p:p}); });
+}
+// Answers in the ORIGINAL question/option order (what the server scores). -1 = not answered.
+function origAnswers(){
+  const out = QUIZ.map(()=>-1);
+  QZ.forEach((it,k)=>{ const a = st.quiz.ans[k]; if(Number.isInteger(a) && a>=0) out[it._o ?? k] = it._p ? it._p[a] : a; });
+  return out;
+}
+function procActive(){ return st.proc.stage === "active"; }
+function isFS(){ return !!(document.fullscreenElement || document.webkitFullscreenElement); }
+function reqFS(){
+  const el = document.documentElement, f = el.requestFullscreen || el.webkitRequestFullscreen;
+  if(!f || !st.proc.fs) return Promise.resolve(false);
+  try{
+    const r = f.call(el);
+    return (r && r.then ? r : Promise.resolve()).then(()=>true)
+      .catch(()=>{ st.proc.fs=false; pEvent("fullscreen_unavailable", false); return false; });
+  }catch(e){ st.proc.fs=false; return Promise.resolve(false); }
+}
+function exitFS(){ try{ if(isFS()) (document.exitFullscreen || document.webkitExitFullscreen).call(document); }catch(e){} }
+const apiUrl = p => (CONFIG.apiBase || "") + p;
+function persist(){
+  if(!procActive()) return;
+  try{ sessionStorage.setItem(PKEY, JSON.stringify({sid:st.proc.sid, startedAt:st.quiz.startedAt, map:st.quiz.map, ans:st.quiz.ans, i:st.quiz.i,
+    v:st.proc.violations, rp:st.proc.recPart, ev:st.proc.events.slice(-100), emp:{name:st.emp.name, empId:st.emp.empId, dept:st.emp.dept}})); }catch(e){}
+}
+function clearPersist(){ try{ sessionStorage.removeItem(PKEY); }catch(e){} }
+
+// Every action is recorded (and sent to the server with the learner's session).
+function pEvent(type, counted, detail){
+  const ev = {type, counted:!!counted, detail:detail||null, q:(st.quiz.i||0)+1, at:new Date().toISOString()};
+  st.proc.events.push(ev); if(st.proc.events.length>200) st.proc.events.shift();
+  if(st.proc.sid && CONFIG.saveResults){
+    try{ fetch(apiUrl(`/api/session/${st.proc.sid}/event`), {method:"POST", keepalive:true, headers:{"Content-Type":"application/json"}, body:JSON.stringify(ev)}).catch(()=>{}); }catch(e){}
+  }
+  persist();
+}
+// A rule break: 1st and 2nd = warning, 3rd = assessment ends (FAILED).
+let LEAVING = false;   // true while this page itself is unloading (reload/close) — counted once by the reloaded page instead
+window.addEventListener("pagehide", ()=>{ LEAVING = true; persist(); try{ CAM.rec && CAM.rec.state === "recording" && CAM.rec.requestData(); }catch(e){} });
+window.addEventListener("pageshow", ()=>{ LEAVING = false; });
+// Reloading/closing makes the browser leave full screen (and stop the camera) a moment before "pagehide":
+// those side-effects are logged but not counted — the reloaded page counts the reload itself as one rule break.
+let LEAVE_GRACE_UNTIL = 0;
+window.addEventListener("beforeunload", ()=>{ if(procActive()) LEAVE_GRACE_UNTIL = Date.now() + 1500; }, true);
+function violation(type, detail){
+  if(!procActive()) return;
+  if(LEAVING || Date.now() < LEAVE_GRACE_UNTIL){ if(!LEAVING) pEvent(type, false, "while leaving the page"); return; }
+  const now = Date.now();
+  if(now - st.proc.lastV < 2000){ pEvent(type, false, (detail ? detail+" · " : "") + "same incident"); return; }
+  st.proc.lastV = now; st.proc.violations++;
+  pEvent(type, true, detail);
+  if(st.proc.violations > MAXW){ finishQuiz("terminated"); return; }
+  st.proc.overlay = {kind:"warn", type, n:st.proc.violations};
+  showOverlay();
+}
+function showOverlay(){
+  const ov = document.getElementById("proc-overlay"); if(!ov) return;
+  const p = st.proc, needFS = procActive() && p.fs && !isFS(), needCam = procActive() && CAM.required && !CAM.live;
+  if(!procActive() || (!p.overlay && !needFS && !needCam)){ ov.hidden = true; document.body.classList.remove("proc-locked"); return; }
+  if(p.overlay && p.overlay.kind === "warn"){
+    const n = p.overlay.n, final = n >= MAXW;
+    ov.innerHTML = `<div class="pov-card warn" role="alertdialog" aria-modal="true"><div class="pov-ic">⚠️</div>
+      <h3>${fmtT(final ? PT("finalTitle") : PT("warnTitle"), {n, max:MAXW})}</h3>
+      <p><b>${PUI[lang].v[p.overlay.type] || p.overlay.type}</b></p><p>${PT("warnBody")}</p>
+      <p class="pov-strong">${final ? PT("warnNext") : fmtT(PT("warnMore"), {left:MAXW-n})}</p>
+      <button class="btn btn-pri" onclick="resumeProc()">${PT("resume")}</button></div>`;
+  } else if(needCam){
+    const msg = camErrMsg();
+    ov.innerHTML = `<div class="pov-card warn" role="alertdialog" aria-modal="true"><div class="pov-ic">${REC?"📷🎙":"📷"}</div><h3>${REC?PT("camTitleOvAV"):PT("camTitleOv")}</h3>
+      <p>${REC?PT("camBodyOvAV"):PT("camBodyOv")}</p>${msg?`<p class="pov-strong">${msg}</p>`:""}<button class="btn btn-pri" ${CAM.starting?"disabled":""} onclick="resumeProc()">${CAM.starting?PT("camStarting"):(REC?PT("camOnAV"):PT("camOn"))}</button></div>`;
+  } else {
+    ov.innerHTML = `<div class="pov-card" role="alertdialog" aria-modal="true"><div class="pov-ic">⛶</div><h3 style="color:var(--navy)">${PT("fsTitle")}</h3>
+      <p>${PT("fsBody")}</p><button class="btn btn-pri" onclick="resumeProc()">${PT("resume")}</button></div>`;
+  }
+  ov.hidden = false; document.body.classList.add("proc-locked");
+}
+function resumeProc(){ st.proc.overlay = null; pEvent("resume", false); const f = reqFS(); if(CAM.required && !CAM.live) startCamera(); f.then(()=>showOverlay()); showOverlay(); }
+
+function tickTimer(){
+  const el = document.getElementById("proc-timer"); if(!el) return;
+  if(!procActive()){ el.hidden = true; return; }
+  const lim = (CONFIG.timeLimitMin||0)*60, used = Math.floor((Date.now()-st.quiz.startedAt)/1000);
+  const f = s => { s = Math.max(0,s); return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0"); };
+  el.hidden = false;
+  const w = `<span class="pt-w">${PT("warnShort")}: ${st.proc.violations}/${MAXW}</span>`;
+  if(lim){
+    const left = lim - used;
+    el.innerHTML = `⏱ ${PT("timeLeft")}: <b>${f(left)}</b>${w}`; el.classList.toggle("low", left <= 300);
+    if(left <= 300 && !st.proc.warned5){ st.proc.warned5 = true; toast(PT("fiveMin")); }
+    if(left <= 60 && !st.proc.warned1){ st.proc.warned1 = true; toast(PT("oneMin")); }
+    if(left <= 0) finishQuiz("time_up");
+  } else el.innerHTML = `⏱ ${PT("elapsed")}: <b>${f(used)}</b>${w}`;
+}
+
+/* --- monitoring (only acts while an assessment is active) --- */
+document.addEventListener("visibilitychange", ()=>{ if(document.hidden) violation("tab_hidden"); });
+window.addEventListener("blur", ()=>{ setTimeout(()=>{ if(!document.hidden) violation("window_blur"); }, 60); });
+["fullscreenchange","webkitfullscreenchange"].forEach(n => document.addEventListener(n, ()=>{
+  if(procActive()){ if(!isFS() && st.proc.fs) violation("fullscreen_exit"); showOverlay(); } }));
+["copy","cut","paste"].forEach(t => document.addEventListener(t, e=>{ if(procActive()){ e.preventDefault(); violation(t); } }, true));
+document.addEventListener("contextmenu", e=>{ if(procActive()){ e.preventDefault(); violation("right_click"); } }, true);
+document.addEventListener("keydown", e=>{
+  if(!procActive()) return;
+  const k = (e.key||"").toLowerCase(), m = e.ctrlKey || e.metaKey;
+  if(e.key==="F12" || (m && e.shiftKey && ["i","j","c","k"].includes(k)) || (m && !e.shiftKey && ["c","v","x","a","p","s","u","f","o"].includes(k))){
+    e.preventDefault(); e.stopPropagation();
+    violation("shortcut", (e.ctrlKey?"Ctrl+":"")+(e.metaKey?"Cmd+":"")+(e.shiftKey?"Shift+":"")+(e.key.length===1?e.key.toUpperCase():e.key));
+  } else if(e.key==="PrintScreen"){ e.preventDefault(); violation("print_screen"); }
+}, true);
+document.addEventListener("keyup", e=>{ if(procActive() && e.key==="PrintScreen"){ violation("print_screen"); try{ navigator.clipboard.writeText(""); }catch(_){} } }, true);
+document.addEventListener("dragstart", e=>{ if(procActive()) e.preventDefault(); }, true);
+window.addEventListener("beforeunload", e=>{ if(procActive()){ pEvent("leave_attempt", false); e.preventDefault(); e.returnValue = ""; } });
+let BC = null;
+try{
+  BC = new BroadcastChannel("phish-proctor");
+  BC.onmessage = m => { const d = m.data || {};
+    if(d.t==="hello" && procActive()){ violation("multiple_tabs"); BC.postMessage({t:"busy"}); }
+    if(d.t==="busy" && !procActive()){ st.proc.otherTab = true; if(cur===6) render(); } };
+}catch(e){}
+
+
+/* --- webcam monitoring --- */
+const FACE = {noFaceSec:8, multiSec:3, darkSec:5, repeatSec:5, snapEveryMin:5, maxSnaps:40, darkLevel:18};  // repeatSec: while the problem continues, the next rule break follows after this many seconds
+const CAM = {required: CONFIG.camera !== false && !window.__PREVIEW_NO_CAMERA, stream:null, live:false, starting:false, err:null,
+  det:null, detReady:false, detFailed:false, detLoading:null, faces:null, bright:null, busy:false,
+  noFaceSince:0, multiSince:0, darkSince:0, noFaceArmed:true, multiArmed:true, darkArmed:true, loop:null, snapTimer:null, snaps:0, everOk:false,
+  mic:false, rec:null, recMime:"", recPart:-1, recSeq:0, recQueue:[], recUploading:false};
+const REC = !!CONFIG.record && CAM.required;
+function loadScript(src){ return new Promise((res,rej)=>{ const s=document.createElement("script"); s.src=src; s.onload=res; s.onerror=rej; document.head.appendChild(s); }); }
+function loadDetector(){
+  if(CAM.detLoading) return CAM.detLoading;
+  CAM.detLoading = (async()=>{
+    const local = (CONFIG.apiBase ? CONFIG.apiBase.replace(/\/$/,"")+"/" : "") + "vendor/face-api/";
+    const sources = [{js:local+"face-api.js", model:local+"model"},
+                     {js:"https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.15/dist/face-api.js", model:"https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.15/model"}];
+    for(const s of sources){
+      try{
+        if(!window.faceapi) await loadScript(s.js);
+        await faceapi.nets.tinyFaceDetector.loadFromUri(s.model);
+        CAM.det = new faceapi.TinyFaceDetectorOptions({inputSize:224, scoreThreshold:0.5});
+        CAM.detReady = true; updateCam(); return true;
+      }catch(e){ /* try the next source */ }
+    }
+    CAM.detFailed = true; pEvent("face_check_unavailable", false); updateCam(); return false;
+  })();
+  return CAM.detLoading;
+}
+async function startCamera(){
+  if(!CAM.required || CAM.live || CAM.starting) return CAM.live;
+  CAM.starting = true; CAM.err = null; updateCam();
+  try{
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw {name:"NotFoundError"};
+    CAM.stream = await navigator.mediaDevices.getUserMedia({
+      video: REC ? {width:{ideal:320}, height:{ideal:240}, frameRate:{ideal:15, max:15}, facingMode:"user"} : {width:{ideal:640}, height:{ideal:480}, facingMode:"user"},
+      audio: REC ? {echoCancellation:true, noiseSuppression:true} : false});
+    if(REC && !CAM.stream.getAudioTracks().length){ CAM.stream.getTracks().forEach(t=>t.stop()); CAM.stream = null; throw {name:"NoMic"}; }
+  }catch(e){
+    CAM.starting = false;
+    CAM.err = (e && e.name==="NoMic") ? "nomic" : (e && (e.name==="NotAllowedError"||e.name==="SecurityError")) ? "denied" : (e && (e.name==="NotFoundError"||e.name==="OverconstrainedError"||e.name==="DevicesNotFoundError")) ? (REC ? "nomic_or_cam" : "none") : "error";
+    updateCam(); if(procActive()) showOverlay(); return false;
+  }
+  const v = document.getElementById("cam-video"); v.srcObject = CAM.stream;
+  try{ await v.play(); }catch(e){}
+  CAM.live = true; CAM.starting = false;
+  CAM.stream.getVideoTracks().forEach(t => t.addEventListener("ended", ()=>{
+    if(!CAM.live) return;
+    CAM.live = false; updateCam();
+    if(procActive()){ violation("camera_off"); showOverlay(); }
+  }));
+  if(REC){
+    CAM.mic = true;
+    CAM.stream.getAudioTracks().forEach(t => {
+      t.addEventListener("ended", ()=>{ if(!CAM.live) return; CAM.mic = false; CAM.live = false; updateCam(); if(procActive()){ violation("mic_off", "disconnected"); showOverlay(); } });
+      t.addEventListener("mute", ()=>{ CAM.mic = false; updateCam(); if(procActive()) violation("mic_off", "muted"); });
+      t.addEventListener("unmute", ()=>{ CAM.mic = true; updateCam(); });
+    });
+  }
+  if(procActive()){ pEvent("camera_start", false); startSnapTimer(); startRecording(); }
+  loadDetector();
+  clearInterval(CAM.loop); CAM.loop = setInterval(camTick, 1000);
+  updateCam(); showOverlay(); return true;
+}
+function stopCamera(){
+  CAM.live = false; clearInterval(CAM.loop); clearInterval(CAM.snapTimer); CAM.snapTimer = null;
+  try{ CAM.stream && CAM.stream.getTracks().forEach(t => t.stop()); }catch(e){}
+  CAM.stream = null; const v = document.getElementById("cam-video"); if(v) v.srcObject = null; updateCam();
+}
+function startSnapTimer(){
+  if(!CAM.live || CAM.snapTimer) return;
+  CAM.snapTimer = setInterval(()=>{ if(procActive()) snapshot("periodic"); }, FACE.snapEveryMin*60*1000);
+}
+function snapshot(reason){
+  if(!CAM.live || CAM.snaps >= FACE.maxSnaps) return;
+  const v = document.getElementById("cam-video"); if(!v || v.readyState < 2) return;
+  const c = document.createElement("canvas"); c.width = 320; c.height = 240;
+  c.getContext("2d").drawImage(v, 0, 0, 320, 240);
+  const img = c.toDataURL("image/jpeg", 0.6); CAM.snaps++;
+  pEvent("snapshot", false, reason);
+  if(st.proc.sid && CONFIG.saveResults){
+    try{ fetch(apiUrl(`/api/session/${st.proc.sid}/snapshot`), {method:"POST", keepalive: img.length < 60000, headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({reason, image:img, q:(st.quiz.i||0)+1})}).catch(()=>{}); }catch(e){}
+  }
+}
+async function camTick(){
+  if(!CAM.live || CAM.busy) return;
+  const v = document.getElementById("cam-video"); if(!v || v.readyState < 2) return;
+  CAM.busy = true;
+  try{
+    const c = CAM.cv || (CAM.cv = document.createElement("canvas")); c.width = 64; c.height = 48;
+    const g = c.getContext("2d", {willReadFrequently:true}); g.drawImage(v, 0, 0, 64, 48);
+    const d = g.getImageData(0, 0, 64, 48).data; let sum = 0;
+    for(let i=0; i<d.length; i+=4) sum += d[i]*.299 + d[i+1]*.587 + d[i+2]*.114;
+    CAM.bright = sum / (d.length/4);
+    CAM.faces = CAM.detReady ? (await faceapi.detectAllFaces(v, CAM.det)).length : null;
+    if(CAM.faces === 1 && CAM.bright >= FACE.darkLevel) CAM.everOk = true;
+    const now = Date.now(), dark = CAM.bright < FACE.darkLevel;
+    if(procActive()){
+      if(dark){ if(!CAM.darkSince) CAM.darkSince = now;
+        if(now-CAM.darkSince >= FACE.darkSec*1000){ CAM.darkSince = now - (FACE.darkSec-FACE.repeatSec)*1000; snapshot("camera_blocked"); violation("camera_blocked"); } }
+      else { CAM.darkSince = 0; CAM.darkArmed = true; }
+      if(CAM.faces !== null && !dark){
+        if(CAM.faces === 0){ if(!CAM.noFaceSince) CAM.noFaceSince = now;
+          if(now-CAM.noFaceSince >= FACE.noFaceSec*1000){ CAM.noFaceSince = now - (FACE.noFaceSec-FACE.repeatSec)*1000; snapshot("no_face"); violation("no_face"); } }
+        else { CAM.noFaceSince = 0; CAM.noFaceArmed = true; }
+        if(CAM.faces > 1){ if(!CAM.multiSince) CAM.multiSince = now;
+          if(now-CAM.multiSince >= FACE.multiSec*1000){ CAM.multiSince = now - Math.max(0,FACE.multiSec-FACE.repeatSec)*1000; snapshot("multiple_faces"); violation("multiple_faces", CAM.faces+" faces"); } }
+        else { CAM.multiSince = 0; CAM.multiArmed = true; }
+      }
+    }
+  }catch(e){}
+  finally{ CAM.busy = false; updateCam(); }
+}
+function camReady(){ return !CAM.required || (CAM.live && CAM.detReady && CAM.everOk && (!REC || CAM.mic)); }
+function camErrMsg(){
+  return CAM.err==="denied" ? (REC ? PT("camDeniedAV") : PT("camDenied")) : CAM.err==="nomic" ? PT("camNoMic")
+       : CAM.err==="nomic_or_cam" ? PT("camNone")+" "+PT("camNoMic") : CAM.err==="none" ? PT("camNone") : CAM.err ? PT("camErr") : "";
+}
+
+/* --- full video + sound recording (advanced module: CONFIG.record) --- */
+// The browser records the camera and microphone and sends a piece every 5 seconds; the server keeps them in Neon.
+function startRecording(){
+  if(!REC || !CAM.live || !CAM.stream || CAM.rec || !st.proc.sid || typeof MediaRecorder === "undefined") {
+    if(REC && procActive() && typeof MediaRecorder === "undefined") pEvent("recording_failed", false, "browser cannot record");
+    return;
+  }
+  const types = ["video/webm;codecs=vp8,opus", "video/webm;codecs=vp9,opus", "video/webm", "video/mp4"];
+  const mime = types.find(t => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)) || "";
+  let rec;
+  try{ rec = new MediaRecorder(CAM.stream, Object.assign({videoBitsPerSecond:90000, audioBitsPerSecond:24000}, mime ? {mimeType:mime} : {})); }
+  catch(e){ pEvent("recording_failed", false, String(e && e.name || e)); return; }
+  st.proc.recPart = (st.proc.recPart ?? -1) + 1;
+  const part = st.proc.recPart, sid = st.proc.sid; let seq = 0;
+  CAM.rec = rec; CAM.recMime = rec.mimeType || mime;
+  rec.addEventListener("dataavailable", e => { if(e.data && e.data.size){ CAM.recQueue.push({sid, part, seq:seq++, blob:e.data, mime:CAM.recMime, tries:0}); pumpUploads(); } });
+  rec.addEventListener("stop", () => { if(CAM.rec === rec) CAM.rec = null; updateCam(); });
+  rec.addEventListener("error", e => pEvent("recording_failed", false, String(e && e.error && e.error.name || "error")));
+  rec.start(5000);
+  pEvent("recording_start", false, "part " + (part+1)); persist(); updateCam();
+}
+async function pumpUploads(){
+  if(CAM.recUploading) return; CAM.recUploading = true;
+  while(CAM.recQueue.length){
+    const c = CAM.recQueue[0];
+    try{
+      const r = await fetch(apiUrl(`/api/session/${c.sid}/recording?part=${c.part}&seq=${c.seq}&mime=${encodeURIComponent(c.mime||"")}`),
+        {method:"POST", headers:{"Content-Type":"application/octet-stream"}, body:c.blob, keepalive: c.blob.size < 60000});
+      if(!r.ok) throw new Error("HTTP " + r.status);
+      CAM.recQueue.shift();
+    }catch(e){
+      c.tries++;
+      if(c.tries > 20){ CAM.recQueue.shift(); pEvent("recording_gap", false, "piece " + c.seq + " of part " + (c.part+1)); }
+      else await new Promise(res => setTimeout(res, 3000));
+    }
+  }
+  CAM.recUploading = false;
+}
+function stopRecording(){
+  return new Promise(res => {
+    const rec = CAM.rec; if(!rec || rec.state === "inactive"){ CAM.rec = null; return res(); }
+    const t = setTimeout(res, 2500);
+    rec.addEventListener("stop", () => { clearTimeout(t); setTimeout(res, 50); });
+    try{ rec.stop(); }catch(e){ clearTimeout(t); res(); }
+  });
+}
+function camCheckHTML(){
+  if(!CAM.required) return "";
+  let body;
+  if(!CAM.live){
+    const msg = camErrMsg();
+    body = `${msg?`<div class="fb no" style="margin:6px 0 10px">${msg}</div>`:""}
+      <button class="btn btn-sec" ${CAM.starting?"disabled":""} onclick="startCamera()">${REC?"📷🎙":"📷"} ${CAM.starting?PT("camStarting"):(REC?PT("camOnAV"):PT("camOn"))}</button>`;
+  } else {
+    const dark = CAM.bright !== null && CAM.bright < FACE.darkLevel;
+    const face = CAM.detFailed ? `<b style="color:var(--red)">${PT("faceUnavail")}</b>`
+      : !CAM.detReady ? `<span class="muted">${PT("faceLoading")}</span>`
+      : dark ? `<b style="color:var(--red)">${PT("faceDark")}</b>`
+      : CAM.faces === 1 ? `<b style="color:var(--green)">${PT("faceOk")}</b>`
+      : CAM.faces > 1 ? `<b style="color:var(--red)">${PT("faceMany")}</b>`
+      : CAM.faces === 0 ? `<b style="color:var(--red)">${PT("faceNone")}</b>` : `<span class="muted">${PT("faceLoading")}</span>`;
+    body = `<p style="margin:4px 0">${PT("camLive")}</p><p style="margin:4px 0">${face}</p>${REC ? `<p style="margin:4px 0">${CAM.mic ? `<b style="color:var(--green)">${PT("micOk")}</b>` : `<b style="color:var(--red)">${PT("camNoMic")}</b>`}</p><p class="muted" style="margin:4px 0">🔴 ${PT("recNote")}</p>` : ""}`;
+  }
+  return `<div class="camcheck"><b>📷 ${PT("camTitle")}</b>${body}</div>`;
+}
+function updateCam(){
+  const box = document.getElementById("cam-box"), stt = document.getElementById("cam-status");
+  const show = CAM.required && CAM.live && (st.proc.stage==="rules" || procActive()) && !st.quiz.finished;
+  if(box){ box.hidden = !show; } document.body.classList.toggle("cam-on", !!show);
+  if(stt){
+    const dark = CAM.bright !== null && CAM.bright < FACE.darkLevel;
+    const bad = dark || (CAM.faces !== null && CAM.faces !== 1);
+    stt.className = bad ? "bad" : "";
+    stt.textContent = (CAM.rec ? "🔴 REC · " : "● ") + (dark ? PT("stDark") : !CAM.detReady ? (CAM.detFailed ? "—" : PT("stLoad")) : CAM.faces === 1 ? PT("stOk") : CAM.faces === 0 ? PT("stNone") : fmtT(PT("stMany"), {n:CAM.faces}));
+  }
+  const cc = document.getElementById("camcheck"); if(cc) cc.innerHTML = camCheckHTML();
+  updateStartBtn();
+}
+
+/* --- browser extension detection (a web page cannot block extensions, but it can see the ones that change it) --- */
+const OWN_IDS = new Set(["toast","proc-overlay","proc-timer","cam-box"]);
+function describeEl(el){
+  const t = el.tagName.toLowerCase();
+  if(t.includes("-")) return "Extension element <" + t.slice(0,50) + ">";
+  const cls = (typeof el.className === "string" && el.className.trim()) ? "." + el.className.trim().split(/\s+/)[0] : "";
+  return "Extension element <" + (t + (el.id ? "#"+el.id : "") + cls).slice(0,60) + ">";
+}
+function scanExtensions(){
+  const found = new Set(), h = document.documentElement, b = document.body;
+  if(!b) return [];
+  if(/\btranslated-(ltr|rtl)\b/.test(h.className) || document.querySelector("font, [_msttexthash], [_istranslated]")) found.add("Page translator (Google / Microsoft Translate)");
+  for(const el of [h, b]) for(const a of el.getAttributeNames()) if(/^data-(new-)?gr-|grammarly/i.test(a)) found.add("Grammarly");
+  for(const el of b.children){
+    const t = el.tagName.toLowerCase();
+    if(["script","style","link","noscript","template"].includes(t)) continue;
+    if(el.id && OWN_IDS.has(el.id)) continue;
+    if(el.matches("header.top, div.wrap, .pvbar")) continue;
+    found.add(describeEl(el));
+  }
+  for(const el of h.children){ const t = el.tagName.toLowerCase(); if(t !== "head" && t !== "body") found.add(describeEl(el)); }
+  document.querySelectorAll("body *").forEach(el => { if(el.tagName.includes("-")) found.add(describeEl(el)); });
+  document.querySelectorAll("script[src],link[href],iframe[src],img[src],embed[src],object[data]").forEach(el => {
+    const u = el.src || el.href || el.data || "";
+    if(/^(chrome|moz|ms-browser|safari-web|edge)-extension:/i.test(u)) found.add("Browser extension (" + (u.split("/")[2] || "unknown") + ")");
+  });
+  document.querySelectorAll("style").forEach(el => { if(/(chrome|moz)-extension:\/\//i.test(el.textContent || "")) found.add("Browser extension (injected styles)"); });
+  return [...found].slice(0, 12);
+}
+st.proc.ext = []; st.proc.extReported = new Set(); st.proc.recPart = -1;
+function checkExtensions(){
+  const list = scanExtensions();
+  if(procActive()){
+    for(const x of list) if(!st.proc.extReported.has(x)){ st.proc.extReported.add(x); violation("extension", x); break; }
+  } else if(st.proc.stage === "rules"){
+    const changed = list.join("|") !== st.proc.ext.join("|");
+    st.proc.ext = list;
+    if(changed){ const el = document.getElementById("extcheck"); if(el) el.innerHTML = extCheckHTML(); updateStartBtn(); }
+  }
+  return list;
+}
+function extCheckHTML(){
+  const l = st.proc.ext;
+  if(!l.length) return `<div class="extok">${PT("extOk")}</div>`;
+  return `<div class="fb no" role="alert"><b class="t">🧩 ${PT("extTitle")}</b>${PT("extBody")}<ul>${l.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
+    <button class="btn btn-sec" onclick="checkExtensions()">↻ ${PT("extRecheck")}</button></div>`;
+}
+function startAllowed(){ const p = st.proc; return p.consent && !p.starting && !p.otherTab && !p.ext.length && camReady(); }
+function updateStartBtn(){ const b = document.getElementById("pStart"); if(b) b.disabled = !startAllowed(); }
+setInterval(()=>{ if(st.proc.stage==="rules" || procActive()) checkExtensions(); }, 2000);
+try{ new MutationObserver(()=>{ if(procActive()) checkExtensions(); }).observe(document.documentElement, {childList:true, attributes:true}); }catch(e){}
+try{ new MutationObserver(()=>{ if(procActive()) checkExtensions(); }).observe(document.body, {childList:true, attributes:true}); }catch(e){}
+
+/* --- views --- */
+V[6] = () => {
+  const en = lang==="en", q = st.quiz, p = st.proc;
+  if (q.finished) return resultView();
+  if (!st.emp.ok) return idForm();
+  if (p.stage !== "active") return rulesView();
+  const n = QZ.length, item = QZ[q.i], last = q.i === n-1, done = q.ans.filter(a=>a!==undefined).length;
+  return `<section class="card">
+    <div class="eyebrow">${T("lessons")[6]} · 🔒 ${PT("proctored")}</div>
+    <div class="idpill">👤 ${T("takingAs")}: <b>${esc(st.emp.name)}</b> · ${esc(st.emp.empId)}</div>
+    <h2>${T("qOf")} ${q.i+1} ${en?"of":"/"} ${n}</h2>
+    ${item.d && typeof DOMAINS!=="undefined" ? `<span class="badge dom">${L(DOMAINS[item.d])}</span>` : ''}
+    <div class="qbar"><i style="width:${done/n*100}%"></i></div>
+    <p class="lead" style="font-weight:600;color:var(--navy)">${L(item.q)}</p>
+    ${L(item.o).map((o,j)=>`<button class="q-opt ${q.picked===j?'sel':''}" onclick="pickQ(${j})" aria-pressed="${q.picked===j}"><span class="l">${"ABCD"[j]}</span><span>${o}</span></button>`).join("")}
+    <div class="mt qnav"><button class="btn btn-pri" ${q.picked===null?'disabled':''} onclick="submitQ()">${last?"✔ "+PT("submitFinal"):PT("saveNext")+" →"}</button>
+      <span class="muted">${fmtT(PT("answeredCount"),{a:done,n})} · ${PT("hiddenNote")}</span></div>
+  </section>`;
+};
+function idForm(){
+  const e = st.emp;
+  return `<section class="card">
+    <div class="eyebrow">${T("lessons")[6]}</div>
+    <h2>📝 ${T("idTitle")}</h2>
+    <p class="muted">${T("idSub")}</p>
+    <form class="idform" onsubmit="event.preventDefault();startQuiz()" novalidate>
+      <label>${T("fName")} *<input type="text" id="fName" maxlength="120" autocomplete="name" value="${esc(e.name)}" required></label>
+      <label>${T("fEmp")} *<input type="text" id="fEmp" maxlength="30" autocomplete="off" value="${esc(e.empId)}" style="text-transform:uppercase" required></label>
+      <label>${T("fDept")}<input type="text" id="fDept" maxlength="80" value="${esc(e.dept)}"></label>
+      ${e.err?`<div class="fb no" role="alert" style="margin:0">${e.err}</div>`:''}
+      <div><button type="submit" class="btn btn-pri">${T("fStart")} →</button></div>
+    </form>
+  </section>`;
+}
+function rulesView(){
+  const p = st.proc, lim = CONFIG.timeLimitMin || 0;
+  const rules = [PT("r1"), PT("r2"), PT("r3"), PT("r4"), PT("rNoBack"), lim ? fmtT(PT("rTime"), {m:lim}) : PT("rNoTime"), ...(CAM.required ? [PT("rCam")] : []), ...(REC ? [PT("rRec")] : []), PT("rExt"), PT("r5"), PT("r6")];
+  return `<section class="card">
+    <div class="eyebrow">${T("lessons")[6]} · 🔒 ${PT("proctored")}</div>
+    <div class="idpill">👤 ${T("takingAs")}: <b>${esc(st.emp.name)}</b> · ${esc(st.emp.empId)}</div>
+    <h2>📋 ${PT("rulesTitle")}</h2>
+    <ul class="rules">${rules.map(r=>`<li>${r}</li>`).join("")}</ul>
+    ${p.otherTab ? `<div class="fb no" role="alert">${PT("otherTab")}</div>` : ''}
+    <div id="camcheck">${camCheckHTML()}</div>
+    <div id="extcheck">${extCheckHTML()}</div>
+    <label class="check ${p.consent?'on':''}"><input type="checkbox" id="pConsent" ${p.consent?'checked':''} onchange="st.proc.consent=this.checked;this.closest('label').classList.toggle('on',this.checked);updateStartBtn()"><span>${REC ? PT("consentRec") : PT("consent")}</span></label>
+    <div class="mt"><button class="btn btn-pri" id="pStart" ${startAllowed()?'':'disabled'} onclick="beginAssessment()">${p.starting?PT("starting"):"⛶ "+PT("startBtn")}</button></div>
+  </section>`;
+}
+function startQuiz(){
+  const name = $("#fName").value.replace(/\s+/g," ").trim();
+  const empId = $("#fEmp").value.trim().toUpperCase();
+  const dept = $("#fDept").value.replace(/\s+/g," ").trim();
+  st.emp.name=name; st.emp.empId=empId; st.emp.dept=dept;
+  if(name.length<2){ st.emp.err=T("eName"); return render(); }
+  if(!/^[A-Z0-9][A-Z0-9\-_/.]{0,29}$/.test(empId)){ st.emp.err=T("eEmp"); return render(); }
+  st.emp.err=""; st.emp.ok=true; st.proc.stage="rules"; st.proc.consent=false; st.proc.ext = scanExtensions();
+  try{ sessionStorage.setItem("phishEmp", JSON.stringify({name,empId,dept})); }catch(e){}
+  render();
+}
+async function beginAssessment(){
+  const p = st.proc; if(!startAllowed()) return;
+  const fsPromise = reqFS();             // must run inside the click to be allowed by the browser
+  p.starting = true; render();
+  const fsOk = await fsPromise;
+  let sid = null;
+  if(CONFIG.saveResults){
+    try{
+      const r = await fetch(apiUrl("/api/session/start"), {method:"POST", headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({module:CONFIG.moduleId, name:st.emp.name, empId:st.emp.empId, department:st.emp.dept, language:lang, fullscreen:fsOk, camera:CAM.live, faceCheck:CAM.detReady, recording:REC})});
+      const d = await r.json().catch(()=>({}));
+      if(r.ok) sid = d.sessionId;
+      else if(r.status===400){ p.starting=false; exitFS(); st.emp.ok=false; st.emp.err=d.error||"Error"; p.stage="idle"; return render(); }
+    }catch(e){ /* offline: continue; the server records the session when results are submitted */ }
+  }
+  Object.assign(p, {stage:"active", sid, violations:0, lastV:0, events:[], endReason:null, overlay:null, starting:false, warned5:false, warned1:false});
+  st.quiz = {i:0, ans:[], picked:null, finished:false, startedAt:Date.now(), map:null};
+  st.save = {status:"idle", data:null};
+  applyOrder(buildOrder());
+  document.body.classList.add("proctoring");
+  pEvent("session_start", false, (fsOk ? "full screen" : "full screen not available") + (CAM.required ? (CAM.detReady ? " · camera + face check" : " · camera (photos only)") : ""));
+  st.proc.extReported = new Set();
+  Object.assign(CAM, {noFaceSince:0, multiSince:0, darkSince:0, noFaceArmed:true, multiArmed:true, darkArmed:true, snaps:0});
+  st.proc.recPart = -1;
+  if(CAM.live){ clearInterval(CAM.snapTimer); CAM.snapTimer = null; startSnapTimer(); setTimeout(()=>{ if(procActive()) snapshot("start"); }, 1500); startRecording(); }
+  persist(); render();
+  clearInterval(p.timer); p.timer = setInterval(tickTimer, 1000);
+  window.scrollTo({top:0});
+}
+function restoreProc(){
+  let s = null; try{ s = JSON.parse(sessionStorage.getItem(PKEY) || "null"); }catch(e){}
+  if(!s || !s.map || !s.emp) return;
+  st.emp.name=s.emp.name; st.emp.empId=s.emp.empId; st.emp.dept=s.emp.dept||""; st.emp.ok=true;
+  st.quiz = {i:s.i||0, ans:s.ans||[], picked:null, finished:false, startedAt:s.startedAt||Date.now(), map:null};
+  applyOrder(s.map);
+  Object.assign(st.proc, {stage:"active", sid:s.sid||null, violations:s.v||0, lastV:0, events:s.ev||[], overlay:null, recPart:(s.rp ?? -1)});
+  document.body.classList.add("proctoring"); cur = 6;
+  clearInterval(st.proc.timer); st.proc.timer = setInterval(tickTimer, 1000);
+  violation("page_reload");
+}
+async function saveResult(){
+  if(!CONFIG.saveResults) return;
+  const q = st.quiz, p = st.proc;
+  st.save = {status:"saving", data:null}; render();
+  try{
+    const r = await fetch(apiUrl("/api/results"), {
+      method:"POST", keepalive:true, headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ module:CONFIG.moduleId||"basic", sessionId:p.sid, name:st.emp.name, empId:st.emp.empId, department:st.emp.dept, language:lang,
+        answers:origAnswers(), endReason:p.endReason||"completed", violations:p.violations, events:p.events.slice(-100),
+        durationSec: q.startedAt ? Math.round((Date.now()-q.startedAt)/1000) : null })
+    });
+    const data = await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(data.error||("HTTP "+r.status));
+    st.save = {status:"ok", data};
+  }catch(err){
+    st.save = {status:"err", data:{error:String(err.message||err)}};
+  }
+  if(cur===6) render();
+}
+function pickQ(j){ if(st.quiz.ans[st.quiz.i]!==undefined) return; st.quiz.picked=j; render(); }
+// Answers are saved without showing whether they are right; the review appears only after submitting.
+function submitQ(){ const q=st.quiz; if(q.picked===null) return; q.ans[q.i]=q.picked; q.picked=null;
+  SCORM.set(`cmi.interactions.${q.i}.id`,`Q${q.i+1}`); SCORM.set(`cmi.interactions.${q.i}.type`,"choice");
+  SCORM.set(`cmi.interactions.${q.i}.student_response`,"abcd"[q.ans[q.i]]); SCORM.set(`cmi.interactions.${q.i}.correct_responses.0.pattern`,"abcd"[QZ[q.i].a]);
+  SCORM.set(`cmi.interactions.${q.i}.result`, q.ans[q.i]===QZ[q.i].a?"correct":"wrong");
+  if(q.i < QZ.length-1){ q.i++; persist(); render(); window.scrollTo({top:0}); }
+  else finishQuiz("completed"); }
+function nextQ(){ const q=st.quiz; if(q.i<QZ.length-1){ q.i++; persist(); render(); window.scrollTo({top:0}); } else finishQuiz("completed"); }
+function finishQuiz(reason){
+  const q = st.quiz, p = st.proc; if(q.finished) return;
+  reason = reason || "completed";
+  const wasActive = procActive();
+  p.stage = "done"; p.endReason = reason; p.overlay = null; clearInterval(p.timer);
+  if(wasActive) pEvent(reason==="completed" ? "submit" : reason, false);
+  clearPersist(); stopRecording().then(stopCamera); exitFS();
+  document.body.classList.remove("proctoring","proc-locked");
+  q.finished = true;
+  const right = QZ.reduce((n,it,i)=>n+(q.ans[i]===it.a?1:0),0), pct = Math.round(right/QZ.length*100);
+  const pass = pct>=CONFIG.passMark && reason!=="terminated";
+  if(pass) complete(6);
+  SCORM.set("cmi.core.score.min",0); SCORM.set("cmi.core.score.max",100); SCORM.set("cmi.core.score.raw",pct);
+  SCORM.set("cmi.core.lesson_status", pass?"passed":"failed"); SCORM.commit();
+  cur = 6; render(); window.scrollTo({top:0,behavior:"smooth"});
+  saveResult();
+}
+function resultView(){
+  const en = lang==="en", q = st.quiz, p = st.proc;
+  const right = QZ.reduce((n,it,i)=>n+(q.ans[i]===it.a?1:0),0), pct = Math.round(right/QZ.length*100);
+  const terminated = p.endReason==="terminated", pass = pct>=CONFIG.passMark && !terminated;
+  const C = 2*Math.PI*62, col = pass?"var(--green)":"var(--red)";
+  const today = new Date().toLocaleDateString(en?"en-IN":"hi-IN",{day:"numeric",month:"long",year:"numeric"});
+  return `<section class="card center">
+    <div class="eyebrow">${T("lessons")[6]} · 🔒 ${PT("proctored")}</div>
+    ${terminated?`<div class="fb no endbanner" role="alert">⛔ ${PT("endTerminated")}</div>`:''}
+    ${p.endReason==="time_up"?`<div class="fb endbanner" style="background:var(--amber-l);border-left:4px solid var(--amber)">⏱ ${PT("endTime")}</div>`:''}
+    <svg class="score-ring" viewBox="0 0 150 150"><circle cx="75" cy="75" r="62" fill="none" stroke="#e8edf2" stroke-width="14"/>
+      <circle cx="75" cy="75" r="62" fill="none" stroke="${pass?'#1f8a4c':'#c8372d'}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${C*pct/100} ${C}" transform="rotate(-90 75 75)"/>
+      <text x="75" y="82" text-anchor="middle" font-size="30" font-weight="800" fill="#0f2a4a" font-family="Inter">${pct}%</text></svg>
+    <h2 style="color:${col}">${pass?'🎉 '+T("passed"):T("failed")}</h2>
+    <p class="muted">${T("scoreTxt")}: ${right}/${QZ.length} · ${T("passNeed")}: ${CONFIG.passMark}% · ${PT("violations")}: ${p.violations}</p>
+    ${saveBanner()}
+    <div class="noprint" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px">
+      <button class="btn btn-sec" ${st.save.status==="saving"?"disabled":""} onclick="st.quiz={i:0,ans:[],picked:null,finished:false,startedAt:0};st.save={status:'idle',data:null};st.proc.stage='rules';st.proc.consent=false;st.proc.endReason=null;st.proc.violations=0;st.proc.ext=scanExtensions();render()">↻ ${T("retry")}</button>
+      <button class="btn btn-sec" onclick="go(1)">📖 ${T("review")}</button>
+    </div>
+  </section>
+  ${pass?`<section class="card center">
+    <div class="cert">
+      <img class="cert-logo" alt="Laxmi India Finance logo" src="data:image/png;base64,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">
+      <div class="cert-org">LAXMI INDIA FINANCE</div>
+      <div class="eyebrow">${en?"Cyber Security Awareness":"साइबर सुरक्षा जागरूकता"}</div>
+      <h3>${T("certTitle")}</h3>
+      <p class="muted" style="margin:6px 0 0">${en?"This is to certify that":"प्रमाणित किया जाता है कि"}</p>
+      <div class="nm" id="cn">${esc(st.emp.name)||'—'}</div>
+      <p class="muted" style="margin:0 0 8px">${T("empLbl")}: <b>${esc(st.emp.empId)}</b>${st.emp.dept?` · ${esc(st.emp.dept)}`:''}</p>
+      <p>${T("certBody")}<br><b>${T("course")}</b></p>
+      <p class="muted">${T("date")}: ${today} · ${T("score")}: ${pct}%</p>
+    </div>
+    <div class="mt noprint"><button class="btn btn-pri" onclick="doPrint()">🖨️ ${T("print")}</button></div>
+  </section>`:''}
+  <section class="card">
+    <h3 style="margin-top:0">${en?"Answer review":"उत्तरों की समीक्षा"}</h3>
+    ${QZ.map((it,i)=>{ const a=q.ans[i], ok=a===it.a;
+      return `<div class="fb ${ok?'ok':'no'}" style="margin-top:10px"><b class="t">${i+1}. ${L(it.q)}</b>
+      ${a===undefined?`<i>${PT("notAnswered")}</i> · `:''}${ok?'✔':'✘'} ${en?"Correct answer":"सही उत्तर"}: <b>${L(it.o)[it.a]}</b><br><span class="muted">${L(it.e)}</span></div>`; }).join("")}
+  </section>`;
+}
+function saveBanner(){
+  if(!CONFIG.saveResults) return "";
+  const s = st.save;
+  if(s.status==="saving") return `<div class="savebar saving">⏳ ${T("saving")}</div>`;
+  if(s.status==="ok") return `<div class="savebar ok">✔ ${T("saved")} <span class="muted">(${T("empLbl")} ${esc(st.emp.empId)} · ${T("attempt")} #${s.data&&s.data.attemptNo||1})</span></div>`;
+  if(s.status==="err") return `<div class="savebar err" role="alert">⚠ ${T("saveErr")}<br><small class="muted">${esc(s.data&&s.data.error)}</small><br>
+    <button class="btn btn-pri" style="margin-top:8px" onclick="saveResult()">↻ ${T("retrySave")}</button></div>`;
+  return "";
+}
+function doPrint(){ try{ window.print(); }catch(e){ toast(T("printFail")); } }
+
+function render(){
+  renderSide();
+  $("#main").innerHTML = V[cur]();
+  showOverlay(); tickTimer(); updateCam();
+}
+
+/* boot */
+try{ const s=JSON.parse(sessionStorage.getItem("phishEmp")||"null"); if(s){ st.emp.name=s.name||""; st.emp.empId=s.empId||""; st.emp.dept=s.dept||""; } }catch(e){}
+SCORM.init();
+restoreProc();
+try{ BC && BC.postMessage({t:"hello"}); }catch(e){}
+window.addEventListener("beforeunload", ()=>{ SCORM.commit(); SCORM.finish(); });
+setLang(lang);
+</script>
+</body>
+</html>
