@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Phishing Quiz – Admin Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f2a4a;--teal:#0e8f86;--teal-l:#e3f4f2;--red:#c8372d;--red-l:#fdecea;--green:#1f8a4c;--green-l:#e6f5ec;--amber:#b7791f;--amber-l:#fff6e0;
+  --ink:#1d2733;--muted:#5d6b7a;--line:#dde3ea;--bg:#f4f6f9;--violet:#4b3fb0;--violet-l:#e8e6fb}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,"Noto Sans Devanagari",system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14.5px}
+header{background:var(--navy);color:#fff}
+.in{max-width:1360px;margin:0 auto;padding:16px 22px}
+header .in{display:flex;align-items:center;gap:12px}
+header h1{font-size:18px;margin:0}
+header small{opacity:.7;display:block;font-weight:400;font-size:12.5px}
+header nav{margin-left:auto;display:flex;gap:18px}
+header a{color:#7ee0d6;font-size:14px;text-decoration:none}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin:20px 0}
+.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px}
+.stat .v{font-size:26px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums}
+.stat .k{color:var(--muted);font-size:13px}
+.stat.warn .v{color:var(--red)}
+.tabs{display:flex;gap:6px;margin-bottom:-1px}
+.tab{border:1px solid var(--line);border-bottom:0;background:#eef1f5;color:var(--muted);font:inherit;font-weight:700;padding:10px 18px;border-radius:12px 12px 0 0;cursor:pointer}
+.tab.on{background:#fff;color:var(--navy)}
+.panel{background:#fff;border:1px solid var(--line);border-radius:0 12px 12px 12px;padding:16px}
+.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin-bottom:14px}
+.filters label{display:grid;gap:4px;font-size:12.5px;color:var(--muted);font-weight:600}
+input,select{font:inherit;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:#fff;min-width:0}
+input:focus,select:focus{outline:none;border-color:var(--teal)}
+.search{width:220px}
+.btn{font:inherit;font-weight:600;border:0;border-radius:8px;padding:9px 14px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.pri{background:var(--teal);color:#fff}.sec{background:#fff;border:1.5px solid var(--line);color:var(--navy)}
+.sec:hover{border-color:var(--navy)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.right{margin-left:auto}
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);background:#fafbfc;position:sticky;top:0}
+td.num,th.num{text-align:right}
+tr:hover td{background:#fafcfd}
+.pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:700}
+.pass,.p-clean,.s-submitted{background:var(--green-l);color:var(--green)}
+.fail,.p-terminated,.s-terminated{background:var(--red-l);color:var(--red)}
+.p-warned,.p-late,.p-time_up,.s-not_submitted{background:var(--amber-l);color:#7a5200}
+.p-unverified,.p-none,.s-in_progress{background:#eef1f5;color:var(--muted)}
+.mod{background:#eef1f5;color:var(--muted)}.mod.adv{background:var(--violet-l);color:var(--violet)}
+.bar{display:inline-block;width:56px;height:6px;border-radius:9px;background:var(--line);vertical-align:middle;margin-left:8px;overflow:hidden}
+.bar i{display:block;height:100%}
+.ico{background:none;border:0;color:var(--muted);cursor:pointer;font-size:15px;padding:4px 6px;border-radius:6px}
+.ico:hover{background:var(--bg);color:var(--navy)}
+.ico.del:hover{background:var(--red-l);color:var(--red)}
+.vcount{font-weight:800}.vcount.z{color:var(--muted);font-weight:400}.vcount.h{color:var(--red)}
+.pager{display:flex;align-items:center;gap:10px;justify-content:flex-end;margin-top:12px;color:var(--muted)}
+.empty{padding:40px;text-align:center;color:var(--muted)}
+.err{background:var(--red-l);color:var(--red);padding:12px;border-radius:8px;margin-bottom:12px;display:none}
+.storage{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:-6px 0 16px;font-size:13.5px;color:var(--muted)}
+.storage[hidden]{display:none}
+.sbar{flex:0 0 180px;height:8px;border-radius:9px;background:var(--line);overflow:hidden}
+.sbar i{display:block;height:100%;background:var(--teal)}
+.storage.warn .sbar i{background:var(--red)}.storage.warn{color:var(--red)}
+.recs{display:grid;gap:12px;margin-bottom:6px}
+.recs video{width:100%;max-height:360px;background:#000;border-radius:10px}
+.recbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:13px;color:var(--muted);margin-top:4px}
+.hint{color:var(--muted);font-size:13px;margin:0 0 12px}
+/* modal */
+#modal{position:fixed;inset:0;background:rgba(15,42,74,.6);display:none;place-items:center;padding:20px;z-index:50}
+#modal.on{display:grid}
+.mbox{background:#fff;border-radius:14px;max-width:880px;width:100%;max-height:88vh;overflow:auto;padding:22px 24px}
+.mhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.mhead h2{margin:0;font-size:19px;color:var(--navy)}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);margin:10px 0 14px;font-size:13.5px}
+.meta b{color:var(--ink)}
+.gh{font-size:15px;color:var(--navy);margin:14px 0 8px}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:6px}
+.gallery figure{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fafbfc}
+.gallery figure.flag{border:2px solid var(--red)}
+.gallery img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:#000}
+.gallery figcaption{font-size:12px;padding:5px 8px;color:var(--muted)}
+.gallery figure.flag figcaption b{color:var(--red)}
+.tl{list-style:none;margin:0;padding:0;border-left:2px solid var(--line)}
+.tl li{position:relative;padding:8px 0 8px 18px}
+.tl li::before{content:"";position:absolute;left:-7px;top:13px;width:12px;height:12px;border-radius:50%;background:#c9d3de}
+.tl li.v::before{background:var(--red)}
+.tl .t{color:var(--muted);font-size:12.5px;margin-right:8px;font-variant-numeric:tabular-nums}
+.tl .vn{background:var(--red-l);color:var(--red);font-size:11.5px;font-weight:800;padding:2px 8px;border-radius:999px;margin-left:6px}
+@media(max-width:1100px){.stats{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.search{width:100%}}
+</style>
+</head>
+<body>
+<header><div class="in">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7ee0d6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 9.5-8 11-4.5-1.5-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></svg>
+  <h1>Phishing Awareness — Results &amp; Proctoring<small>Admin dashboard · Laxmi India Finance</small></h1>
+  <nav><a id="navB" href="/basic" target="_blank" rel="noopener">Basic module ↗</a><a id="navA" href="/advanced" target="_blank" rel="noopener">Advanced module ↗</a></nav>
+</div></header>
+
+<div class="in">
+  <div class="stats">
+    <div class="stat"><div class="v" id="sAttempts">–</div><div class="k">Submitted attempts</div></div>
+    <div class="stat"><div class="v" id="sEmp">–</div><div class="k">Employees attempted</div></div>
+    <div class="stat"><div class="v" id="sPassed">–</div><div class="k">Employees passed</div></div>
+    <div class="stat"><div class="v" id="sAvg">–</div><div class="k">Average score</div></div>
+    <div class="stat warn"><div class="v" id="sFlag">–</div><div class="k" id="sFlagK">Flagged attempts (rule breaks)</div></div>
+    <div class="stat warn"><div class="v" id="sNS">–</div><div class="k">Started but not submitted</div></div>
+  </div>
+
+  <div class="storage" id="storage" hidden>
+    <div class="sbar"><i id="sbarFill"></i></div>
+    <span id="storageText"></span>
+  </div>
+  <div class="err" id="err"></div>
+  <div class="filters" style="margin-bottom:12px">
+    <label>Module
+      <select id="module" onchange="state.page=1;loadStats();load()">
+        <option value="">All modules</option>
+        <option value="basic">Basic (15 Q, no time limit)</option>
+        <option value="advanced">Advanced – CISA-level (25 Q, 30 min)</option>
+      </select></label>
+    <label>Search (Employee ID, name, department)<input id="search" class="search" type="search" placeholder="e.g. EMP1024 or Priya" onkeydown="if(event.key==='Enter'){state.page=1;load()}"></label>
+    <label>From<input id="from" type="date"></label>
+    <label>To<input id="to" type="date"></label>
+    <button class="btn pri" onclick="state.page=1;load()">Apply</button>
+    <button class="btn sec" onclick="resetFilters()">Reset</button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" id="tabR" onclick="setTab('results')">Results</button>
+    <button class="tab" id="tabS" onclick="setTab('sessions')">🔒 Integrity log</button>
+  </div>
+  <div class="panel">
+    <div class="filters" id="fResults">
+      <label>Show
+        <select id="view" onchange="state.page=1;load()">
+          <option value="all">Every attempt</option>
+          <option value="latest">Latest attempt per employee</option>
+          <option value="best">Best attempt per employee</option>
+        </select></label>
+      <label>Result
+        <select id="status" onchange="state.page=1;load()"><option value="">All</option><option value="passed">Passed</option><option value="failed">Failed</option></select></label>
+      <label>Proctoring
+        <select id="proctor" onchange="state.page=1;load()"><option value="">All</option><option value="flagged">Flagged (rule breaks, terminated, late)</option><option value="clean">Clean</option></select></label>
+      <a class="btn sec right" id="csvR" href="#">⬇ Download results CSV</a>
+    </div>
+    <div class="filters" id="fSessions" style="display:none">
+      <label>Show
+        <select id="sstatus" onchange="state.page=1;load()">
+          <option value="">Every started assessment</option>
+          <option value="violations">With rule breaks</option>
+          <option value="terminated">Terminated (3rd rule break)</option>
+          <option value="not_submitted">Started but not submitted</option>
+          <option value="in_progress">In progress now</option>
+          <option value="submitted">Submitted</option>
+        </select></label>
+      <p class="hint" style="margin:0 0 4px">Every time someone starts an assessment it is logged here with their name and Employee ID — even if they close the page and never submit.</p>
+      <a class="btn sec right" id="csvS" href="#">⬇ Download integrity log CSV</a>
+    </div>
+    <div class="tbl">
+      <table>
+        <thead id="thead"></thead>
+        <tbody id="rows"><tr><td class="empty">Loading…</td></tr></tbody>
+      </table>
+    </div>
+    <div class="pager">
+      <span id="pinfo"></span>
+      <button class="btn sec" id="prev" onclick="state.page--;load()">← Prev</button>
+      <button class="btn sec" id="next" onclick="state.page++;load()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<div id="modal" onclick="if(event.target===this)closeModal()"><div class="mbox" id="mbox"></div></div>
+
+<script>
+const state = { page: 1, limit: 50, tab: "results" };
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const fmt = (d) => d ? new Date(d).toLocaleString("en-IN", { timeZone: "Asia/Kolkata", day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "—";
+const fmtTime = (d) => new Date(d).toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit", second: "2-digit" });
+const MODNAME = { basic: "Basic", advanced: "Advanced" };
+const PROCTOR = { clean: "Clean", warned: "Warned", terminated: "Terminated", time_up: "Time up", late: "Late", unverified: "Not monitored", none: "—" };
+const SSTATUS = { in_progress: "In progress", not_submitted: "Not submitted", submitted: "Submitted", terminated: "Terminated" };
+const EVENT = { session_start: "Started the assessment", resume: "Returned to the assessment", submit: "Submitted", time_up: "Time up – submitted automatically",
+  terminated: "Assessment ended after the 3rd rule break", leave_attempt: "Tried to close or leave the page", fullscreen_unavailable: "Full screen not available on this device",
+  tab_hidden: "Switched to another tab / minimised the browser", window_blur: "Left the assessment window (another window or app)",
+  fullscreen_exit: "Exited full screen", copy: "Tried to copy", cut: "Tried to cut", paste: "Tried to paste", right_click: "Right-clicked",
+  shortcut: "Used a blocked keyboard shortcut", print_screen: "Pressed Print Screen", multiple_tabs: "Opened the assessment in another tab",
+  page_reload: "Reloaded / reopened the page", result_saved: "Result saved",
+  camera_start: "Camera turned on", camera_off: "Camera turned off / disconnected", camera_blocked: "Camera covered or too dark",
+  no_face: "Face not visible to the camera", multiple_faces: "More than one person on camera", face_check_unavailable: "Automatic face check not available (photos only)",
+  snapshot: "Webcam photo taken", extension: "Browser extension changed the page",
+  mic_off: "Microphone turned off, muted or disconnected", recording_start: "Video + sound recording started",
+  recording_failed: "Recording could not start", recording_gap: "Part of the recording could not be uploaded" };
+const SNAPR = { start: "Start", periodic: "Every 5 min", no_face: "No face", multiple_faces: "Multiple faces", camera_blocked: "Camera covered" };
+const modPill = (m) => `<span class="pill mod ${m === "advanced" ? "adv" : ""}">${MODNAME[m] || esc(m)}</span>`;
+const vCount = (n, max) => `<span class="vcount ${!n ? "z" : n > max ? "h" : ""}">${n || 0}</span>`;
+let MAXW = 2;
+
+function common() {
+  const p = new URLSearchParams();
+  ["module", "search", "from", "to"].forEach((k) => { const v = $(k).value.trim(); if (v) p.set(k, v); });
+  return p;
+}
+function params(withPage) {
+  const p = common();
+  if (state.tab === "results") { ["view", "status", "proctor"].forEach((k) => { const v = $(k).value; if (v) p.set(k, v); }); }
+  else { const v = $("sstatus").value; if (v) p.set("status", v); }
+  if (withPage) { p.set("page", state.page); p.set("limit", state.limit); }
+  return p;
+}
+function showErr(m) { const e = $("err"); e.textContent = m; e.style.display = m ? "block" : "none"; }
+
+function setTab(t) {
+  state.tab = t; state.page = 1;
+  $("tabR").classList.toggle("on", t === "results"); $("tabS").classList.toggle("on", t === "sessions");
+  $("fResults").style.display = t === "results" ? "" : "none"; $("fSessions").style.display = t === "sessions" ? "" : "none";
+  load();
+}
+
+async function loadStats() {
+  try {
+    const m = $("module").value;
+    const r = await fetch("/api/admin/stats" + (m ? "?module=" + m : ""), { credentials: "same-origin" });
+    if (!r.ok) throw new Error("stats " + r.status);
+    const s = await r.json();
+    MAXW = s.max_warnings ?? 2;
+    if (s.pages) { // single-module package: hide the link to the module that isn't installed here
+      if ($("navB")) $("navB").style.display = s.pages.basic ? "" : "none";
+      if ($("navA")) $("navA").style.display = s.pages.advanced ? "" : "none";
+    }
+    $("sAttempts").textContent = s.total_attempts.toLocaleString("en-IN");
+    $("sEmp").textContent = s.employees.toLocaleString("en-IN");
+    $("sPassed").textContent = s.employees_passed.toLocaleString("en-IN") + (s.employees ? ` (${Math.round(s.employees_passed / s.employees * 100)}%)` : "");
+    $("sAvg").textContent = s.avg_score + "%";
+    $("sFlag").textContent = s.flagged_attempts.toLocaleString("en-IN");
+    $("sFlagK").textContent = `Flagged attempts${s.terminated ? ` (${s.terminated} terminated)` : " (rule breaks)"}`;
+    $("sNS").textContent = s.not_submitted.toLocaleString("en-IN");
+    if (s.storage) {
+      const st = s.storage, pct = Math.min(100, Math.round(st.db_mb / st.limit_mb * 100));
+      $("storage").hidden = false; $("storage").classList.toggle("warn", pct >= 80);
+      $("sbarFill").style.width = pct + "%";
+      $("storageText").textContent = `Database storage: ${st.db_mb} MB of ${st.limit_mb} MB (${pct}%) · video recordings: ${st.recordings_mb} MB for ${st.recordings} test${st.recordings === 1 ? "" : "s"}, deleted after ${st.recording_retention_days} days` + (pct >= 80 ? " — almost full: delete old recordings or upgrade Neon" : "");
+    }
+  } catch (e) { showErr("Could not load summary: " + e.message); }
+}
+
+async function load() {
+  showErr("");
+  const csvP = params(false).toString();
+  $("csvR").href = "/api/admin/results.csv?" + csvP;
+  $("csvS").href = "/api/admin/sessions.csv?" + csvP;
+  const url = (state.tab === "results" ? "/api/admin/results?" : "/api/admin/sessions?") + params(true).toString();
+  const cols = state.tab === "results" ? 14 : 12;
+  $("thead").innerHTML = state.tab === "results"
+    ? `<tr><th>Submitted (IST)</th><th>Module</th><th>Employee ID</th><th>Name</th><th>Department</th><th>Lang</th><th class="num">Score</th><th class="num">Correct</th><th>Result</th><th>Proctoring</th><th class="num">Rule breaks</th><th class="num">Attempt #</th><th class="num">Time</th><th></th></tr>`
+    : `<tr><th>Started (IST)</th><th>Module</th><th>Employee ID</th><th>Name</th><th>Department</th><th>Status</th><th class="num">Rule breaks</th><th>Last rule break</th><th>Full screen</th><th>Camera</th><th>Ended (IST)</th><th></th></tr>`;
+  try {
+    const r = await fetch(url, { credentials: "same-origin" });
+    if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || "HTTP " + r.status);
+    const d = await r.json();
+    const pages = Math.max(1, Math.ceil(d.total / d.limit));
+    if (state.page > pages) { state.page = pages; return load(); }
+    $("rows").innerHTML = !d.rows.length ? `<tr><td colspan="${cols}" class="empty">No records match these filters yet.</td></tr>`
+      : state.tab === "results" ? d.rows.map(resultRow).join("") : d.rows.map(sessionRow).join("");
+    $("pinfo").textContent = `${d.total.toLocaleString("en-IN")} record(s) · page ${state.page} of ${pages}`;
+    $("prev").disabled = state.page <= 1;
+    $("next").disabled = state.page >= pages;
+  } catch (e) {
+    $("rows").innerHTML = `<tr><td colspan="${cols}" class="empty">Could not load.</td></tr>`;
+    showErr("Could not load: " + e.message);
+  }
+}
+
+function resultRow(x) {
+  const col = x.passed ? "var(--green)" : "var(--red)";
+  return `<tr>
+    <td>${fmt(x.created_at)}</td><td>${modPill(x.module)}</td>
+    <td><b>${esc(x.emp_id)}</b></td><td>${esc(x.full_name)}</td><td>${esc(x.department || "—")}</td>
+    <td>${x.language === "hi" ? "हिंदी" : "EN"}</td>
+    <td class="num"><b>${x.score}%</b><span class="bar"><i style="width:${x.score}%;background:${col}"></i></span></td>
+    <td class="num">${x.correct_count}/${x.total_questions}</td>
+    <td><span class="pill ${x.passed ? "pass" : "fail"}">${x.passed ? "PASSED" : "FAILED"}</span></td>
+    <td><span class="pill p-${esc(x.proctor_status)}">${PROCTOR[x.proctor_status] || esc(x.proctor_status)}</span></td>
+    <td class="num">${vCount(x.violations, MAXW)}</td>
+    <td class="num">${x.attempt_no}</td>
+    <td class="num">${x.duration_sec == null ? "—" : Math.max(1, Math.round(x.duration_sec / 60)) + " min"}</td>
+    <td>${x.session_id ? `<button class="ico" title="View activity log" onclick="openLog('${esc(x.session_id)}')">🔍</button>` : ""}<button class="ico del" title="Delete this attempt" onclick="delRow(${x.id}, '${esc(x.emp_id)}')">🗑</button></td>
+  </tr>`;
+}
+function sessionRow(x) {
+  return `<tr>
+    <td>${fmt(x.started_at)}</td><td>${modPill(x.module)}</td>
+    <td><b>${esc(x.emp_id)}</b></td><td>${esc(x.full_name)}</td><td>${esc(x.department || "—")}</td>
+    <td><span class="pill s-${esc(x.status)}">${SSTATUS[x.status] || esc(x.status)}</span></td>
+    <td class="num">${vCount(x.violations, MAXW)}</td>
+    <td>${x.last_violation ? esc(EVENT[x.last_violation] || x.last_violation) : "—"}</td>
+    <td>${x.fullscreen === false ? "No" : x.fullscreen ? "Yes" : "—"}</td>
+    <td>${x.camera ? `📷 ${x.photos || 0} photo${x.photos === 1 ? "" : "s"}${x.face_check === false ? " · no face check" : ""}${Number(x.recording_bytes) ? ` · 🎥 ${(Number(x.recording_bytes) / 1048576).toFixed(1)} MB` : ""}` : x.camera === false ? "No" : "—"}</td>
+    <td>${fmt(x.ended_at)}</td>
+    <td><button class="btn sec" style="padding:5px 10px" onclick="openLog('${esc(x.id)}')">🔍 Activity log</button></td>
+  </tr>`;
+}
+
+async function openLog(sid) {
+  $("mbox").innerHTML = `<p class="empty">Loading…</p>`; $("modal").classList.add("on");
+  try {
+    const r = await fetch("/api/admin/sessions/" + encodeURIComponent(sid), { credentials: "same-origin" });
+    if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || "HTTP " + r.status);
+    const s = await r.json();
+    let n = 0;
+    const evs = (s.events || []).slice().sort((a, b) => String(a.at).localeCompare(String(b.at)));
+    let snaps = [], recParts = [];
+    try { const rr = await fetch("/api/admin/sessions/" + encodeURIComponent(sid) + "/recording", { credentials: "same-origin" }); if (rr.ok) recParts = (await rr.json()).parts || []; } catch (e) {}
+    try { const rs = await fetch("/api/admin/sessions/" + encodeURIComponent(sid) + "/snapshots", { credentials: "same-origin" }); if (rs.ok) snaps = (await rs.json()).rows || []; } catch (e) {}
+    const a = s.attempt;
+    $("mbox").innerHTML = `
+      <div class="mhead"><div><h2>${esc(s.full_name)} · ${esc(s.emp_id)}</h2>
+        <div class="meta"><span>${modPill(s.module)}</span><span>Department: <b>${esc(s.department || "—")}</b></span>
+          <span>Status: <span class="pill s-${esc(s.status)}">${SSTATUS[s.status] || esc(s.status)}</span></span>
+          <span>Rule breaks: <b>${s.violations}</b> (allowed warnings: ${s.max_warnings})</span>
+          <span>Started: <b>${fmt(s.started_at)}</b></span><span>Ended: <b>${fmt(s.ended_at)}</b></span>
+          ${a ? `<span>Result: <b>${a.score}% (${a.correct_count}/${a.total_questions})</b> <span class="pill ${a.passed ? "pass" : "fail"}">${a.passed ? "PASSED" : "FAILED"}</span></span>` : `<span><b>No result submitted</b></span>`}
+          <span>Full screen: <b>${s.fullscreen === false ? "No" : s.fullscreen ? "Yes" : "—"}</b></span>
+          <span>Camera: <b>${s.camera ? "Yes" : s.camera === false ? "No" : "—"}</b>${s.camera ? ` · face check: <b>${s.face_check ? "Yes" : "No"}</b>` : ""}</span>
+        </div></div>
+        <button class="btn sec" onclick="closeModal()">Close</button></div>
+      ${recParts.length ? `<h3 class="gh">🎥 Video + sound recording${recParts.length > 1 ? ` (${recParts.length} parts — a new part starts after a reload)` : ""}</h3>
+        <div class="recs">${recParts.map((p, i) => `<div><video controls preload="metadata" src="${esc(p.url)}"></video>
+          <div class="recbar"><b>Part ${i + 1}</b> · ${fmtTime(p.started)} – ${fmtTime(p.ended)} · ${(p.bytes / 1048576).toFixed(1)} MB
+          · <a href="${esc(p.url)}?download=1">⬇ Download</a></div></div>`).join("")}</div>
+        <button class="btn sec" style="padding:5px 10px" onclick="delRecording('${esc(sid)}')">🗑 Delete this recording</button>`
+        : s.recording ? `<h3 class="gh">🎥 Video + sound recording</h3><p class="hint">No recording stored (deleted, or nothing was uploaded).</p>` : ""}
+      ${snaps.length ? `<h3 class="gh">📷 Webcam photos (${snaps.length})</h3><div class="gallery">${snaps.map((p) => `<figure class="${p.reason === "start" || p.reason === "periodic" ? "" : "flag"}">
+        <a href="${esc(p.url)}" target="_blank" rel="noopener"><img src="${esc(p.url)}" alt="Webcam photo ${esc(SNAPR[p.reason] || p.reason)}" loading="lazy"></a>
+        <figcaption><b>${esc(SNAPR[p.reason] || p.reason)}</b> · ${fmtTime(p.taken_at)}${p.question ? " · Q" + p.question : ""}</figcaption></figure>`).join("")}</div>` : ""}
+      <h3 class="gh">Activity</h3>
+      <ul class="tl">${evs.length ? evs.map((e) => `<li class="${e.counted ? "v" : ""}"><span class="t">${fmtTime(e.at)}</span>${esc(EVENT[e.type] || e.type)}${e.counted ? `<span class="vn">Rule break #${++n}</span>` : ""}
+        ${e.q ? ` <span class="t">· Q${e.q}</span>` : ""}${e.detail ? ` <span class="t">· ${esc(e.type === "snapshot" ? (SNAPR[e.detail] || e.detail) : e.detail)}</span>` : ""}</li>`).join("") : `<li>No activity recorded.</li>`}</ul>
+      <p class="hint" style="margin-top:14px">Device: ${esc(s.user_agent || "—")} · IP: ${esc(s.ip_address || "—")}</p>`;
+  } catch (e) { $("mbox").innerHTML = `<p class="err" style="display:block">Could not load: ${esc(e.message)}</p><button class="btn sec" onclick="closeModal()">Close</button>`; }
+}
+async function delRecording(sid) {
+  if (!confirm("Delete this video + sound recording? This cannot be undone.")) return;
+  const r = await fetch("/api/admin/sessions/" + encodeURIComponent(sid) + "/recording", { method: "DELETE", credentials: "same-origin" });
+  if (!r.ok) return showErr("Delete failed.");
+  openLog(sid); loadStats(); load();
+}
+// Browser recordings don't store their length; this makes the player work it out so the time bar and seeking work.
+document.addEventListener("loadedmetadata", (e) => {
+  const v = e.target;
+  if (v.tagName !== "VIDEO" || v.duration !== Infinity) return;
+  const back = () => { v.removeEventListener("timeupdate", back); v.currentTime = 0; };
+  v.addEventListener("timeupdate", back); v.currentTime = 1e101;
+}, true);
+function closeModal() { $("modal").classList.remove("on"); }
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+
+async function delRow(id, emp) {
+  if (!confirm(`Delete attempt #${id} for ${emp}? This cannot be undone. (Its activity log stays in the integrity log.)`)) return;
+  const r = await fetch("/api/admin/results/" + id, { method: "DELETE", credentials: "same-origin" });
+  if (!r.ok) return showErr("Delete failed.");
+  loadStats(); load();
+}
+function resetFilters() {
+  ["module", "search", "from", "to", "status", "proctor", "sstatus"].forEach((k) => { $(k).value = ""; });
+  $("view").value = "all"; state.page = 1; loadStats(); load();
+}
+
+loadStats(); load();
+</script>
+</body>
+</html>
