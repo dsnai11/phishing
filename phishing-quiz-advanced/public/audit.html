@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Integrity audit – training assessments</title>
+<style>
+:root{--navy:#0f2a4a;--teal:#0e8f86;--red:#c8372d;--red-l:#fdecea;--amber:#9a6412;--amber-l:#fff4dc;--green:#1f8a4c;--green-l:#e6f5ec;
+  --ink:#1d2733;--muted:#5d6b7a;--line:#dde3ea;--bg:#f4f6f9}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,"Noto Sans Devanagari",system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.45}
+.wrap{max-width:1100px;margin:0 auto;padding:22px}
+.top{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.top h1{margin:0;font-size:22px;color:var(--navy)}
+.top .sub{color:var(--muted);font-size:13px;margin-top:3px}
+.actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:#fff;color:var(--navy);font:inherit;font-weight:700;padding:8px 14px;border-radius:9px;cursor:pointer;text-decoration:none}
+.btn.pri{background:var(--navy);color:#fff;border-color:var(--navy)}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:18px}
+h2{font-size:18px;margin:0 0 4px;color:var(--navy)}
+h3{font-size:15px;margin:20px 0 8px;color:var(--navy)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#f1f4f8;font-weight:700;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.02em}
+.badge{display:inline-block;padding:3px 9px;border-radius:999px;font-weight:800;font-size:11.5px;white-space:nowrap}
+.b-high{background:var(--red-l);color:var(--red)} .b-medium{background:var(--amber-l);color:var(--amber)} .b-ok{background:var(--green-l);color:var(--green)} .b-info{background:#eef1f5;color:var(--muted)}
+.verdict{border-radius:10px;padding:12px 14px;font-weight:700;margin:12px 0}
+.v-high{background:var(--red-l);color:var(--red);border:1px solid #f3c2bd} .v-medium{background:var(--amber-l);color:var(--amber);border:1px solid #f0dca8} .v-ok{background:var(--green-l);color:var(--green);border:1px solid #bfe3cc}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 18px;font-size:13px}
+.grid div span{display:block;color:var(--muted);font-size:11.5px;text-transform:uppercase;letter-spacing:.02em}
+.ok{color:var(--green);font-weight:700} .no{color:var(--red);font-weight:700}
+.muted{color:var(--muted)} .small{font-size:12px}
+.tl td.t{white-space:nowrap;color:var(--muted);font-variant-numeric:tabular-nums}
+tr.cnt td{background:#fff7f6}
+.note{background:#f1f4f8;border-radius:9px;padding:10px 12px;font-size:12.5px;color:var(--muted);margin-top:10px}
+.err{background:var(--red-l);color:var(--red);padding:12px;border-radius:9px}
+details summary{cursor:pointer;font-weight:700;color:var(--navy);margin:16px 0 8px}
+@media (max-width:800px){.grid{grid-template-columns:1fr 1fr}}
+@media print{
+  body{background:#fff;font-size:12px} .wrap{padding:0;max-width:none} .actions,.noprint{display:none!important}
+  .card{border:0;padding:0;margin:0 0 14px;page-break-inside:auto} .attempt{page-break-before:always}
+  details{display:block} details>summary{list-style:none} details:not([open])>*:not(summary){display:block}
+  th{background:#eee!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .badge,.verdict,tr.cnt td{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div><h1>Integrity audit — training assessments</h1><div class="sub" id="sub">Loading…</div></div>
+    <div class="actions">
+      <button class="btn pri" onclick="openAllAndPrint()">🖨 Print / Save as PDF</button>
+      <a class="btn" id="csv" href="#">⬇ Download audit CSV</a>
+      <a class="btn" href="/admin">← Dashboard</a>
+    </div>
+  </div>
+  <div id="out"></div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const fmt = (d) => d ? new Date(d).toLocaleString("en-IN", { timeZone: "Asia/Kolkata", day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" }) : "—";
+const fmtTime = (d) => new Date(d).toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit", second: "2-digit" });
+const mmss = (sec) => sec == null || sec < 0 ? "" : `${Math.floor(sec / 60)}:${String(Math.round(sec % 60)).padStart(2, "0")}`;
+const LV = { high: "HIGH RISK", medium: "REVIEW", ok: "OK", info: "INFO" };
+const STATUS = { in_progress: "In progress", not_submitted: "Not submitted", submitted: "Submitted", terminated: "Terminated (3rd rule break)" };
+const EVENT = { session_start: "Started the assessment", resume: "Returned to the assessment", submit: "Submitted", time_up: "Time up – submitted automatically",
+  terminated: "Assessment ended after the 3rd rule break", leave_attempt: "Tried to close or leave the page", fullscreen_unavailable: "Full screen not available",
+  tab_hidden: "Switched to another tab / minimised the browser", window_blur: "Left the assessment window (another window or app)",
+  fullscreen_exit: "Exited full screen", copy: "Tried to copy", cut: "Tried to cut", paste: "Tried to paste", right_click: "Right-clicked",
+  shortcut: "Pressed a blocked keyboard shortcut", print_screen: "Pressed Print Screen", multiple_tabs: "Opened the assessment in another tab",
+  page_reload: "Reloaded / reopened the page", result_saved: "Result saved", camera_start: "Camera on", camera_off: "Camera turned off / disconnected",
+  camera_blocked: "Camera covered or too dark", no_face: "Face not visible", multiple_faces: "More than one person on camera",
+  face_check_unavailable: "Face check not available", snapshot: "Webcam photo taken", extension: "Browser extension changed the page",
+  mic_off: "Microphone muted / off / disconnected", recording_start: "Recording started", recording_failed: "Recording could not start",
+  recording_gap: "Part of the recording not uploaded", answered: "Answered a question", environment: "Device check",
+  virtual_camera: "Virtual camera / microphone detected", automation: "Automation software detected", extended_display: "Second screen detected",
+  devtools_open: "Developer tools (Inspect) opened", devtools_closed: "Developer tools closed" };
+
+const qs = new URLSearchParams(location.search);
+$("csv").href = "/api/admin/audit.csv?" + qs.toString();
+
+function summaryTable(list) {
+  return `<div class="card"><h2>Summary (${list.length} attempt${list.length === 1 ? "" : "s"})</h2>
+  <table><thead><tr><th>Started</th><th>Employee</th><th>Status</th><th>Score</th><th>Rule breaks</th><th>Verdict</th><th>Main finding</th></tr></thead><tbody>
+  ${list.map((a, i) => `<tr><td>${fmt(a.startedAt)}</td><td><b>${esc(a.empId)}</b> · ${esc(a.name)}<div class="muted small">${esc(a.department || "")}</div></td>
+    <td>${esc(STATUS[a.status] || a.status)}</td>
+    <td>${a.result ? `${a.result.score}% <span class="${a.result.passed ? "ok" : "no"}">${a.result.passed ? "PASSED" : "FAILED"}</span>` : "—"}</td>
+    <td>${a.violations}</td><td><span class="badge b-${a.verdict.level}">${LV[a.verdict.level]}</span></td>
+    <td>${a.flags.length ? `<a href="#a${i}">${esc(a.flags[0].title)}</a>${a.flags.length > 1 ? ` <span class="muted small">+${a.flags.length - 1} more</span>` : ""}` : `<a href="#a${i}">Nothing found</a>`}</td></tr>`).join("")}
+  </tbody></table></div>`;
+}
+
+function attemptCard(a, i, many) {
+  const start = new Date(a.startedAt).getTime();
+  const off = (t) => mmss((new Date(t).getTime() - start) / 1000);
+  const flagRows = a.flags.map((f) => `<tr><td><span class="badge b-${f.level}">${LV[f.level]}</span></td><td><b>${esc(f.title)}</b>
+      ${f.details.length ? `<div class="muted small">${f.details.map(esc).join(" · ")}</div>` : ""}</td><td>${f.count}</td>
+      <td class="small">${f.times.length ? f.times.slice(0, 8).map((t) => `${fmtTime(t)} <span class="muted">(${off(t)})</span>`).join("<br>") + (f.times.length > 8 ? `<br>… ${f.times.length - 8} more` : "") : "—"}</td></tr>`).join("");
+  const qRows = a.questions.map((q) => `<tr><td>${q.n}${q.qid ? `<div class="muted small">${esc(q.qid)}</div>` : ""}</td><td>${esc(q.question || "")}</td>
+      <td>${q.chosen == null ? `<span class="no">Not answered</span>` : `<b>${"ABCD"[q.chosen]}</b>. ${esc(q.chosenText || "")}`}</td>
+      <td>${a.answersStored ? (q.right ? `<span class="ok">✓</span>` : `<span class="no">✗</span> <span class="small">Correct: <b>${"ABCD"[q.correct]}</b>. ${esc(q.correctText || "")}</span>`) : ""}</td>
+      <td>${q.seconds == null ? "—" : q.seconds + " s"}</td></tr>`).join("");
+  let n = 0;
+  const evRows = a.events.map((e) => `<tr class="${e.counted ? "cnt" : ""}"><td class="t">${fmtTime(e.at)}</td><td class="t">${off(e.at)}</td>
+      <td>${esc(EVENT[e.type] || e.type)}${e.counted ? ` <span class="badge b-high">Rule break #${++n}</span>` : ""}</td>
+      <td class="small">${e.q ? "Q" + e.q + (e.detail ? " · " : "") : ""}${esc(e.detail || "")}</td></tr>`).join("");
+  return `<div class="card ${many ? "attempt" : ""}" id="a${i}">
+    <h2>${esc(a.name)} · ${esc(a.empId)}</h2>
+    <div class="muted">${esc(a.moduleName)} · Session ${esc(a.sessionId)}</div>
+    <div class="verdict v-${a.verdict.level}">${LV[a.verdict.level]} — ${esc(a.verdict.text)}</div>
+    <div class="grid">
+      <div><span>Department</span>${esc(a.department || "—")}</div>
+      <div><span>Status</span>${esc(STATUS[a.status] || a.status)}</div>
+      <div><span>Result</span>${a.result ? `${a.result.score}% (${a.result.correct}/${a.result.total}) <span class="${a.result.passed ? "ok" : "no"}">${a.result.passed ? "PASSED" : "FAILED"}</span> · attempt ${a.result.attemptNo}` : "No result submitted"}</div>
+      <div><span>Started</span>${fmt(a.startedAt)}</div>
+      <div><span>Ended</span>${fmt(a.endedAt)}</div>
+      <div><span>Time taken</span>${a.durationSec == null ? "—" : mmss(a.durationSec) + " min"}${a.timeLimitMin ? ` (limit ${a.timeLimitMin} min)` : ""}</div>
+      <div><span>Rule breaks</span>${a.violations}</div>
+      ${a.paperCode ? `<div><span>Question paper</span><code>${esc(a.paperCode)}</code></div>` : ""}
+      <div><span>Browser / device</span>${esc(a.device.browser)}</div>
+      <div><span>Network address (IP)</span>${esc(a.device.ip || "—")}${a.device.submitIp && a.device.submitIp !== a.device.ip ? ` → <span class="no">${esc(a.device.submitIp)}</span> at submit` : ""}</div>
+      <div><span>Camera / face check</span>${a.camera.on ? "On" : a.camera.on === false ? `<span class="no">Off</span>` : "—"}${a.camera.on ? ` · face check ${a.camera.faceCheck ? "on" : `<span class="no">off</span>`}` : ""}</div>
+      <div><span>Photos</span>${a.camera.photos}</div>
+      <div><span>Recording</span>${a.camera.recording ? `${mmss(a.camera.recordedSec)} min${a.camera.recCoverage != null ? ` (${a.camera.recCoverage}% of test)` : ""}${a.camera.recParts > 1 ? ` in ${a.camera.recParts} parts` : ""}` : "Not required"}</div>
+      ${a.device.environment ? `<div style="grid-column:1/-1"><span>Device check at start</span>${esc(a.device.environment)}</div>` : ""}
+    </div>
+    <h3>Findings</h3>
+    ${a.flags.length ? `<table><thead><tr><th>Level</th><th>Finding</th><th>Times</th><th>When (IST) and time into the test</th></tr></thead><tbody>${flagRows}</tbody></table>`
+      : `<p class="ok">No rule breaks, no suspicious device signals and no gaps found.</p>`}
+    ${a.camera.recording ? `<p class="small muted noprint">To check a finding, open the <a href="/admin">dashboard</a> → Integrity log → 🔍 Activity log for this person and play the recording at the "time into the test" shown above.</p>` : ""}
+    <details ${many ? "" : "open"}><summary>Answers (${a.answersStored ? a.questions.filter((q) => q.right).length + " of " + a.questions.length + " correct" : "no result submitted"})</summary>
+      ${a.answersStored ? `<table><thead><tr><th>#</th><th>Question</th><th>Learner's answer</th><th>Marked</th><th>Time</th></tr></thead><tbody>${qRows}</tbody></table>
+        <p class="small muted">${a.paperCode ? "Questions are listed in the order of this person's paper (the code under each number is the question ID: set letter + slot)." : "Questions are numbered as in the answer key."} Learners saw them in a shuffled order with shuffled options; letters here are the answer-key letters.</p>`
+        : `<p class="muted">No answers were submitted for this session.</p>`}
+    </details>
+    <details ${many ? "" : "open"}><summary>Full activity log (${a.events.length} entries)</summary>
+      <table class="tl"><thead><tr><th>Time (IST)</th><th>Into test</th><th>Action</th><th>Details</th></tr></thead><tbody>${evRows || `<tr><td colspan="4">No activity recorded.</td></tr>`}</tbody></table>
+    </details>
+    ${a.newSignals ? "" : `<div class="note">This attempt was taken before the extra audit checks were added, so it has no device check, developer-tools probe or per-question times. Everything else above was recorded at the time.</div>`}
+  </div>`;
+}
+
+function openAllAndPrint() { document.querySelectorAll("details").forEach((d) => (d.open = true)); window.print(); }
+
+(async () => {
+  try {
+    const r = await fetch("/api/admin/audit?" + qs.toString(), { credentials: "same-origin" });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(d.error || "HTTP " + r.status);
+    const list = d.audits || [];
+    const scope = qs.get("sid") ? "One attempt" : [qs.get("module") ? (qs.get("module") === "advanced" ? "Advanced module" : "Basic module") : "All modules",
+      qs.get("search") ? `matching “${qs.get("search")}”` : "", qs.get("from") ? "from " + qs.get("from") : "", qs.get("to") ? "to " + qs.get("to") : ""].filter(Boolean).join(" · ");
+    $("sub").textContent = `${scope} · generated ${fmt(d.generatedAt)} IST · warnings allowed before a test ends: ${d.maxWarnings}`;
+    if (!list.length) { $("out").innerHTML = `<div class="card">No attempts found for these filters.</div>`; return; }
+    const many = list.length > 1;
+    $("out").innerHTML = (many ? summaryTable(list) : "") + list.map((a, i) => attemptCard(a, i, many)).join("") +
+      `<div class="card small muted"><b>How to read this audit.</b> <b>HIGH RISK</b> items are actions that can be used to get around the test
+      (developer tools, a second tab, extensions, virtual cameras, another person, turning the camera or microphone off, submitting from another device or network).
+      <b>REVIEW</b> items are rule breaks or gaps that may be innocent (switching windows, a dark room, a reload). Watch the recording at the listed times before deciding.
+      Blocked actions (copy, paste, shortcuts, right-click) were stopped by the page even when they are listed.</div>`;
+  } catch (e) { $("out").innerHTML = `<div class="err">Could not load the audit: ${esc(e.message)}</div>`; $("sub").textContent = ""; }
+})();
+</script>
+</body>
+</html>
